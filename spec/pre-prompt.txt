@@ -1,0 +1,22 @@
+{
+  "goal": "generate a PRD in .md file for a washing machine repair backend system",
+  "inputs_needed": [
+    "user roles and permissions",
+    "core repair workflows and ticket statuses",
+    "spare parts inventory tracking needs",
+    "third-party integration requirements"
+  ],
+  "output_format": [
+    "system overview and user roles",
+    "core feature modules breakdown",
+    "database entity relationships",
+    "key API endpoint specifications",
+    "error handling and security requirements"
+  ]
+}
+
+Chain-of-thought:
+Define user roles and permissions before mapping out module capabilities.
+Map the complete lifecycle of a repair ticket from creation to completion.
+Outline database schemas and API endpoints based on core operational workflows.
+Include inventory tracking and notification mechanisms to support daily repair operations.
