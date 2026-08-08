@@ -1,0 +1,221 @@
+%% ER diagram derived from spec/PRD.md §5.2 Key Table Definitions
+%% Fully-attributed entities are the tables §5.2 defines in detail:
+%%   ticket, ticket_status_history, ticket_attachment, machine, machine_spec,
+%%   part, part_stock, stock_movement, machine_part_install, repeat_case, audit_log
+%% Entities shown with only an id are FK targets referenced by §5.2 but defined
+%% elsewhere in the PRD (§5.1 overview / §5.3 reference data) — included so every
+%% relationship below resolves to both ends.
+%% All tables additionally carry created_at/updated_at/created_by/updated_by (§5.2 preamble),
+%% omitted per-entity here to keep the diagram readable.
+erDiagram
+    TICKET {
+        uuid id PK "client-generatable for offline creation"
+        text ticket_no UK "e.g. SV-2026-08-00123"
+        enum ticket_type "SERVICE|PM|INSTALLATION|QC_INBOUND|OFFICE"
+        enum status "see PRD §3.4"
+        enum priority "URGENT|HIGH|NORMAL|LOW"
+        enum source "PHONE|LINE|EMAIL|QR_ONSITE|QC_INBOUND|ADMIN|SYSTEM"
+        uuid customer_id FK "null for OFFICE"
+        uuid site_id FK
+        uuid machine_id FK "required except OFFICE"
+        uuid category_id FK "required for SERVICE/QC_INBOUND"
+        text title
+        text description "reported symptom"
+        uuid assignee_id FK
+        uuid reported_by_contact_id FK "which customer contact called"
+        date checkpoint_date "วัน check point"
+        timestamptz deadline_at
+        timestamptz opened_at "for repeat detection & MTTA"
+        timestamptz first_response_at "first entry into INSPECTING"
+        timestamptz closed_at
+        boolean repeat_suspect "set by detector"
+        text job_sheet_no "search key #4"
+        uuid parent_ticket_id FK "for reopened/split tickets"
+    }
+
+    TICKET_STATUS_HISTORY {
+        uuid id PK
+        uuid ticket_id FK
+        enum from_status
+        enum to_status
+        uuid changed_by FK
+        timestamptz changed_at
+        text note "mandatory for ON_HOLD, CANCELLED, rejection"
+    }
+
+    TICKET_ATTACHMENT {
+        uuid id PK
+        uuid ticket_id FK
+        enum category "JOB_SHEET|DEFECT_PART|REPLACED_PART|BEFORE|AFTER|MEASUREMENT|OTHER"
+        text storage_key "S3 object key — never a public URL"
+        text content_type
+        bigint size_bytes
+        text checksum_sha256
+        timestamptz captured_at "device capture time, may precede upload"
+        numeric geo_lat "optional site verification"
+        numeric geo_lng "optional site verification"
+        uuid uploaded_by FK
+    }
+
+    MACHINE {
+        uuid id PK
+        text serial_no UK "search key #2"
+        uuid model_id FK
+        uuid site_id FK
+        text site_machine_no "หมายเลขเครื่องหน้างาน"
+        date installed_at
+        date warranty_end
+        enum status "ACTIVE|INACTIVE|DECOMMISSIONED"
+        text location_note
+        text map_url "แผนที่"
+        numeric geo_lat
+        numeric geo_lng
+    }
+
+    MACHINE_SPEC {
+        uuid machine_id FK
+        text spec_key "spider_shaft_size, shock_absorber_count, ..."
+        text value_text "one of text/num/unit populated by data_type"
+        numeric value_num
+        text value_unit
+        uuid noted_by FK
+        timestamptz noted_at
+    }
+
+    PART {
+        uuid id PK
+        text part_number UK "search key #3"
+        text name_th
+        text name_en
+        text unit
+        text photo_key "required for technician lookup UX"
+        jsonb spec "dimensions, material, compatible models"
+        int expected_lifespan_days "seeded; refined by M12 analysis"
+        boolean is_active
+    }
+
+    PART_STOCK {
+        uuid part_id FK "composite unique with warehouse_id"
+        uuid warehouse_id FK "composite unique with part_id"
+        numeric qty_on_hand
+        numeric qty_reserved
+        numeric min_qty
+        numeric max_qty
+        text bin_location
+        timestamptz last_counted_at
+    }
+
+    STOCK_MOVEMENT {
+        uuid id PK
+        uuid part_id FK
+        uuid warehouse_id FK
+        enum movement_type "RECEIPT|ISSUE|RETURN|TRANSFER_OUT|TRANSFER_IN|ADJUSTMENT|RESERVE|RELEASE"
+        numeric qty "signed"
+        text ref_type "ticket, SO, requisition, count"
+        uuid ref_id
+        uuid performed_by FK
+        timestamptz performed_at
+        text reason "mandatory for ADJUSTMENT"
+    }
+
+    MACHINE_PART_INSTALL {
+        uuid machine_id FK
+        uuid part_id FK
+        timestamptz installed_at
+        uuid installed_ticket_id FK
+        timestamptz removed_at "set when replaced"
+        uuid removed_ticket_id FK
+        int lifespan_days "GENERATED: removed_at - installed_at"
+    }
+
+    REPEAT_CASE {
+        uuid id PK
+        uuid machine_id FK
+        uuid category_id FK
+        uuid original_ticket_id FK
+        uuid repeat_ticket_id FK
+        numeric interval_hours "gap between the two"
+        enum status "PENDING_REVIEW|CONFIRMED_REPEAT|NOT_REPEAT"
+        uuid reviewed_by FK
+        timestamptz reviewed_at
+        text review_note "mandatory when NOT_REPEAT"
+        date kpi_month "month the case counts against"
+    }
+
+    AUDIT_LOG {
+        bigint id PK
+        uuid actor_id FK "null for system actions"
+        text actor_role
+        text action "ticket.status_changed, stock.issued, ..."
+        text entity_type
+        uuid entity_id
+        jsonb before
+        jsonb after
+        text request_id
+        inet ip_address
+        text user_agent
+        timestamptz occurred_at
+    }
+
+    %% --- FK-target entities referenced by §5.2 but not detailed there (see §5.1 / §5.3) ---
+    CUSTOMER {
+        uuid id PK
+    }
+    CUSTOMER_SITE {
+        uuid id PK
+    }
+    CUSTOMER_CONTACT {
+        uuid id PK
+    }
+    SYSTEM_CATEGORY {
+        uuid id PK
+    }
+    MACHINE_MODEL {
+        uuid id PK
+    }
+    WAREHOUSE {
+        uuid id PK
+    }
+    USER {
+        uuid id PK
+    }
+
+    %% --- Relationships ---
+    CUSTOMER ||--o{ TICKET : "customer_id"
+    CUSTOMER_SITE ||--o{ TICKET : "site_id"
+    MACHINE ||--o{ TICKET : "machine_id"
+    SYSTEM_CATEGORY ||--o{ TICKET : "category_id"
+    USER ||--o{ TICKET : "assignee_id"
+    CUSTOMER_CONTACT ||--o{ TICKET : "reported_by_contact_id"
+    TICKET ||--o{ TICKET : "parent_ticket_id"
+
+    TICKET ||--o{ TICKET_STATUS_HISTORY : logs
+    USER ||--o{ TICKET_STATUS_HISTORY : "changed_by"
+
+    TICKET ||--o{ TICKET_ATTACHMENT : evidences
+    USER ||--o{ TICKET_ATTACHMENT : "uploaded_by"
+
+    MACHINE_MODEL ||--o{ MACHINE : "model_id"
+    CUSTOMER_SITE ||--o{ MACHINE : "site_id"
+    MACHINE ||--o{ MACHINE_SPEC : "has attributes"
+    USER ||--o{ MACHINE_SPEC : "noted_by"
+
+    PART ||--o{ PART_STOCK : "stocked as"
+    WAREHOUSE ||--o{ PART_STOCK : holds
+
+    PART ||--o{ STOCK_MOVEMENT : "part_id"
+    WAREHOUSE ||--o{ STOCK_MOVEMENT : "warehouse_id"
+    USER ||--o{ STOCK_MOVEMENT : "performed_by"
+
+    MACHINE ||--o{ MACHINE_PART_INSTALL : carries
+    PART ||--o{ MACHINE_PART_INSTALL : "installed as"
+    TICKET ||--o{ MACHINE_PART_INSTALL : "installed_ticket_id"
+    TICKET ||--o{ MACHINE_PART_INSTALL : "removed_ticket_id"
+
+    MACHINE ||--o{ REPEAT_CASE : "machine_id"
+    SYSTEM_CATEGORY ||--o{ REPEAT_CASE : "category_id"
+    TICKET ||--o{ REPEAT_CASE : "original_ticket_id"
+    TICKET ||--o{ REPEAT_CASE : "repeat_ticket_id"
+    USER ||--o{ REPEAT_CASE : "reviewed_by"
+
+    USER ||--o{ AUDIT_LOG : "actor_id"

@@ -1,0 +1,42 @@
+%% Organization chart derived from spec/PRD.md §2.1 Role Definitions
+%% Grouped by department (SV, Installation, QC, ST, IT, Mgmt); no explicit
+%% cross-department reporting line is stated in the PRD for INSTALL_TECH or
+%% QC_STAFF, so those departments are shown standalone under Executive.
+flowchart TD
+    EXEC["Executive<br/>EXECUTIVE — Mgmt<br/><i>Read-only across all dashboards/reports</i>"]
+
+    subgraph SV["SV Department"]
+        SM["Service Manager<br/>SERVICE_MANAGER<br/><i>Owns SV dept, KPIs, repeat-repair adjudication</i>"]
+        LEAD["Head Technician (หัวหน้าช่าง)<br/>SV_LEAD<br/><i>Assigns work, sets priority/deadline</i>"]
+        SVADMIN["Service Admin<br/>SV_ADMIN<br/><i>Creates tickets, verifies submissions, quotes/PO/SO</i>"]
+        TECH["Service Technician (ช่าง)<br/>SV_TECH<br/><i>Executes repair &amp; PM jobs</i>"]
+
+        SM --> LEAD
+        SM --> SVADMIN
+        LEAD --> TECH
+    end
+
+    subgraph INSTALL["Installation Department"]
+        ITECH["Installation Technician (ทีมติดตั้ง)<br/>INSTALL_TECH<br/><i>Executes installs, hook-up requisitions</i>"]
+    end
+
+    subgraph QC["QC Department"]
+        QCSTAFF["QC Officer<br/>QC_STAFF<br/><i>Inbound inspection, defect logging</i>"]
+    end
+
+    subgraph ST["ST (Store) Department"]
+        STMGR["Store Manager<br/>ST_MANAGER<br/><i>Min/max config, stock adjustment approval</i>"]
+        STSTAFF["Store Officer<br/>ST_STAFF<br/><i>Receives parts, issues/receives stock, SO fulfilment</i>"]
+
+        STMGR --> STSTAFF
+    end
+
+    subgraph IT["IT"]
+        SYSADMIN["System Administrator<br/>SYS_ADMIN<br/><i>User/role mgmt, master data, system config</i>"]
+    end
+
+    EXEC --> SM
+    EXEC --> ITECH
+    EXEC --> QCSTAFF
+    EXEC --> STMGR
+    EXEC --> SYSADMIN
