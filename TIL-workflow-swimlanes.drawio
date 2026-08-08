@@ -1,532 +1,539 @@
-<mxfile host="app.diagrams.net" type="device">
-  <diagram id="til-p1" name="1. Corrective Repair">
-    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-
-        <mxCell id="p1pool" value="TIL — Corrective Repair Ticket Lifecycle / กระบวนการงานซ่อมแก้ไข (PRD §3.1–§3.6)" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=30;horizontalStack=0;fontSize=14;fontStyle=1;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="40" y="40" width="4260" height="990" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p1l1" value="ลูกค้า / Customer" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1;" vertex="1" parent="p1pool">
-          <mxGeometry y="30" width="4260" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p1l2" value="ธุรการ SV / SV Admin" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="p1pool">
-          <mxGeometry y="150" width="4260" height="180" as="geometry" />
-        </mxCell>
-        <mxCell id="p1l3" value="ช่างบริการ / SV Tech" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;" vertex="1" parent="p1pool">
-          <mxGeometry y="330" width="4260" height="200" as="geometry" />
-        </mxCell>
-        <mxCell id="p1l4" value="หัวหน้าช่าง / Manager" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;" vertex="1" parent="p1pool">
-          <mxGeometry y="530" width="4260" height="140" as="geometry" />
-        </mxCell>
-        <mxCell id="p1l5" value="คลังอะไหล่ / Store ST" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="p1pool">
-          <mxGeometry y="670" width="4260" height="140" as="geometry" />
-        </mxCell>
-        <mxCell id="p1l6" value="ระบบ / System" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;" vertex="1" parent="p1pool">
-          <mxGeometry y="810" width="4260" height="180" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p1_start" value="ลูกค้าแจ้งงาน&lt;br&gt;Customer reports fault" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="p1l1">
-          <mxGeometry x="80" y="30" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_po" value="อนุมัติราคา → ออก PO&lt;br&gt;Approve quote → issue PO" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="p1l1">
-          <mxGeometry x="1880" y="30" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_confirm" value="ยืนยันวันนัดเข้าซ่อม&lt;br&gt;Confirm appointment" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="p1l1">
-          <mxGeometry x="2600" y="30" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_sign" value="เซ็นรับใบงาน&lt;br&gt;Sign job sheet" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="p1l1">
-          <mxGeometry x="2960" y="30" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p1_log" value="บันทึก Task ลง Pool SV&lt;br&gt;Log ticket into SV pool" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p1l2">
-          <mxGeometry x="260" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_assign" value="มอบหมายงาน + Priority + Deadline&lt;br&gt;Assign owner, priority, deadline" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p1l2">
-          <mxGeometry x="1160" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_quote" value="จัดทำใบเสนอราคา&lt;br&gt;Prepare quotation" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p1l2">
-          <mxGeometry x="1700" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_so" value="ออก SO เตรียมอะไหล่&lt;br&gt;Raise SO for parts" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p1l2">
-          <mxGeometry x="2060" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_sched" value="นัดหมายลูกค้า&lt;br&gt;Schedule with customer" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p1l2">
-          <mxGeometry x="2600" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_verify" value="ตรวจสอบ Work log + รูป&lt;br&gt;Verify work log &amp;amp; photos" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p1l2">
-          <mxGeometry x="3500" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_decv" value="ข้อมูลครบถ้วน?&lt;br&gt;Complete?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p1l2">
-          <mxGeometry x="3690" y="50" width="130" height="80" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p1_qropen" value="สแกน QR เปิดงานเองหน้างาน&lt;br&gt;Scan QR, open ticket on site" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p1l3">
-          <mxGeometry x="260" y="70" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_inspect" value="สแกน QR + ตรวจเช็ก / วินิจฉัย&lt;br&gt;Scan QR, inspect &amp;amp; diagnose" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p1l3">
-          <mxGeometry x="1340" y="70" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_decfix" value="ซ่อมจบหน้างานได้?&lt;br&gt;Fix on the spot?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p1l3">
-          <mxGeometry x="1530" y="60" width="130" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_repair" value="เข้าซ่อม&lt;br&gt;Perform repair" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p1l3">
-          <mxGeometry x="2780" y="70" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_submit" value="บันทึกงาน + ลงรูปบังคับ 3 ประเภท&lt;br&gt;Submit log + 3 mandatory photos" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p1l3">
-          <mxGeometry x="3140" y="70" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p1_adjud" value="ประเมินเคสซ่อมซ้ำ&lt;br&gt;Adjudicate repeat case" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="p1l4">
-          <mxGeometry x="980" y="40" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_close" value="ปิดงาน (จบงาน)&lt;br&gt;Close ticket" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="p1l4">
-          <mxGeometry x="3860" y="40" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_end" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="p1l4">
-          <mxGeometry x="4040" y="40" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p1_st_recv" value="รับอะไหล่ครบตาม SO → กดยืนยัน&lt;br&gt;Receive all SO parts → mark complete" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="p1l5">
-          <mxGeometry x="2240" y="40" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p1_sys_create" value="สร้าง Ticket + เขียน Audit log&lt;br&gt;Create ticket, write audit log" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p1l6">
-          <mxGeometry x="440" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_sys_dec" value="เครื่อง+หมวดซ้ำ&lt;br&gt;ภายใน 3 วัน?&lt;br&gt;Repeat ≤72h?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p1l6">
-          <mxGeometry x="630" y="50" width="130" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_sys_notify" value="แจ้งเตือน Manager / หัวหน้าช่าง / Admin&lt;br&gt;Alert Manager, Lead, Admin (LINE + Push)" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p1l6">
-          <mxGeometry x="800" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_sys_parts" value="แจ้ง SV: อะไหล่ครบ พร้อมจ่ายงาน&lt;br&gt;Notify SV: parts ready" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p1l6">
-          <mxGeometry x="2420" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_sys_photo" value="รูปครบ 3 ประเภท?&lt;br&gt;3 photo categories?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p1l6">
-          <mxGeometry x="3330" y="50" width="130" height="80" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p1e1" value="แจ้ง Admin โดยตรง&lt;br&gt;Direct to Admin" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_start" target="p1_log" />
-        <mxCell id="p1e2" value="แจ้งผ่านช่างหน้างาน&lt;br&gt;Via technician on site" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_start" target="p1_qropen">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="195" y="470" /></Array></mxGeometry>
-        </mxCell>
-        <mxCell id="p1e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.25;" edge="1" parent="1" source="p1_log" target="p1_sys_create" />
-        <mxCell id="p1e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.75;" edge="1" parent="1" source="p1_qropen" target="p1_sys_create" />
-        <mxCell id="p1e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_sys_create" target="p1_sys_dec" />
-        <mxCell id="p1e6" value="ใช่ / Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_sys_dec" target="p1_sys_notify" />
-        <mxCell id="p1e7" value="ไม่ / No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=0;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_sys_dec" target="p1_assign">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="735" y="280" /></Array></mxGeometry>
-        </mxCell>
-        <mxCell id="p1e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_sys_notify" target="p1_adjud" />
-        <mxCell id="p1e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_adjud" target="p1_assign" />
-        <mxCell id="p1e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_assign" target="p1_inspect" />
-        <mxCell id="p1e11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_inspect" target="p1_decfix" />
-        <mxCell id="p1e12" value="ไม่ได้ ต้องสั่งอะไหล่&lt;br&gt;No — parts required" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_decfix" target="p1_quote" />
-        <mxCell id="p1e13" value="ได้ — ใช้อะไหล่ในสต๊อก&lt;br&gt;Yes — stock parts on hand" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" edge="1" parent="1" source="p1_decfix" target="p1_repair">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1635" y="545" /><mxPoint x="2895" y="545" /></Array></mxGeometry>
-        </mxCell>
-        <mxCell id="p1e14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_quote" target="p1_po" />
-        <mxCell id="p1e15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_po" target="p1_so" />
-        <mxCell id="p1e16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_so" target="p1_st_recv" />
-        <mxCell id="p1e17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_st_recv" target="p1_sys_parts" />
-        <mxCell id="p1e18" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_sys_parts" target="p1_sched" />
-        <mxCell id="p1e19" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="p1_sched" target="p1_confirm" />
-        <mxCell id="p1e20" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_confirm" target="p1_repair" />
-        <mxCell id="p1e21" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_repair" target="p1_sign" />
-        <mxCell id="p1e22" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_sign" target="p1_submit" />
-        <mxCell id="p1e23" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_submit" target="p1_sys_photo" />
-        <mxCell id="p1e24" value="ไม่ครบ / Incomplete&lt;br&gt;422 PHOTO_REQUIREMENT_UNMET" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;strokeColor=#b85450;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="p1_sys_photo" target="p1_submit">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="3435" y="690" /><mxPoint x="3255" y="690" /></Array></mxGeometry>
-        </mxCell>
-        <mxCell id="p1e25" value="ครบ / Complete" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_sys_photo" target="p1_verify" />
-        <mxCell id="p1e26" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_verify" target="p1_decv" />
-        <mxCell id="p1e27" value="ผ่าน / Approved" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_decv" target="p1_close" />
-        <mxCell id="p1e28" value="ไม่ผ่าน — ตีกลับหาช่าง&lt;br&gt;Rejected → back to technician" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;strokeColor=#b85450;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p1_decv" target="p1_repair">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="3615" y="400" /><mxPoint x="2895" y="400" /></Array></mxGeometry>
-        </mxCell>
-        <mxCell id="p1e29" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1_close" target="p1_end" />
-
-        <mxCell id="p1leg" value="Legend / คำอธิบาย" style="swimlane;html=1;startSize=26;fontSize=12;fontStyle=1;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="40" y="1070" width="1240" height="200" as="geometry" />
-        </mxCell>
-        <mxCell id="p1leg1" value="ขั้นตอน / Process step" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p1leg">
-          <mxGeometry x="20" y="45" width="150" height="45" as="geometry" />
-        </mxCell>
-        <mxCell id="p1leg2" value="ทางแยก / Decision" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p1leg">
-          <mxGeometry x="200" y="40" width="120" height="55" as="geometry" />
-        </mxCell>
-        <mxCell id="p1leg3" value="เริ่ม / จบ&lt;br&gt;Start / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p1leg">
-          <mxGeometry x="350" y="45" width="120" height="45" as="geometry" />
-        </mxCell>
-        <mxCell id="p1leg4" value="กฎบังคับของระบบ / System-enforced rules:&lt;br&gt;&lt;br&gt;• ทุกการเปลี่ยนสถานะบันทึกวันเวลาและผู้ทำ (ticket_status_history) — ใช้คำนวณ MTTA/MTTR&lt;br&gt;&amp;nbsp;&amp;nbsp;Every transition is timestamped and attributed — the basis for all cycle-time KPIs (PRD §3.4)&lt;br&gt;&lt;br&gt;• ส่งงานไม่ได้ถ้ารูปไม่ครบ 3 ประเภท: ใบงาน / อะไหล่เสีย / อะไหล่ที่เปลี่ยนใหม่&lt;br&gt;&amp;nbsp;&amp;nbsp;Submission blocked server-side unless all 3 photo categories are present (PRD §3.5)&lt;br&gt;&lt;br&gt;• เฉพาะแผนก ST เท่านั้นที่เปลี่ยนสถานะ PARTS_PREP → PARTS_READY ได้&lt;br&gt;&amp;nbsp;&amp;nbsp;Only Store may make the parts-ready transition — enforced in the domain layer (PRD §2.2, §6.7)&lt;br&gt;&lt;br&gt;• ตรวจงานซ่อมซ้ำทำงานใน transaction เดียวกับการสร้าง Ticket (ผลลัพธ์เห็นทันที)&lt;br&gt;&amp;nbsp;&amp;nbsp;Repeat-repair detection runs inside the create transaction, so the flag is immediate (PRD §3.6)" style="text;html=1;whiteSpace=wrap;fontSize=10;align=left;verticalAlign=top;" vertex="1" parent="p1leg">
-          <mxGeometry x="500" y="35" width="720" height="160" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
-
-  <diagram id="til-p2" name="2. Preventive Maintenance (PM)">
-    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-
-        <mxCell id="p2pool" value="TIL — Preventive Maintenance Execution / การดำเนินงาน PM (PRD §3.7)" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=30;horizontalStack=0;fontSize=14;fontStyle=1;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="40" y="40" width="2270" height="590" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p2l1" value="ธุรการ SV / SV Admin" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="p2pool">
-          <mxGeometry y="30" width="2270" height="140" as="geometry" />
-        </mxCell>
-        <mxCell id="p2l2" value="ช่างบริการ / SV Tech" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;" vertex="1" parent="p2pool">
-          <mxGeometry y="170" width="2270" height="220" as="geometry" />
-        </mxCell>
-        <mxCell id="p2l3" value="ระบบ / System" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;" vertex="1" parent="p2pool">
-          <mxGeometry y="390" width="2270" height="200" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p2_plan" value="กำหนดแผน PM ประจำปี&lt;br&gt;Set annual PM schedule" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p2l1">
-          <mxGeometry x="80" y="40" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_verify" value="ตรวจสอบและปิดงาน PM&lt;br&gt;Verify &amp;amp; close PM" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p2l1">
-          <mxGeometry x="1880" y="40" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_end" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p2l1">
-          <mxGeometry x="2060" y="40" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p2_scan" value="สแกน QR ที่หน้าเครื่อง&lt;br&gt;Scan machine QR" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p2l2">
-          <mxGeometry x="440" y="80" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_select" value="เลือก &amp;quot;ทำ PM&amp;quot;&lt;br&gt;Select PM" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p2l2">
-          <mxGeometry x="620" y="80" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_dostep" value="ทำขั้นตอนที่ N + ลงรูป/ค่าที่วัดได้&lt;br&gt;Execute step N + photo / reading" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p2l2">
-          <mxGeometry x="980" y="80" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_submit" value="ส่งงาน PM&lt;br&gt;Submit PM execution" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p2l2">
-          <mxGeometry x="1700" y="80" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p2_due" value="แจ้งเตือน PM ครบกำหนด&lt;br&gt;PM due alert (Push / LINE)" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p2l3">
-          <mxGeometry x="260" y="70" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_form" value="แสดง Form PM ตามลำดับ 1→2→3→4&lt;br&gt;Serve ordered PM checklist" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p2l3">
-          <mxGeometry x="800" y="70" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_validate" value="ตรวจลำดับขั้นตอน + รูป + ค่าที่วัด&lt;br&gt;Validate order, photo, reading" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p2l3">
-          <mxGeometry x="1160" y="70" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_decok" value="ผ่านเงื่อนไข?&lt;br&gt;Validation passed?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p2l3">
-          <mxGeometry x="1350" y="60" width="130" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_decmore" value="ยังมีขั้นตอนเหลือ?&lt;br&gt;More steps?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p2l3">
-          <mxGeometry x="1530" y="60" width="130" height="80" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p2e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p2_plan" target="p2_due" />
-        <mxCell id="p2e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p2_due" target="p2_scan" />
-        <mxCell id="p2e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p2_scan" target="p2_select" />
-        <mxCell id="p2e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p2_select" target="p2_form" />
-        <mxCell id="p2e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p2_form" target="p2_dostep" />
-        <mxCell id="p2e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p2_dostep" target="p2_validate" />
-        <mxCell id="p2e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p2_validate" target="p2_decok" />
-        <mxCell id="p2e8" value="ไม่ผ่าน — ทำขั้นตอนเดิมซ้ำ&lt;br&gt;Failed → 409 PM_STEP_OUT_OF_ORDER / 422" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;strokeColor=#b85450;exitX=0.5;exitY=0;entryX=0.5;entryY=0;" edge="1" parent="1" source="p2_decok" target="p2_dostep">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1455" y="250" /><mxPoint x="1095" y="250" /></Array></mxGeometry>
-        </mxCell>
-        <mxCell id="p2e9" value="ผ่าน / Passed" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p2_decok" target="p2_decmore" />
-        <mxCell id="p2e10" value="มี — ปลดล็อกขั้นตอนถัดไป&lt;br&gt;Yes → unlock next step" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="p2_decmore" target="p2_dostep">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1635" y="400" /><mxPoint x="1095" y="400" /></Array></mxGeometry>
-        </mxCell>
-        <mxCell id="p2e11" value="ครบทุกขั้นตอน / All complete" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p2_decmore" target="p2_submit" />
-        <mxCell id="p2e12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p2_submit" target="p2_verify" />
-        <mxCell id="p2e13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p2_verify" target="p2_end" />
-
-        <mxCell id="p2note" value="&lt;b&gt;หัวใจของหน้านี้ / The point of this page:&lt;/b&gt; ขั้นตอน N+1 จะถูกล็อกไว้จนกว่าขั้นตอน N จะเสร็จ — บังคับที่ฝั่งเซิร์ฟเวอร์ ไม่ใช่แค่ซ่อนปุ่มใน UI&lt;br&gt;Step N+1 stays locked until step N is complete. Enforced server-side, not merely hidden in the UI — a client that skips ahead gets 409 PM_STEP_OUT_OF_ORDER (PRD §3.7, §6.5)." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=top;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="40" y="670" width="1240" height="70" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
-
-  <diagram id="til-p3" name="3. Installation &amp; Stock Issue">
-    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-
-        <mxCell id="p3pool" value="TIL — Installation Hook-up Requisition &amp;amp; Stock Issue / การเบิกอุปกรณ์ติดตั้งและตัดสต๊อก (PRD §3.8, §M8)" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=30;horizontalStack=0;fontSize=14;fontStyle=1;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="40" y="40" width="2270" height="810" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p3l1" value="ธุรการ SV / SV Admin" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="p3pool">
-          <mxGeometry y="30" width="2270" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p3l2" value="ทีมติดตั้ง / Install Tech" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;" vertex="1" parent="p3pool">
-          <mxGeometry y="150" width="2270" height="180" as="geometry" />
-        </mxCell>
-        <mxCell id="p3l3" value="คลังอะไหล่ / Store ST" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="p3pool">
-          <mxGeometry y="330" width="2270" height="160" as="geometry" />
-        </mxCell>
-        <mxCell id="p3l4" value="หน.คลัง / ST Manager" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;" vertex="1" parent="p3pool">
-          <mxGeometry y="490" width="2270" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p3l5" value="ระบบ / System" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;" vertex="1" parent="p3pool">
-          <mxGeometry y="610" width="2270" height="200" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p3_open" value="เปิดงานติดตั้ง&lt;br&gt;Create installation ticket" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p3l1">
-          <mxGeometry x="80" y="30" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p3_review" value="ตรวจ/ปรับจำนวน + เพิ่มรายการหน้างาน&lt;br&gt;Adjust qty, add on-site items" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p3l2">
-          <mxGeometry x="440" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p3_submitreq" value="ส่งใบเบิก&lt;br&gt;Submit requisition" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p3l2">
-          <mxGeometry x="620" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p3_install" value="ติดตั้ง + ส่งงาน&lt;br&gt;Install &amp;amp; submit job" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p3l2">
-          <mxGeometry x="1880" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p3_end" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p3l2">
-          <mxGeometry x="2060" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p3_check" value="ตรวจสอบยอดคงเหลือ&lt;br&gt;Check stock balance" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="p3l3">
-          <mxGeometry x="800" y="50" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p3_backorder" value="ตั้งรายการค้าง + แจ้ง SV&lt;br&gt;Backorder &amp;amp; notify SV" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p3l3">
-          <mxGeometry x="1160" y="50" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p3_issue" value="จ่ายของ + สแกน QR อะไหล่&lt;br&gt;Issue parts, scan part QR" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="p3l3">
-          <mxGeometry x="1340" y="50" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p3_replenish" value="สั่งเติมสต๊อก&lt;br&gt;Raise replenishment" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="p3l4">
-          <mxGeometry x="1880" y="30" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p3_endst" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="p3l4">
-          <mxGeometry x="2060" y="30" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p3_prefill" value="ดึงรายการ Part จาก Hook-up template&lt;br&gt;Pre-populate requisition from hook-up list" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d4e1f5;strokeColor=#6c8ebf;" vertex="1" parent="p3l5">
-          <mxGeometry x="260" y="70" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p3_decstock" value="ของพอ?&lt;br&gt;Stock sufficient?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p3l5">
-          <mxGeometry x="990" y="60" width="130" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="p3_post" value="ตัดสต๊อก + บันทึก Movement + Audit&lt;br&gt;Post movement, decrement, audit log" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p3l5">
-          <mxGeometry x="1520" y="70" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p3_decmin" value="ต่ำกว่า Min?&lt;br&gt;Below min level?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p3l5">
-          <mxGeometry x="1710" y="60" width="130" height="80" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p3e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3_open" target="p3_prefill" />
-        <mxCell id="p3e2" value="ไม่ต้องพิมพ์รายการเอง&lt;br&gt;No manual list typing" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3_prefill" target="p3_review" />
-        <mxCell id="p3e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3_review" target="p3_submitreq" />
-        <mxCell id="p3e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3_submitreq" target="p3_check" />
-        <mxCell id="p3e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3_check" target="p3_decstock" />
-        <mxCell id="p3e6" value="ไม่พอ / No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="p3_decstock" target="p3_backorder" />
-        <mxCell id="p3e7" value="พอ / Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" edge="1" parent="1" source="p3_decstock" target="p3_issue" />
-        <mxCell id="p3e8" value="เมื่อของเข้าครบ / When received" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3_backorder" target="p3_issue" />
-        <mxCell id="p3e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3_issue" target="p3_post" />
-        <mxCell id="p3e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3_post" target="p3_decmin" />
-        <mxCell id="p3e11" value="งานติดตั้งเดินต่อ&lt;br&gt;Installation continues" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=0;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3_post" target="p3_install">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1635" y="280" /></Array></mxGeometry>
-        </mxCell>
-        <mxCell id="p3e12" value="ใช่ — แจ้งเตือนเติมอะไหล่&lt;br&gt;Yes — replenishment alert" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3_decmin" target="p3_replenish" />
-        <mxCell id="p3e13" value="ไม่ / No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" edge="1" parent="1" source="p3_decmin" target="p3_endst">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1815" y="820" /><mxPoint x="2175" y="820" /></Array></mxGeometry>
-        </mxCell>
-        <mxCell id="p3e14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3_replenish" target="p3_endst" />
-        <mxCell id="p3e15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3_install" target="p3_end" />
-
-        <mxCell id="p3note" value="&lt;b&gt;หัวใจของหน้านี้ / The point of this page:&lt;/b&gt; ระบบดึงรายการอะไหล่จาก Hook-up template ที่ขึ้นทะเบียนไว้ ทีมติดตั้งแค่แก้ไข ไม่ต้องเขียนรายการทั้งหมดใหม่ — รายการที่เพิ่มหน้างาน (ADDED_ONSITE) ถูกรายงานแยก เพื่อนำไปปรับปรุง template&lt;br&gt;The requisition is pre-populated from the registered hook-up list; the team edits rather than writes it out. Items added on site are tracked separately so templates improve over time (PRD §3.8)." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=top;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="40" y="890" width="1240" height="80" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
-
-  <diagram id="til-p4" name="4. QC Inbound Inspection">
-    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-
-        <mxCell id="p4pool" value="TIL — QC Inbound Machine Inspection / งานตรวจรับเครื่องเข้าใหม่ (PRD §3.9)" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=30;horizontalStack=0;fontSize=14;fontStyle=1;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="40" y="40" width="2270" height="630" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p4l1" value="แผนก QC / QC Officer" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;" vertex="1" parent="p4pool">
-          <mxGeometry y="30" width="2270" height="180" as="geometry" />
-        </mxCell>
-        <mxCell id="p4l2" value="ธุรการ SV / SV Admin" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="p4pool">
-          <mxGeometry y="210" width="2270" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p4l3" value="ช่างบริการ / SV Tech" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;" vertex="1" parent="p4pool">
-          <mxGeometry y="330" width="2270" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p4l4" value="ระบบ / System" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;" vertex="1" parent="p4pool">
-          <mxGeometry y="450" width="2270" height="180" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p4_start" value="เครื่องใหม่เข้าคลัง&lt;br&gt;New machine arrives" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p4l1">
-          <mxGeometry x="80" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p4_inspect" value="ตรวจรับเครื่องเข้าใหม่&lt;br&gt;Inbound inspection" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p4l1">
-          <mxGeometry x="260" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p4_todo" value="บันทึก To-do list ดัดแปลง (เครื่องจากจีน)&lt;br&gt;Record modification to-do list" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p4l1">
-          <mxGeometry x="440" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p4_log" value="ลงงาน + รูป ใน Pool SV&lt;br&gt;Log job + photos into SV pool" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p4l1">
-          <mxGeometry x="800" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p4_recheck" value="ตรวจซ้ำ + ปิด To-do item&lt;br&gt;Re-check &amp;amp; close to-do items" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p4l1">
-          <mxGeometry x="1520" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p4_close" value="ปิดใบตรวจรับ&lt;br&gt;Close inspection" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p4l1">
-          <mxGeometry x="1880" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p4_end" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p4l1">
-          <mxGeometry x="2060" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p4_assign" value="มอบหมายช่าง&lt;br&gt;Assign technician" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p4l2">
-          <mxGeometry x="1160" y="30" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p4_fix" value="ซ่อม / ดัดแปลง + ส่งงาน&lt;br&gt;Repair or modify &amp;amp; submit" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="p4l3">
-          <mxGeometry x="1340" y="30" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p4_dec" value="พบความเสียหาย /&lt;br&gt;ต้องดัดแปลง?&lt;br&gt;Defect or mod needed?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p4l4">
-          <mxGeometry x="630" y="50" width="130" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="p4_create" value="สร้าง Ticket QC_INBOUND ใน Pool SV&lt;br&gt;Create QC_INBOUND ticket in SV pool" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p4l4">
-          <mxGeometry x="980" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p4_dectodo" value="To-do ครบทุกข้อ?&lt;br&gt;All to-do items closed?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p4l4">
-          <mxGeometry x="1710" y="50" width="130" height="80" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p4e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p4_start" target="p4_inspect" />
-        <mxCell id="p4e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p4_inspect" target="p4_todo" />
-        <mxCell id="p4e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p4_todo" target="p4_dec" />
-        <mxCell id="p4e4" value="ใช่ / Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p4_dec" target="p4_log" />
-        <mxCell id="p4e5" value="ไม่ — เครื่องสมบูรณ์&lt;br&gt;No — machine is sound" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" edge="1" parent="1" source="p4_dec" target="p4_close">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="735" y="645" /><mxPoint x="1995" y="645" /></Array></mxGeometry>
-        </mxCell>
-        <mxCell id="p4e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p4_log" target="p4_create" />
-        <mxCell id="p4e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p4_create" target="p4_assign" />
-        <mxCell id="p4e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p4_assign" target="p4_fix" />
-        <mxCell id="p4e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p4_fix" target="p4_recheck" />
-        <mxCell id="p4e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p4_recheck" target="p4_dectodo" />
-        <mxCell id="p4e11" value="ยังไม่ครบ / Not yet" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;strokeColor=#b85450;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="p4_dectodo" target="p4_recheck">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1815" y="220" /><mxPoint x="1635" y="220" /></Array></mxGeometry>
-        </mxCell>
-        <mxCell id="p4e12" value="ครบ / Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" edge="1" parent="1" source="p4_dectodo" target="p4_close" />
-        <mxCell id="p4e13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p4_close" target="p4_end" />
-
-        <mxCell id="p4note" value="&lt;b&gt;หัวใจของหน้านี้ / The point of this page:&lt;/b&gt; QC ลงงานเข้า Pool SV ได้โดยตรง เครื่องเสียจึงไม่หลุดจากระบบ และใบตรวจรับปิดไม่ได้ถ้ายังมี To-do ที่บังคับค้างอยู่ — ตรงกับข้อกำหนด &amp;quot;ป้องกันการตกหล่น&amp;quot;&lt;br&gt;QC logs defects straight into the SV pool, and an inspection cannot be closed while mandatory to-do items remain open — this is the &amp;quot;prevent omissions&amp;quot; safeguard named in the source requirements (PRD §3.9)." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-          <mxGeometry x="40" y="710" width="1240" height="80" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
-
-  <diagram id="til-p5" name="5. Repeat-Repair KPI">
-    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-
-        <mxCell id="p5pool" value="TIL — Repeat-Repair Detection &amp;amp; KPI Adjudication / การตรวจสอบงานซ่อมซ้ำ (PRD §3.6)" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=30;horizontalStack=0;fontSize=14;fontStyle=1;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
-          <mxGeometry x="40" y="40" width="2090" height="530" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p5l1" value="ผู้เปิดงาน / Admin or Tech" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="p5pool">
-          <mxGeometry y="30" width="2090" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p5l2" value="ระบบ / System" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;" vertex="1" parent="p5pool">
-          <mxGeometry y="150" width="2090" height="200" as="geometry" />
-        </mxCell>
-        <mxCell id="p5l3" value="Service Manager / หัวหน้าช่าง" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;" vertex="1" parent="p5pool">
-          <mxGeometry y="350" width="2090" height="180" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p5_open" value="เปิด Ticket (เครื่อง + หมวดปัญหา)&lt;br&gt;Create ticket (machine + category)" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="p5l1">
-          <mxGeometry x="80" y="30" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p5_search" value="ค้นงานเดิม เครื่อง+หมวดเดียวกัน ภายใน 72 ชม.&lt;br&gt;Search same machine + category ≤72h" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p5l2">
-          <mxGeometry x="260" y="70" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_dec" value="พบงานซ้ำ?&lt;br&gt;Match found?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p5l2">
-          <mxGeometry x="450" y="60" width="130" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_normal" value="บันทึกปกติ ไม่ตั้งเคส&lt;br&gt;Proceed normally" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p5l2">
-          <mxGeometry x="620" y="20" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_endn" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p5l2">
-          <mxGeometry x="800" y="20" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_case" value="สร้าง repeat_case (PENDING_REVIEW)&lt;br&gt;+ ติดธงทั้ง 2 Ticket" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p5l2">
-          <mxGeometry x="620" y="120" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_notify" value="แจ้งเตือนทันที — LINE + Push + In-app&lt;br&gt;Immediate alert to Manager, Lead, Admin" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p5l2">
-          <mxGeometry x="800" y="120" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_kpi" value="นับรวม KPI ประจำเดือน&lt;br&gt;Count toward monthly KPI" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="p5l2">
-          <mxGeometry x="1520" y="70" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p5_review" value="ตรวจสอบทั้ง 2 งาน&lt;br&gt;Review both tickets" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="p5l3">
-          <mxGeometry x="980" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_dec2" value="เป็นเคสเดียวกัน?&lt;br&gt;Same case?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="p5l3">
-          <mxGeometry x="1170" y="50" width="130" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_confirm" value="CONFIRMED_REPEAT&lt;br&gt;นับเข้า KPI" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="p5l3">
-          <mxGeometry x="1340" y="20" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_notrepeat" value="NOT_REPEAT + ระบุเหตุผล (บังคับ)&lt;br&gt;NOT_REPEAT + mandatory reason" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="p5l3">
-          <mxGeometry x="1340" y="100" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_end2" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="p5l3">
-          <mxGeometry x="1520" y="100" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_dash" value="Dashboard KPI: ≤1 เครื่อง/เดือน&lt;br&gt;Monthly KPI vs target" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="p5l3">
-          <mxGeometry x="1700" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_end3" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="p5l3">
-          <mxGeometry x="1880" y="60" width="150" height="60" as="geometry" />
-        </mxCell>
-
-        <mxCell id="p5e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_open" target="p5_search" />
-        <mxCell id="p5e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_search" target="p5_dec" />
-        <mxCell id="p5e3" value="ไม่พบ / No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=0;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_dec" target="p5_normal" />
-        <mxCell id="p5e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_normal" target="p5_endn" />
-        <mxCell id="p5e5" value="พบ / Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_dec" target="p5_case" />
-        <mxCell id="p5e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_case" target="p5_notify" />
-        <mxCell id="p5e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_notify" target="p5_review" />
-        <mxCell id="p5e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_review" target="p5_dec2" />
-        <mxCell id="p5e9" value="ใช่ / Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=0.5;exitY=0;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_dec2" target="p5_confirm" />
-        <mxCell id="p5e10" value="ไม่ใช่ / No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_dec2" target="p5_notrepeat" />
-        <mxCell id="p5e11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_confirm" target="p5_kpi" />
-        <mxCell id="p5e12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_notrepeat" target="p5_end2" />
-        <mxCell id="p5e13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_kpi" target="p5_dash" />
-        <mxCell id="p5e14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p5_dash" target="p5_end3" />
-
-        <mxCell id="p5note" value="&lt;b&gt;หัวใจของหน้านี้ / The point of this page:&lt;/b&gt; การตรวจหางานซ่อมซ้ำทำงานอยู่ใน transaction เดียวกับการสร้าง Ticket ผู้เปิดงานจึงเห็นธงทันที ส่วนการแจ้งเตือนส่งแบบ asynchronous — และมีเพียงเคสที่ผู้จัดการยืนยันว่า CONFIRMED_REPEAT เท่านั้นที่ถูกนับเข้า KPI&lt;br&gt;Detection runs inside the ticket-creation transaction (flag is immediate); notification dispatch is queued. Only manager-confirmed cases count toward the KPI. This replaces the current month-end export-and-hand-check process the source describes as lossy (PRD §3.6, §11)." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-          <mxGeometry x="40" y="610" width="1240" height="90" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
+<mxfile host="65bd71144e">
+    <diagram id="til-p1" name="1. Corrective Repair">
+        <mxGraphModel dx="4267" dy="2778" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="p1pool" value="TIL — Corrective Repair Ticket Lifecycle / กระบวนการงานซ่อมแก้ไข (PRD §3.1–§3.6)" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=30;horizontalStack=0;fontSize=14;fontStyle=1;fillColor=#ffffff;strokeColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="40" width="4260" height="990" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1l1" value="ลูกค้า / Customer" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1;" parent="p1pool" vertex="1">
+                    <mxGeometry y="30" width="4260" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_start" value="ลูกค้าแจ้งงาน&lt;br&gt;Customer reports fault" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="p1l1" vertex="1">
+                    <mxGeometry x="80" y="30" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_po" value="อนุมัติราคา → ออก PO&lt;br&gt;Approve quote → issue PO" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="p1l1" vertex="1">
+                    <mxGeometry x="1880" y="30" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_confirm" value="ยืนยันวันนัดเข้าซ่อม&lt;br&gt;Confirm appointment" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="p1l1" vertex="1">
+                    <mxGeometry x="2600" y="30" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_sign" value="เซ็นรับใบงาน&lt;br&gt;Sign job sheet" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="p1l1" vertex="1">
+                    <mxGeometry x="2960" y="30" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1l2" value="ธุรการ SV / SV Admin" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" parent="p1pool" vertex="1">
+                    <mxGeometry y="150" width="4260" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_log" value="บันทึก Task ลง Pool SV&lt;br&gt;Log ticket into SV pool" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p1l2" vertex="1">
+                    <mxGeometry x="260" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_assign" value="มอบหมายงาน + Priority + Deadline&lt;br&gt;Assign owner, priority, deadline" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p1l2" vertex="1">
+                    <mxGeometry x="1160" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_quote" value="จัดทำใบเสนอราคา&lt;br&gt;Prepare quotation" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p1l2" vertex="1">
+                    <mxGeometry x="1700" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_so" value="ออก SO เตรียมอะไหล่&lt;br&gt;Raise SO for parts" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p1l2" vertex="1">
+                    <mxGeometry x="2060" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_sched" value="นัดหมายลูกค้า&lt;br&gt;Schedule with customer" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p1l2" vertex="1">
+                    <mxGeometry x="2600" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_verify" value="ตรวจสอบ Work log + รูป&lt;br&gt;Verify work log &amp;amp; photos" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p1l2" vertex="1">
+                    <mxGeometry x="3500" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_decv" value="ข้อมูลครบถ้วน?&lt;br&gt;Complete?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p1l2" vertex="1">
+                    <mxGeometry x="3690" y="50" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1l3" value="ช่างบริการ / SV Tech" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;" parent="p1pool" vertex="1">
+                    <mxGeometry y="330" width="4260" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_qropen" value="สแกน QR เปิดงานเองหน้างาน&lt;br&gt;Scan QR, open ticket on site" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p1l3" vertex="1">
+                    <mxGeometry x="260" y="70" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_inspect" value="สแกน QR + ตรวจเช็ก / วินิจฉัย&lt;br&gt;Scan QR, inspect &amp;amp; diagnose" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p1l3" vertex="1">
+                    <mxGeometry x="1340" y="70" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_decfix" value="ซ่อมจบหน้างานได้?&lt;br&gt;Fix on the spot?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p1l3" vertex="1">
+                    <mxGeometry x="1530" y="60" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_repair" value="เข้าซ่อม&lt;br&gt;Perform repair" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p1l3" vertex="1">
+                    <mxGeometry x="2780" y="70" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_submit" value="บันทึกงาน + ลงรูปบังคับ 3 ประเภท&lt;br&gt;Submit log + 3 mandatory photos" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p1l3" vertex="1">
+                    <mxGeometry x="3140" y="70" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1l4" value="หัวหน้าช่าง / Manager" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;" parent="p1pool" vertex="1">
+                    <mxGeometry y="530" width="4260" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_adjud" value="ประเมินเคสซ่อมซ้ำ&lt;br&gt;Adjudicate repeat case" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="p1l4" vertex="1">
+                    <mxGeometry x="980" y="40" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_close" value="ปิดงาน (จบงาน)&lt;br&gt;Close ticket" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="p1l4" vertex="1">
+                    <mxGeometry x="3860" y="40" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_end" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="p1l4" vertex="1">
+                    <mxGeometry x="4040" y="40" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1l5" value="คลังอะไหล่ / Store ST" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" parent="p1pool" vertex="1">
+                    <mxGeometry y="670" width="4260" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_st_recv" value="รับอะไหล่ครบตาม SO → กดยืนยัน&lt;br&gt;Receive all SO parts → mark complete" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" parent="p1l5" vertex="1">
+                    <mxGeometry x="2240" y="40" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1l6" value="ระบบ / System" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;" parent="p1pool" vertex="1">
+                    <mxGeometry y="810" width="4260" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_sys_create" value="สร้าง Ticket + เขียน Audit log&lt;br&gt;Create ticket, write audit log" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p1l6" vertex="1">
+                    <mxGeometry x="440" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_sys_dec" value="เครื่อง+หมวดซ้ำ&lt;br&gt;ภายใน 3 วัน?&lt;br&gt;Repeat ≤72h?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f8cecc;strokeColor=#b85450;" parent="p1l6" vertex="1">
+                    <mxGeometry x="630" y="50" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_sys_notify" value="แจ้งเตือน Manager / หัวหน้าช่าง / Admin&lt;br&gt;Alert Manager, Lead, Admin (LINE + Push)" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="p1l6" vertex="1">
+                    <mxGeometry x="800" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_sys_parts" value="แจ้ง SV: อะไหล่ครบ พร้อมจ่ายงาน&lt;br&gt;Notify SV: parts ready" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p1l6" vertex="1">
+                    <mxGeometry x="2420" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_sys_photo" value="รูปครบ 3 ประเภท?&lt;br&gt;3 photo categories?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" parent="p1l6" vertex="1">
+                    <mxGeometry x="3330" y="50" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1e1" value="แจ้ง Admin โดยตรง&lt;br&gt;Direct to Admin" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_start" target="p1_log" edge="1"/>
+                <mxCell id="p1e2" value="แจ้งผ่านช่างหน้างาน&lt;br&gt;Via technician on site" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" parent="1" source="p1_start" target="p1_qropen" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="195" y="470"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p1e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.25;" parent="1" source="p1_log" target="p1_sys_create" edge="1"/>
+                <mxCell id="p1e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.75;" parent="1" source="p1_qropen" target="p1_sys_create" edge="1"/>
+                <mxCell id="p1e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_sys_create" target="p1_sys_dec" edge="1"/>
+                <mxCell id="p1e6" value="ใช่ / Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_sys_dec" target="p1_sys_notify" edge="1"/>
+                <mxCell id="p1e7" value="ไม่ / No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=0;entryX=0;entryY=0.5;" parent="1" source="p1_sys_dec" target="p1_assign" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="735" y="280"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p1e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_sys_notify" target="p1_adjud" edge="1"/>
+                <mxCell id="p1e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_adjud" target="p1_assign" edge="1"/>
+                <mxCell id="p1e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_assign" target="p1_inspect" edge="1"/>
+                <mxCell id="p1e11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_inspect" target="p1_decfix" edge="1"/>
+                <mxCell id="p1e12" value="ไม่ได้ ต้องสั่งอะไหล่&lt;br&gt;No — parts required" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_decfix" target="p1_quote" edge="1"/>
+                <mxCell id="p1e13" value="ได้ — ใช้อะไหล่ในสต๊อก&lt;br&gt;Yes — stock parts on hand" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" parent="1" source="p1_decfix" target="p1_repair" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1635" y="545"/>
+                            <mxPoint x="2895" y="545"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p1e14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_quote" target="p1_po" edge="1"/>
+                <mxCell id="p1e15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_po" target="p1_so" edge="1"/>
+                <mxCell id="p1e16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_so" target="p1_st_recv" edge="1"/>
+                <mxCell id="p1e17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_st_recv" target="p1_sys_parts" edge="1"/>
+                <mxCell id="p1e18" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_sys_parts" target="p1_sched" edge="1"/>
+                <mxCell id="p1e19" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" parent="1" source="p1_sched" target="p1_confirm" edge="1"/>
+                <mxCell id="p1e20" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_confirm" target="p1_repair" edge="1"/>
+                <mxCell id="p1e21" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_repair" target="p1_sign" edge="1"/>
+                <mxCell id="p1e22" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_sign" target="p1_submit" edge="1"/>
+                <mxCell id="p1e23" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_submit" target="p1_sys_photo" edge="1"/>
+                <mxCell id="p1e24" value="ไม่ครบ / Incomplete&lt;br&gt;422 PHOTO_REQUIREMENT_UNMET" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;strokeColor=#b85450;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" parent="1" source="p1_sys_photo" target="p1_submit" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="3435" y="690"/>
+                            <mxPoint x="3255" y="690"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p1e25" value="ครบ / Complete" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_sys_photo" target="p1_verify" edge="1"/>
+                <mxCell id="p1e26" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_verify" target="p1_decv" edge="1"/>
+                <mxCell id="p1e27" value="ผ่าน / Approved" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_decv" target="p1_close" edge="1"/>
+                <mxCell id="p1e28" value="ไม่ผ่าน — ตีกลับหาช่าง&lt;br&gt;Rejected → back to technician" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;strokeColor=#b85450;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="p1_decv" target="p1_repair" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="3615" y="400"/>
+                            <mxPoint x="2895" y="400"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p1e29" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p1_close" target="p1_end" edge="1"/>
+                <mxCell id="p1leg" value="Legend / คำอธิบาย" style="swimlane;html=1;startSize=26;fontSize=12;fontStyle=1;fillColor=#ffffff;strokeColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="1070" width="1240" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1leg1" value="ขั้นตอน / Process step" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p1leg" vertex="1">
+                    <mxGeometry x="20" y="45" width="150" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1leg2" value="ทางแยก / Decision" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" parent="p1leg" vertex="1">
+                    <mxGeometry x="200" y="40" width="120" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1leg3" value="เริ่ม / จบ&lt;br&gt;Start / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p1leg" vertex="1">
+                    <mxGeometry x="350" y="45" width="120" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1leg4" value="กฎบังคับของระบบ / System-enforced rules:&lt;br&gt;&lt;br&gt;• ทุกการเปลี่ยนสถานะบันทึกวันเวลาและผู้ทำ (ticket_status_history) — ใช้คำนวณ MTTA/MTTR&lt;br&gt;&amp;nbsp;&amp;nbsp;Every transition is timestamped and attributed — the basis for all cycle-time KPIs (PRD §3.4)&lt;br&gt;&lt;br&gt;• ส่งงานไม่ได้ถ้ารูปไม่ครบ 3 ประเภท: ใบงาน / อะไหล่เสีย / อะไหล่ที่เปลี่ยนใหม่&lt;br&gt;&amp;nbsp;&amp;nbsp;Submission blocked server-side unless all 3 photo categories are present (PRD §3.5)&lt;br&gt;&lt;br&gt;• เฉพาะแผนก ST เท่านั้นที่เปลี่ยนสถานะ PARTS_PREP → PARTS_READY ได้&lt;br&gt;&amp;nbsp;&amp;nbsp;Only Store may make the parts-ready transition — enforced in the domain layer (PRD §2.2, §6.7)&lt;br&gt;&lt;br&gt;• ตรวจงานซ่อมซ้ำทำงานใน transaction เดียวกับการสร้าง Ticket (ผลลัพธ์เห็นทันที)&lt;br&gt;&amp;nbsp;&amp;nbsp;Repeat-repair detection runs inside the create transaction, so the flag is immediate (PRD §3.6)" style="text;html=1;whiteSpace=wrap;fontSize=10;align=left;verticalAlign=top;" parent="p1leg" vertex="1">
+                    <mxGeometry x="500" y="35" width="720" height="160" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="til-p2" name="2. Preventive Maintenance (PM)">
+        <mxGraphModel dx="3763" dy="1614" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="p2pool" value="TIL — Preventive Maintenance Execution / การดำเนินงาน PM (PRD §3.7)" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=30;horizontalStack=0;fontSize=14;fontStyle=1;fillColor=#ffffff;strokeColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="40" width="2270" height="590" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2l1" value="ธุรการ SV / SV Admin" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" parent="p2pool" vertex="1">
+                    <mxGeometry y="30" width="2270" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_plan" value="กำหนดแผน PM ประจำปี&lt;br&gt;Set annual PM schedule" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p2l1" vertex="1">
+                    <mxGeometry x="80" y="40" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_verify" value="ตรวจสอบและปิดงาน PM&lt;br&gt;Verify &amp;amp; close PM" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p2l1" vertex="1">
+                    <mxGeometry x="1880" y="40" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_end" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p2l1" vertex="1">
+                    <mxGeometry x="2060" y="40" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2l2" value="ช่างบริการ / SV Tech" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;" parent="p2pool" vertex="1">
+                    <mxGeometry y="170" width="2270" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_scan" value="สแกน QR ที่หน้าเครื่อง&lt;br&gt;Scan machine QR" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p2l2" vertex="1">
+                    <mxGeometry x="440" y="80" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_select" value="เลือก &amp;quot;ทำ PM&amp;quot;&lt;br&gt;Select PM" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p2l2" vertex="1">
+                    <mxGeometry x="620" y="80" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_dostep" value="ทำขั้นตอนที่ N + ลงรูป/ค่าที่วัดได้&lt;br&gt;Execute step N + photo / reading" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p2l2" vertex="1">
+                    <mxGeometry x="980" y="80" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_submit" value="ส่งงาน PM&lt;br&gt;Submit PM execution" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p2l2" vertex="1">
+                    <mxGeometry x="1700" y="80" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2l3" value="ระบบ / System" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;" parent="p2pool" vertex="1">
+                    <mxGeometry y="390" width="2270" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_due" value="แจ้งเตือน PM ครบกำหนด&lt;br&gt;PM due alert (Push / LINE)" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p2l3" vertex="1">
+                    <mxGeometry x="260" y="70" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_form" value="แสดง Form PM ตามลำดับ 1→2→3→4&lt;br&gt;Serve ordered PM checklist" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p2l3" vertex="1">
+                    <mxGeometry x="800" y="70" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_validate" value="ตรวจลำดับขั้นตอน + รูป + ค่าที่วัด&lt;br&gt;Validate order, photo, reading" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p2l3" vertex="1">
+                    <mxGeometry x="1160" y="70" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_decok" value="ผ่านเงื่อนไข?&lt;br&gt;Validation passed?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" parent="p2l3" vertex="1">
+                    <mxGeometry x="1350" y="60" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_decmore" value="ยังมีขั้นตอนเหลือ?&lt;br&gt;More steps?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" parent="p2l3" vertex="1">
+                    <mxGeometry x="1530" y="60" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p2_plan" target="p2_due" edge="1"/>
+                <mxCell id="p2e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p2_due" target="p2_scan" edge="1"/>
+                <mxCell id="p2e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p2_scan" target="p2_select" edge="1"/>
+                <mxCell id="p2e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p2_select" target="p2_form" edge="1"/>
+                <mxCell id="p2e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p2_form" target="p2_dostep" edge="1"/>
+                <mxCell id="p2e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p2_dostep" target="p2_validate" edge="1"/>
+                <mxCell id="p2e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p2_validate" target="p2_decok" edge="1"/>
+                <mxCell id="p2e8" value="ไม่ผ่าน — ทำขั้นตอนเดิมซ้ำ&lt;br&gt;Failed → 409 PM_STEP_OUT_OF_ORDER / 422" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;strokeColor=#b85450;exitX=0.5;exitY=0;entryX=0.5;entryY=0;" parent="1" source="p2_decok" target="p2_dostep" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1455" y="250"/>
+                            <mxPoint x="1095" y="250"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p2e9" value="ผ่าน / Passed" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p2_decok" target="p2_decmore" edge="1"/>
+                <mxCell id="p2e10" value="มี — ปลดล็อกขั้นตอนถัดไป&lt;br&gt;Yes → unlock next step" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" parent="1" source="p2_decmore" target="p2_dostep" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1635" y="400"/>
+                            <mxPoint x="1095" y="400"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p2e11" value="ครบทุกขั้นตอน / All complete" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p2_decmore" target="p2_submit" edge="1"/>
+                <mxCell id="p2e12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p2_submit" target="p2_verify" edge="1"/>
+                <mxCell id="p2e13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p2_verify" target="p2_end" edge="1"/>
+                <mxCell id="p2note" value="&lt;b&gt;หัวใจของหน้านี้ / The point of this page:&lt;/b&gt; ขั้นตอน N+1 จะถูกล็อกไว้จนกว่าขั้นตอน N จะเสร็จ — บังคับที่ฝั่งเซิร์ฟเวอร์ ไม่ใช่แค่ซ่อนปุ่มใน UI&lt;br&gt;Step N+1 stays locked until step N is complete. Enforced server-side, not merely hidden in the UI — a client that skips ahead gets 409 PM_STEP_OUT_OF_ORDER (PRD §3.7, §6.5)." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=top;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="670" width="1240" height="70" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="til-p3" name="3. Installation &amp; Stock Issue">
+        <mxGraphModel dx="2142" dy="1614" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="p3pool" value="TIL — Installation Hook-up Requisition &amp;amp; Stock Issue / การเบิกอุปกรณ์ติดตั้งและตัดสต๊อก (PRD §3.8, §M8)" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=30;horizontalStack=0;fontSize=14;fontStyle=1;fillColor=#ffffff;strokeColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="40" width="2270" height="810" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3l1" value="ธุรการ SV / SV Admin" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" parent="p3pool" vertex="1">
+                    <mxGeometry y="30" width="2270" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_open" value="เปิดงานติดตั้ง&lt;br&gt;Create installation ticket" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p3l1" vertex="1">
+                    <mxGeometry x="80" y="30" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3l2" value="ทีมติดตั้ง / Install Tech" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;" parent="p3pool" vertex="1">
+                    <mxGeometry y="150" width="2270" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_review" value="ตรวจ/ปรับจำนวน + เพิ่มรายการหน้างาน&lt;br&gt;Adjust qty, add on-site items" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p3l2" vertex="1">
+                    <mxGeometry x="440" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_submitreq" value="ส่งใบเบิก&lt;br&gt;Submit requisition" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p3l2" vertex="1">
+                    <mxGeometry x="620" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_install" value="ติดตั้ง + ส่งงาน&lt;br&gt;Install &amp;amp; submit job" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p3l2" vertex="1">
+                    <mxGeometry x="1880" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_end" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p3l2" vertex="1">
+                    <mxGeometry x="2060" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3l3" value="คลังอะไหล่ / Store ST" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" parent="p3pool" vertex="1">
+                    <mxGeometry y="330" width="2270" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_check" value="ตรวจสอบยอดคงเหลือ&lt;br&gt;Check stock balance" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" parent="p3l3" vertex="1">
+                    <mxGeometry x="800" y="50" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_backorder" value="ตั้งรายการค้าง + แจ้ง SV&lt;br&gt;Backorder &amp;amp; notify SV" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="p3l3" vertex="1">
+                    <mxGeometry x="1160" y="50" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_issue" value="จ่ายของ + สแกน QR อะไหล่&lt;br&gt;Issue parts, scan part QR" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" parent="p3l3" vertex="1">
+                    <mxGeometry x="1340" y="50" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3l4" value="หน.คลัง / ST Manager" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;" parent="p3pool" vertex="1">
+                    <mxGeometry y="490" width="2270" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_replenish" value="สั่งเติมสต๊อก&lt;br&gt;Raise replenishment" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="p3l4" vertex="1">
+                    <mxGeometry x="1880" y="30" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_endst" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="p3l4" vertex="1">
+                    <mxGeometry x="2060" y="30" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3l5" value="ระบบ / System" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;" parent="p3pool" vertex="1">
+                    <mxGeometry y="610" width="2270" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_prefill" value="ดึงรายการ Part จาก Hook-up template&lt;br&gt;Pre-populate requisition from hook-up list" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d4e1f5;strokeColor=#6c8ebf;" parent="p3l5" vertex="1">
+                    <mxGeometry x="260" y="70" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_decstock" value="ของพอ?&lt;br&gt;Stock sufficient?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" parent="p3l5" vertex="1">
+                    <mxGeometry x="990" y="60" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_post" value="ตัดสต๊อก + บันทึก Movement + Audit&lt;br&gt;Post movement, decrement, audit log" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p3l5" vertex="1">
+                    <mxGeometry x="1520" y="70" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_decmin" value="ต่ำกว่า Min?&lt;br&gt;Below min level?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" parent="p3l5" vertex="1">
+                    <mxGeometry x="1710" y="60" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p3_open" target="p3_prefill" edge="1"/>
+                <mxCell id="p3e2" value="ไม่ต้องพิมพ์รายการเอง&lt;br&gt;No manual list typing" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p3_prefill" target="p3_review" edge="1"/>
+                <mxCell id="p3e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p3_review" target="p3_submitreq" edge="1"/>
+                <mxCell id="p3e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p3_submitreq" target="p3_check" edge="1"/>
+                <mxCell id="p3e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p3_check" target="p3_decstock" edge="1"/>
+                <mxCell id="p3e6" value="ไม่พอ / No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" parent="1" source="p3_decstock" target="p3_backorder" edge="1"/>
+                <mxCell id="p3e7" value="พอ / Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" parent="1" source="p3_decstock" target="p3_issue" edge="1"/>
+                <mxCell id="p3e8" value="เมื่อของเข้าครบ / When received" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p3_backorder" target="p3_issue" edge="1"/>
+                <mxCell id="p3e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p3_issue" target="p3_post" edge="1"/>
+                <mxCell id="p3e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p3_post" target="p3_decmin" edge="1"/>
+                <mxCell id="p3e11" value="งานติดตั้งเดินต่อ&lt;br&gt;Installation continues" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=0;entryX=0;entryY=0.5;" parent="1" source="p3_post" target="p3_install" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1635" y="280"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p3e12" value="ใช่ — แจ้งเตือนเติมอะไหล่&lt;br&gt;Yes — replenishment alert" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p3_decmin" target="p3_replenish" edge="1"/>
+                <mxCell id="p3e13" value="ไม่ / No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" parent="1" source="p3_decmin" target="p3_endst" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1815" y="820"/>
+                            <mxPoint x="2175" y="820"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p3e14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p3_replenish" target="p3_endst" edge="1"/>
+                <mxCell id="p3e15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p3_install" target="p3_end" edge="1"/>
+                <mxCell id="p3note" value="&lt;b&gt;หัวใจของหน้านี้ / The point of this page:&lt;/b&gt; ระบบดึงรายการอะไหล่จาก Hook-up template ที่ขึ้นทะเบียนไว้ ทีมติดตั้งแค่แก้ไข ไม่ต้องเขียนรายการทั้งหมดใหม่ — รายการที่เพิ่มหน้างาน (ADDED_ONSITE) ถูกรายงานแยก เพื่อนำไปปรับปรุง template&lt;br&gt;The requisition is pre-populated from the registered hook-up list; the team edits rather than writes it out. Items added on site are tracked separately so templates improve over time (PRD §3.8)." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=top;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="890" width="1240" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="til-p4" name="4. QC Inbound Inspection">
+        <mxGraphModel dx="3688" dy="1614" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="p4pool" value="TIL — QC Inbound Machine Inspection / งานตรวจรับเครื่องเข้าใหม่ (PRD §3.9)" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=30;horizontalStack=0;fontSize=14;fontStyle=1;fillColor=#ffffff;strokeColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="40" width="2270" height="630" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4l1" value="แผนก QC / QC Officer" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;" parent="p4pool" vertex="1">
+                    <mxGeometry y="30" width="2270" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4_start" value="เครื่องใหม่เข้าคลัง&lt;br&gt;New machine arrives" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="p4l1" vertex="1">
+                    <mxGeometry x="80" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4_inspect" value="ตรวจรับเครื่องเข้าใหม่&lt;br&gt;Inbound inspection" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="p4l1" vertex="1">
+                    <mxGeometry x="260" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4_todo" value="บันทึก To-do list ดัดแปลง (เครื่องจากจีน)&lt;br&gt;Record modification to-do list" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="p4l1" vertex="1">
+                    <mxGeometry x="440" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4_log" value="ลงงาน + รูป ใน Pool SV&lt;br&gt;Log job + photos into SV pool" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="p4l1" vertex="1">
+                    <mxGeometry x="800" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4_recheck" value="ตรวจซ้ำ + ปิด To-do item&lt;br&gt;Re-check &amp;amp; close to-do items" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="p4l1" vertex="1">
+                    <mxGeometry x="1520" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4_close" value="ปิดใบตรวจรับ&lt;br&gt;Close inspection" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="p4l1" vertex="1">
+                    <mxGeometry x="1880" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4_end" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="p4l1" vertex="1">
+                    <mxGeometry x="2060" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4l2" value="ธุรการ SV / SV Admin" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" parent="p4pool" vertex="1">
+                    <mxGeometry y="210" width="2270" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4_assign" value="มอบหมายช่าง&lt;br&gt;Assign technician" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p4l2" vertex="1">
+                    <mxGeometry x="1160" y="30" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4l3" value="ช่างบริการ / SV Tech" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;" parent="p4pool" vertex="1">
+                    <mxGeometry y="330" width="2270" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4_fix" value="ซ่อม / ดัดแปลง + ส่งงาน&lt;br&gt;Repair or modify &amp;amp; submit" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="p4l3" vertex="1">
+                    <mxGeometry x="1340" y="30" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4l4" value="ระบบ / System" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;" parent="p4pool" vertex="1">
+                    <mxGeometry y="450" width="2270" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4_dec" value="พบความเสียหาย /&lt;br&gt;ต้องดัดแปลง?&lt;br&gt;Defect or mod needed?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" parent="p4l4" vertex="1">
+                    <mxGeometry x="630" y="50" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4_create" value="สร้าง Ticket QC_INBOUND ใน Pool SV&lt;br&gt;Create QC_INBOUND ticket in SV pool" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p4l4" vertex="1">
+                    <mxGeometry x="980" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4_dectodo" value="To-do ครบทุกข้อ?&lt;br&gt;All to-do items closed?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" parent="p4l4" vertex="1">
+                    <mxGeometry x="1710" y="50" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p4_start" target="p4_inspect" edge="1"/>
+                <mxCell id="p4e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p4_inspect" target="p4_todo" edge="1"/>
+                <mxCell id="p4e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p4_todo" target="p4_dec" edge="1"/>
+                <mxCell id="p4e4" value="ใช่ / Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p4_dec" target="p4_log" edge="1"/>
+                <mxCell id="p4e5" value="ไม่ — เครื่องสมบูรณ์&lt;br&gt;No — machine is sound" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" parent="1" source="p4_dec" target="p4_close" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="735" y="645"/>
+                            <mxPoint x="1995" y="645"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p4e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p4_log" target="p4_create" edge="1"/>
+                <mxCell id="p4e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p4_create" target="p4_assign" edge="1"/>
+                <mxCell id="p4e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p4_assign" target="p4_fix" edge="1"/>
+                <mxCell id="p4e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p4_fix" target="p4_recheck" edge="1"/>
+                <mxCell id="p4e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p4_recheck" target="p4_dectodo" edge="1"/>
+                <mxCell id="p4e11" value="ยังไม่ครบ / Not yet" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;strokeColor=#b85450;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" parent="1" source="p4_dectodo" target="p4_recheck" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1815" y="220"/>
+                            <mxPoint x="1635" y="220"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p4e12" value="ครบ / Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" parent="1" source="p4_dectodo" target="p4_close" edge="1"/>
+                <mxCell id="p4e13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p4_close" target="p4_end" edge="1"/>
+                <mxCell id="p4note" value="&lt;b&gt;หัวใจของหน้านี้ / The point of this page:&lt;/b&gt; QC ลงงานเข้า Pool SV ได้โดยตรง เครื่องเสียจึงไม่หลุดจากระบบ และใบตรวจรับปิดไม่ได้ถ้ายังมี To-do ที่บังคับค้างอยู่ — ตรงกับข้อกำหนด &amp;quot;ป้องกันการตกหล่น&amp;quot;&lt;br&gt;QC logs defects straight into the SV pool, and an inspection cannot be closed while mandatory to-do items remain open — this is the &amp;quot;prevent omissions&amp;quot; safeguard named in the source requirements (PRD §3.9)." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="710" width="1240" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="til-p5" name="5. Repeat-Repair KPI">
+        <mxGraphModel dx="3688" dy="1614" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="p5pool" value="TIL — Repeat-Repair Detection &amp;amp; KPI Adjudication / การตรวจสอบงานซ่อมซ้ำ (PRD §3.6)" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=30;horizontalStack=0;fontSize=14;fontStyle=1;fillColor=#ffffff;strokeColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="40" width="2090" height="530" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5l1" value="ผู้เปิดงาน / Admin or Tech" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" parent="p5pool" vertex="1">
+                    <mxGeometry y="30" width="2090" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_open" value="เปิด Ticket (เครื่อง + หมวดปัญหา)&lt;br&gt;Create ticket (machine + category)" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="p5l1" vertex="1">
+                    <mxGeometry x="80" y="30" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5l2" value="ระบบ / System" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;" parent="p5pool" vertex="1">
+                    <mxGeometry y="150" width="2090" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_search" value="ค้นงานเดิม เครื่อง+หมวดเดียวกัน ภายใน 72 ชม.&lt;br&gt;Search same machine + category ≤72h" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p5l2" vertex="1">
+                    <mxGeometry x="260" y="70" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_dec" value="พบงานซ้ำ?&lt;br&gt;Match found?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" parent="p5l2" vertex="1">
+                    <mxGeometry x="450" y="60" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_normal" value="บันทึกปกติ ไม่ตั้งเคส&lt;br&gt;Proceed normally" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p5l2" vertex="1">
+                    <mxGeometry x="620" y="20" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_endn" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p5l2" vertex="1">
+                    <mxGeometry x="800" y="20" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_case" value="สร้าง repeat_case (PENDING_REVIEW)&lt;br&gt;+ ติดธงทั้ง 2 Ticket" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="p5l2" vertex="1">
+                    <mxGeometry x="620" y="120" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_notify" value="แจ้งเตือนทันที — LINE + Push + In-app&lt;br&gt;Immediate alert to Manager, Lead, Admin" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="p5l2" vertex="1">
+                    <mxGeometry x="800" y="120" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_kpi" value="นับรวม KPI ประจำเดือน&lt;br&gt;Count toward monthly KPI" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f5f5f5;strokeColor=#666666;" parent="p5l2" vertex="1">
+                    <mxGeometry x="1520" y="70" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5l3" value="Service Manager / หัวหน้าช่าง" style="swimlane;html=1;startSize=50;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;" parent="p5pool" vertex="1">
+                    <mxGeometry y="350" width="2090" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_review" value="ตรวจสอบทั้ง 2 งาน&lt;br&gt;Review both tickets" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="p5l3" vertex="1">
+                    <mxGeometry x="980" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_dec2" value="เป็นเคสเดียวกัน?&lt;br&gt;Same case?" style="rhombus;whiteSpace=wrap;html=1;fontSize=9;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="p5l3" vertex="1">
+                    <mxGeometry x="1170" y="50" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_confirm" value="CONFIRMED_REPEAT&lt;br&gt;นับเข้า KPI" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="p5l3" vertex="1">
+                    <mxGeometry x="1340" y="20" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_notrepeat" value="NOT_REPEAT + ระบุเหตุผล (บังคับ)&lt;br&gt;NOT_REPEAT + mandatory reason" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="p5l3" vertex="1">
+                    <mxGeometry x="1340" y="100" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_end2" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="p5l3" vertex="1">
+                    <mxGeometry x="1520" y="100" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_dash" value="Dashboard KPI: ≤1 เครื่อง/เดือน&lt;br&gt;Monthly KPI vs target" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="p5l3" vertex="1">
+                    <mxGeometry x="1700" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5_end3" value="จบ / End" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="p5l3" vertex="1">
+                    <mxGeometry x="1880" y="60" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p5_open" target="p5_search" edge="1"/>
+                <mxCell id="p5e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p5_search" target="p5_dec" edge="1"/>
+                <mxCell id="p5e3" value="ไม่พบ / No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=0;entryX=0;entryY=0.5;" parent="1" source="p5_dec" target="p5_normal" edge="1"/>
+                <mxCell id="p5e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p5_normal" target="p5_endn" edge="1"/>
+                <mxCell id="p5e5" value="พบ / Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" parent="1" source="p5_dec" target="p5_case" edge="1"/>
+                <mxCell id="p5e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p5_case" target="p5_notify" edge="1"/>
+                <mxCell id="p5e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p5_notify" target="p5_review" edge="1"/>
+                <mxCell id="p5e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p5_review" target="p5_dec2" edge="1"/>
+                <mxCell id="p5e9" value="ใช่ / Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=0.5;exitY=0;entryX=0;entryY=0.5;" parent="1" source="p5_dec2" target="p5_confirm" edge="1"/>
+                <mxCell id="p5e10" value="ไม่ใช่ / No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" parent="1" source="p5_dec2" target="p5_notrepeat" edge="1"/>
+                <mxCell id="p5e11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p5_confirm" target="p5_kpi" edge="1"/>
+                <mxCell id="p5e12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p5_notrepeat" target="p5_end2" edge="1"/>
+                <mxCell id="p5e13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p5_kpi" target="p5_dash" edge="1"/>
+                <mxCell id="p5e14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="p5_dash" target="p5_end3" edge="1"/>
+                <mxCell id="p5note" value="&lt;b&gt;หัวใจของหน้านี้ / The point of this page:&lt;/b&gt; การตรวจหางานซ่อมซ้ำทำงานอยู่ใน transaction เดียวกับการสร้าง Ticket ผู้เปิดงานจึงเห็นธงทันที ส่วนการแจ้งเตือนส่งแบบ asynchronous — และมีเพียงเคสที่ผู้จัดการยืนยันว่า CONFIRMED_REPEAT เท่านั้นที่ถูกนับเข้า KPI&lt;br&gt;Detection runs inside the ticket-creation transaction (flag is immediate); notification dispatch is queued. Only manager-confirmed cases count toward the KPI. This replaces the current month-end export-and-hand-check process the source describes as lossy (PRD §3.6, §11)." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="610" width="1240" height="90" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
 </mxfile>
