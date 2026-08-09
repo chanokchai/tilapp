@@ -256,21 +256,21 @@ stateDiagram-v2
 
 | Status | ภาษาไทย | สถานะสิ้นสุด? | ใครเข้าสถานะนี้ได้ |
 |---|---|---|---|
-| `NEW` | เปิดงาน | ไม่ | บทบาทที่เป็นผู้สร้างงานใดๆ |
-| `ASSIGNED` | มอบหมายแล้ว | ไม่ | `SV_ADMIN`, `SV_LEAD`, `SERVICE_MANAGER` |
-| `INSPECTING` | ตรวจเช็ก | ไม่ | ผู้รับมอบหมาย (Assignee) |
-| `QUOTING` | เสนอราคา | ไม่ | `SV_ADMIN`, `SV_LEAD` |
-| `AWAITING_PO` | รอลูกค้าอนุมัติ (PO) | ไม่ | `SV_ADMIN` |
-| `PARTS_PREP` | จัดเตรียมอะไหล่ (SO) | ไม่ | `SV_ADMIN` |
-| `PARTS_READY` | อะไหล่ครบ | ไม่ | **`ST_STAFF` เท่านั้น** |
-| `AWAITING_SCHEDULE` | รอนัดลูกค้า | ไม่ | `SV_ADMIN`, ผู้รับมอบหมาย |
-| `SCHEDULED` | นัดหมายแล้ว | ไม่ | `SV_ADMIN`, ผู้รับมอบหมาย |
-| `IN_REPAIR` | เข้าซ่อม | ไม่ | ผู้รับมอบหมาย |
-| `SUBMITTED` | ส่งงานแล้ว | ไม่ | ผู้รับมอบหมาย |
-| `CLOSED` | จบงาน | ใช่ | `SV_ADMIN`, `SV_LEAD`, `SERVICE_MANAGER` |
-| `ON_HOLD` | พักงาน | ไม่ | ผู้รับมอบหมาย + บทบาทข้างต้น; ต้องระบุเหตุผลบังคับ |
-| `CANCELLED` | ยกเลิก | ใช่ | `SV_ADMIN` ขึ้นไป; ต้องระบุเหตุผลบังคับ |
-| `REOPENED` | เปิดใหม่ | ไม่ | `SERVICE_MANAGER` เท่านั้น |
+| `NEW` | เปิดงาน | No | บทบาทที่เป็นผู้สร้างงานใดๆ |
+| `ASSIGNED` | มอบหมายแล้ว | No | `SV_ADMIN`, `SV_LEAD`, `SERVICE_MANAGER` |
+| `INSPECTING` | ตรวจเช็ก | No | ผู้รับมอบหมาย (Assignee) |
+| `QUOTING` | เสนอราคา | No | `SV_ADMIN`, `SV_LEAD` |
+| `AWAITING_PO` | รอลูกค้าอนุมัติ (PO) | No | `SV_ADMIN` |
+| `PARTS_PREP` | จัดเตรียมอะไหล่ (SO) | No | `SV_ADMIN` |
+| `PARTS_READY` | อะไหล่ครบ | No | **`ST_STAFF` เท่านั้น** |
+| `AWAITING_SCHEDULE` | รอนัดลูกค้า | No | `SV_ADMIN`, ผู้รับมอบหมาย |
+| `SCHEDULED` | นัดหมายแล้ว | No | `SV_ADMIN`, ผู้รับมอบหมาย |
+| `IN_REPAIR` | เข้าซ่อม | No | ผู้รับมอบหมาย |
+| `SUBMITTED` | ส่งงานแล้ว | No | ผู้รับมอบหมาย |
+| `CLOSED` | จบงาน | Yes | `SV_ADMIN`, `SV_LEAD`, `SERVICE_MANAGER` |
+| `ON_HOLD` | พักงาน | No | ผู้รับมอบหมาย + บทบาทข้างต้น; ต้องระบุเหตุผลบังคับ |
+| `CANCELLED` | ยกเลิก | Yes | `SV_ADMIN` ขึ้นไป; ต้องระบุเหตุผลบังคับ |
+| `REOPENED` | เปิดใหม่ | No | `SERVICE_MANAGER` เท่านั้น |
 
 **ข้อกำหนดเรื่อง timestamp (บังคับ, จากต้นฉบับ):** *"ทุก Progress จะต้องมีวันที่ระบุ เพื่อให้ติดตามระยะเวลาในการทำงานได้ เพราะต้องการตั้ง KPI Mean Time to Respond (MTTR) ในอนาคต."*
 ทุกการเปลี่ยนสถานะ (transition) จะเขียนแถวข้อมูลที่ไม่เปลี่ยนแปลง (immutable) ลงใน `ticket_status_history` ประกอบด้วย `from_status`, `to_status`, `changed_by`, `changed_at`, `note` ค่า MTTR และระยะเวลาที่ค้างในแต่ละขั้น (per-stage dwell time) จะคำนวณจากตารางนี้เท่านั้น — ไม่ใช้ `updated_at` ของ ticket เอง
