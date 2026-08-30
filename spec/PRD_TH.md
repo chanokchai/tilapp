@@ -91,6 +91,53 @@ PRD ฉบับนี้ระบุ **backend**: REST API พร้อม back
 
 ---
 
+## 1.5 ผังโครงสร้างองค์กร (Organization Chart)
+
+แผนภาพด้านล่างจัดกลุ่มบทบาท (§2.1) ตามแผนก เอกสารความต้องการไม่ได้ระบุสายบังคับบัญชาข้ามแผนกไว้อย่างชัดเจนสำหรับ `INSTALL_TECH` หรือ `QC_STAFF` จึงแสดงสองแผนกนี้แยกเดี่ยวขึ้นตรงต่อ Executive
+
+```mermaid
+flowchart TD
+    EXEC["ผู้บริหาร<br/>EXECUTIVE — Mgmt<br/><i>อ่านอย่างเดียวในทุกแดชบอร์ด/รายงาน</i>"]
+
+    subgraph SV["แผนก SV"]
+        SM["Service Manager<br/>SERVICE_MANAGER<br/><i>เจ้าของแผนก SV, KPI, ตัดสินชี้ขาดงานซ่อมซ้ำ</i>"]
+        LEAD["หัวหน้าช่าง<br/>SV_LEAD<br/><i>มอบหมายงาน กำหนด priority/deadline</i>"]
+        SVADMIN["Service Admin<br/>SV_ADMIN<br/><i>เปิด ticket, ตรวจสอบงานที่ส่ง, quotes/PO/SO</i>"]
+        TECH["ช่างเทคนิค (ช่าง)<br/>SV_TECH<br/><i>ปฏิบัติงานซ่อมและงาน PM</i>"]
+
+        SM --> LEAD
+        SM --> SVADMIN
+        LEAD --> TECH
+    end
+
+    subgraph INSTALL["แผนกติดตั้ง"]
+        ITECH["ช่างติดตั้ง (ทีมติดตั้ง)<br/>INSTALL_TECH<br/><i>งานติดตั้ง, การเบิกอุปกรณ์ตาม hook-up</i>"]
+    end
+
+    subgraph QC["แผนก QC"]
+        QCSTAFF["เจ้าหน้าที่ QC<br/>QC_STAFF<br/><i>ตรวจรับเครื่องเข้าใหม่, บันทึกข้อบกพร่อง</i>"]
+    end
+
+    subgraph ST["แผนก ST (คลัง)"]
+        STMGR["Store Manager<br/>ST_MANAGER<br/><i>ตั้งค่า min/max, อนุมัติการปรับปรุงสต็อก</i>"]
+        STSTAFF["Store Officer<br/>ST_STAFF<br/><i>รับอะไหล่, เบิก/รับสต็อก, SO fulfilment</i>"]
+
+        STMGR --> STSTAFF
+    end
+
+    subgraph IT["IT"]
+        SYSADMIN["System Administrator<br/>SYS_ADMIN<br/><i>จัดการ user/role, master data, ตั้งค่าระบบ</i>"]
+    end
+
+    EXEC --> SM
+    EXEC --> ITECH
+    EXEC --> QCSTAFF
+    EXEC --> STMGR
+    EXEC --> SYSADMIN
+```
+
+---
+
 ## 2. บทบาทผู้ใช้และสิทธิ์การเข้าถึง (User Roles & Permissions)
 
 บทบาท (Roles) ถูกกำหนดไว้เป็นลำดับแรก เพราะความสามารถของทุกโมดูลถูกจำกัดขอบเขตด้วยบทบาทเหล่านี้
