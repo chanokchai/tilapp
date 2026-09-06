@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ข้อเสนอโครงการ TIL Back-Office System สำหรับยืนยันความต้องการ ขอบเขต และแนวทางการออกแบบ">
+  <title>ข้อเสนอโครงการ TIL Back-Office System</title>
+  <style>
+    :root {
+      --ink: #17324d;
+      --muted: #64748b;
+      --line: #dbe5ec;
+      --paper: #ffffff;
+      --soft: #f5f8fa;
+      --brand: #0b6b75;
+      --brand-dark: #074b52;
+      --accent: #d9f1ef;
+      --gold: #c68b27;
+      --danger: #a33a3a;
+      --shadow: 0 18px 45px rgba(23, 50, 77, .09);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--soft);
+      font-family: "Noto Sans Thai", "Leelawadee UI", Tahoma, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+    }
+    a { color: inherit; }
+    button { font: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 66px;
+      padding: 10px clamp(18px, 4vw, 56px);
+      color: white;
+      background: rgba(7, 75, 82, .97);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, .12);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      color: var(--brand-dark);
+      background: white;
+      border-radius: 11px;
+      letter-spacing: -.04em;
+    }
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .menu-button, .print-button {
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: white;
+      background: transparent;
+      cursor: pointer;
+    }
+    .menu-button { display: inline-block; }
+
+    .layout {
+      display: block;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .sidebar {
+      position: fixed;
+      top: 66px;
+      left: 0;
+      z-index: 19;
+      width: 280px;
+      height: calc(100vh - 66px);
+      padding: 30px 18px 30px 28px;
+      overflow: auto;
+      border-right: 1px solid var(--line);
+      background: #f9fbfc;
+      box-shadow: 12px 0 28px rgba(23,50,77,.13);
+      transform: translateX(-105%);
+      transition: transform .22s ease;
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-title {
+      margin: 0 10px 12px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .nav-link {
+      display: block;
+      margin: 3px 0;
+      padding: 9px 11px;
+      border-left: 3px solid transparent;
+      border-radius: 0 9px 9px 0;
+      color: #526577;
+      text-decoration: none;
+      font-size: 14px;
+      transition: .18s ease;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--brand-dark);
+      background: var(--accent);
+      border-left-color: var(--brand);
+    }
+    .nav-link:last-child { margin-top: 14px; font-weight: 800; }
+
+    main {
+      width: min(1540px, 100%);
+      min-width: 0;
+      margin: 0 auto;
+      padding: 0 clamp(22px, 4vw, 64px) 90px;
+    }
+    section { scroll-margin-top: 86px; }
+    .hero {
+      position: relative;
+      margin: 34px 0 26px;
+      padding: clamp(34px, 6vw, 74px);
+      overflow: hidden;
+      color: white;
+      background: linear-gradient(135deg, #074b52 0%, #0b6b75 60%, #157f86 100%);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 310px;
+      height: 310px;
+      right: -105px;
+      top: -125px;
+      border: 44px solid rgba(255,255,255,.08);
+      border-radius: 50%;
+    }
+    .eyebrow {
+      margin: 0 0 14px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1.12;
+      letter-spacing: -.03em;
+    }
+    .hero .lead { max-width: 760px; margin: 20px 0 30px; color: #e5f5f3; font-size: 19px; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; }
+    .hero-meta span {
+      padding: 7px 12px;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      font-size: 13px;
+    }
+
+    .section-card {
+      margin: 26px 0;
+      padding: clamp(26px, 4vw, 46px);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 9px 28px rgba(23, 50, 77, .05);
+    }
+    .section-no { color: var(--brand); font-size: 13px; font-weight: 900; letter-spacing: .08em; }
+    h2 { margin: 3px 0 12px; font-size: clamp(25px, 3vw, 36px); line-height: 1.3; }
+    h3 { margin: 28px 0 10px; font-size: 20px; line-height: 1.45; }
+    p { margin: 8px 0 14px; }
+    .intro { max-width: 900px; color: #40566a; font-size: 17px; }
+    .small { color: var(--muted); font-size: 13px; }
+    .muted { color: var(--muted); }
+
+    .quote {
+      margin: 24px 0;
+      padding: 22px 25px;
+      color: var(--brand-dark);
+      background: var(--accent);
+      border-left: 5px solid var(--brand);
+      border-radius: 0 14px 14px 0;
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 800;
+    }
+    .grid-2, .grid-3, .grid-4 { display: grid; gap: 16px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .tile {
+      min-width: 0;
+      padding: 20px;
+      background: #f9fbfc;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+    .tile .kicker { color: var(--brand); font-size: 12px; font-weight: 900; letter-spacing: .05em; }
+    .tile h3 { margin: 4px 0 7px; font-size: 18px; }
+    .tile p { margin: 0; color: #526577; font-size: 14px; }
+    .number {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 12px;
+      color: white;
+      background: var(--brand);
+      border-radius: 10px;
+      font-weight: 900;
+    }
+
+    .confirm-box {
+      margin-top: 24px;
+      padding: 18px 20px;
+      background: #fffaf0;
+      border: 1px solid #ead29f;
+      border-radius: 14px;
+    }
+    .confirm-box strong { color: #7d5717; }
+    .checklist { display: grid; gap: 9px; margin: 12px 0 0; padding: 0; list-style: none; }
+    .checklist li { position: relative; padding-left: 29px; }
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: -2px;
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .diagram {
+      margin: 22px 0;
+      padding: 24px;
+      overflow-x: auto;
+      background: #f8fbfc;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+    .diagram-title { margin: 0 0 18px; font-weight: 800; }
+    .flow-row { display: flex; align-items: stretch; min-width: 820px; }
+    .flow-step {
+      position: relative;
+      display: flex;
+      flex: 1 0 130px;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 98px;
+      margin-right: 28px;
+      padding: 15px;
+      text-align: center;
+      background: white;
+      border: 1px solid #bed3da;
+      border-radius: 13px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: -23px;
+      top: 50%;
+      color: var(--brand);
+      font-size: 22px;
+      transform: translateY(-50%);
+    }
+    .flow-step:last-child { margin-right: 0; }
+    .flow-step:last-child::after { display: none; }
+    .flow-step small { display: block; margin-top: 4px; color: var(--muted); font-weight: 500; }
+
+    .surface-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
+    .surface {
+      padding: 22px 18px;
+      text-align: center;
+      background: white;
+      border: 1px solid #bed3da;
+      border-radius: 14px;
+    }
+    .surface strong { display: block; margin: 7px 0 5px; }
+    .surface .icon { font-size: 29px; }
+    .core-platform {
+      margin: 16px auto 0;
+      width: min(640px, 100%);
+      padding: 16px;
+      text-align: center;
+      color: white;
+      background: var(--brand);
+      border-radius: 14px;
+      font-weight: 800;
+    }
+    .connector { height: 24px; width: 2px; margin: 0 auto; background: var(--brand); }
+
+    table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14px; }
+    th, td { padding: 12px 13px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { color: var(--brand-dark); background: #edf6f5; font-weight: 800; }
+    tbody tr:hover td { background: #fbfdfd; }
+    .yes { color: var(--brand); font-weight: 800; }
+    .no { color: var(--danger); font-weight: 800; }
+
+    .org-exec { width: min(320px, 100%); margin: 0 auto; }
+    .org-node {
+      padding: 13px 12px;
+      text-align: center;
+      background: white;
+      border: 1px solid #b9ced5;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(23,50,77,.05);
+    }
+    .org-node strong { display: block; }
+    .org-node small { color: var(--muted); }
+    .org-line { height: 26px; width: 2px; margin: 0 auto; background: #9bb9c0; }
+    .org-depts { display: grid; grid-template-columns: 2fr repeat(4, 1fr); gap: 12px; min-width: 860px; }
+    .org-dept { padding: 11px; background: #edf6f5; border-radius: 13px; }
+    .org-dept > strong { display: block; margin-bottom: 8px; color: var(--brand-dark); text-align: center; }
+    .org-dept .org-node + .org-node { margin-top: 7px; }
+
+    .module-groups { display: grid; grid-template-columns: repeat(5, minmax(190px, 1fr)); gap: 12px; min-width: 1020px; }
+    .module-group { padding: 15px; background: white; border-top: 5px solid var(--brand); border-radius: 12px; box-shadow: 0 4px 14px rgba(23,50,77,.07); }
+    .module-group:nth-child(2) { border-color: #2d8f66; }
+    .module-group:nth-child(3) { border-color: #c68b27; }
+    .module-group:nth-child(4) { border-color: #7652a3; }
+    .module-group:nth-child(5) { border-color: #b85d73; }
+    .module-group h3 { margin: 0 0 10px; font-size: 16px; }
+    .module { margin: 7px 0; padding: 9px; background: #f5f8fa; border-radius: 8px; font-size: 12px; line-height: 1.45; }
+    .module b { color: var(--brand-dark); }
+
+    .decision-list { counter-reset: decision; display: grid; gap: 12px; }
+    .decision {
+      counter-increment: decision;
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 14px;
+      padding: 17px;
+      background: #f9fbfc;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+    }
+    .decision::before {
+      content: counter(decision);
+      display: grid;
+      place-items: center;
+      align-self: start;
+      width: 38px;
+      height: 38px;
+      color: white;
+      background: var(--gold);
+      border-radius: 10px;
+      font-weight: 900;
+    }
+    .decision strong { display: block; }
+    .decision p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+
+    .roadmap { position: relative; margin: 28px 0 8px; }
+    .roadmap::before { content: ""; position: absolute; left: 24px; top: 18px; bottom: 30px; width: 3px; background: #bdd8d7; }
+    .phase { position: relative; display: grid; grid-template-columns: 50px minmax(0, 1fr); gap: 15px; margin-bottom: 18px; }
+    .phase-dot {
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      color: white;
+      background: var(--brand);
+      border: 5px solid #e6f2f1;
+      border-radius: 50%;
+      font-weight: 900;
+    }
+    .phase-card { padding: 18px 20px; background: white; border: 1px solid var(--line); border-radius: 14px; }
+    .phase-card h3 { margin: 0 0 3px; font-size: 18px; }
+    .phase-card p { margin: 6px 0 0; color: #526577; }
+    .phase-time { display: inline-block; margin-bottom: 7px; color: var(--brand); font-size: 13px; font-weight: 900; }
+    .phase-result { margin-top: 10px !important; padding-top: 10px; border-top: 1px dashed #cad8de; color: var(--ink) !important; font-weight: 700; }
+
+    .approval {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+      padding: 20px;
+      background: #f8fbfc;
+      border: 1px dashed #9bb9c0;
+      border-radius: 14px;
+    }
+    .signature { min-height: 75px; border-bottom: 1px solid #8ba5af; }
+    .signature-label { margin-top: 6px; color: var(--muted); font-size: 12px; }
+
+    footer { padding: 20px 0 10px; color: var(--muted); text-align: center; font-size: 12px; }
+
+    @media (max-width: 1060px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 780px) {
+      .topbar { min-height: 60px; }
+      .brand span:last-child { display: none; }
+      .sidebar {
+        top: 60px;
+        width: min(82vw, 310px);
+        height: calc(100vh - 60px);
+      }
+      main { padding: 0 16px 60px; }
+      .hero { margin-top: 18px; border-radius: 20px; }
+      .grid-2, .grid-3, .grid-4, .surface-flow, .approval { grid-template-columns: 1fr; }
+      .print-button { display: none; }
+      th, td { min-width: 150px; }
+      .table-wrap { overflow-x: auto; }
+    }
+    @media print {
+      @page { size: A4; margin: 14mm; }
+      body { color: #111; background: white; font-size: 11pt; }
+      .topbar, .sidebar { display: none !important; }
+      .layout { display: block; width: auto; }
+      main { padding: 0; }
+      .hero { margin-top: 0; box-shadow: none; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .section-card { break-inside: avoid; margin: 12px 0; padding: 22px; box-shadow: none; }
+      .diagram, .tile, .confirm-box, .phase-card { break-inside: avoid; }
+      .nav-link { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">TIL</span><span>Project Proposal · Back-Office System</span></div>
+    <div class="top-actions">
+      <button class="menu-button" type="button" aria-label="เปิดหรือปิดเมนู" aria-expanded="false">☰ เมนู</button>
+      <button class="print-button" type="button" onclick="window.print()">พิมพ์ / Save PDF</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="เมนูเอกสาร">
+      <p class="sidebar-title">สารบัญ</p>
+      <nav>
+        <a class="nav-link active" href="#cover">หน้าแรก</a>
+        <a class="nav-link" href="#summary">1. บทสรุปผู้บริหาร</a>
+        <a class="nav-link" href="#objectives">2. เป้าหมายและผลลัพธ์</a>
+        <a class="nav-link" href="#scope">3. ขอบเขตโครงการ</a>
+        <a class="nav-link" href="#users">4. ผู้ใช้งานและโครงสร้าง</a>
+        <a class="nav-link" href="#design">5. แนวทางการออกแบบ</a>
+        <a class="nav-link" href="#workflow">6. กระบวนการทำงาน</a>
+        <a class="nav-link" href="#modules">7. โมดูลระบบ</a>
+        <a class="nav-link" href="#success">8. เกณฑ์ความสำเร็จ</a>
+        <a class="nav-link" href="#decisions">9. ประเด็นรอยืนยัน</a>
+        <a class="nav-link" href="#roadmap">10. Roadmap และเวลา</a>
+      </nav>
+    </aside>
+
+    <main>
+      <section class="hero" id="cover">
+        <p class="eyebrow">เอกสารเพื่อยืนยัน Requirement และ Design Direction</p>
+        <h1>ข้อเสนอโครงการ<br>TIL Back-Office System</h1>
+        <p class="lead">ระบบกลางสำหรับบริหารงาน Service, Installation, QC และ Spare Parts ตั้งแต่รับแจ้งงานจนถึงปิดงาน พร้อมติดตามสถานะได้ใกล้เคียง Real time</p>
+        <div class="hero-meta">
+          <span>เสนอต่อ: ผู้บริหารและผู้เกี่ยวข้องของลูกค้า</span>
+          <span>วันที่จัดทำ: 6 กันยายน 2026</span>
+          <span>ระยะเวลาเสนอ: 28 สัปดาห์</span>
+          <span>สถานะ: For Requirement &amp; Design Confirmation</span>
+          <span>อ้างอิง: PRD v1.0 + BUILD_PLAN v1.0</span>
+        </div>
+      </section>
+
+      <section class="section-card" id="summary">
+        <span class="section-no">SECTION 01</span>
+        <h2>บทสรุปผู้บริหาร</h2>
+        <p class="intro">TIL ต้องการเปลี่ยนการประสานงานที่กระจายอยู่ในโทรศัพท์, LINE และใบงานกระดาษ ให้เป็นระบบกลางที่ทุกฝ่ายเห็นข้อมูลชุดเดียวกัน ลดงานตกหล่น ลดการกรอกข้อมูลซ้ำ และทำให้ผู้บริหารติดตามผลได้ทันเวลา</p>
+        <div class="quote">“เข้าไว ซ่อมจบ ไม่ทำงานซ้ำ ติดตามงานได้แบบ Real time”</div>
+        <div class="grid-4">
+          <div class="tile"><span class="number">1</span><h3>งานไม่ตกหล่น</h3><p>ทุกงานเข้าสู่ Ticket Pool กลาง มีผู้รับผิดชอบ Priority และ Deadline ชัดเจน</p></div>
+          <div class="tile"><span class="number">2</span><h3>เห็นสถานะทันที</h3><p>ทีมและผู้บริหารดูความคืบหน้า งานค้าง และจุดติดขัดได้จาก Dashboard</p></div>
+          <div class="tile"><span class="number">3</span><h3>ลดงานซ่อมซ้ำ</h3><p>ระบบแจ้งเตือนเมื่อเครื่องเดิมเกิดปัญหาในหมวดเดิมภายในช่วงเวลาที่กำหนด</p></div>
+          <div class="tile"><span class="number">4</span><h3>ลดการพิมพ์ซ้ำ</h3><p>ช่างบันทึกงานและรูปจากหน้างาน ส่วน AI ช่วยอ่านใบงานโดยมี Admin ตรวจสอบ</p></div>
+        </div>
+        <div class="confirm-box"><strong>สิ่งที่ขอให้ยืนยัน:</strong> วิสัยทัศน์และลำดับความสำคัญทั้ง 4 ข้อนี้ตรงกับเป้าหมายขององค์กร</div>
+      </section>
+
+      <section class="section-card" id="objectives">
+        <span class="section-no">SECTION 02</span>
+        <h2>เป้าหมายและผลลัพธ์ที่คาดหวัง</h2>
+        <div class="grid-2">
+          <div class="tile"><div class="kicker">OPERATION</div><h3>ทำงานเป็นระบบเดียวกัน</h3><p>SV, ST, QC และ Installation ใช้ข้อมูลลูกค้า เครื่องจักร งาน และอะไหล่ร่วมกัน ลดการถามซ้ำและการส่งต่อด้วยความจำ</p></div>
+          <div class="tile"><div class="kicker">FIELD SERVICE</div><h3>ช่างทำงานได้แม้สัญญาณไม่ดี</h3><p>Mobile PWA รองรับ Offline-first ข้อมูลจะรอ Sync เมื่อกลับมาออนไลน์ และแสดงสถานะให้ช่างเห็นชัดเจน</p></div>
+          <div class="tile"><div class="kicker">CONTROL</div><h3>ตรวจสอบย้อนหลังได้</h3><p>ทุกการสร้าง แก้ไข เปลี่ยนสถานะ และเคลื่อนไหว Stock ระบุผู้ทำ วันที่ และเวลา ผ่าน Audit Trail</p></div>
+          <div class="tile"><div class="kicker">MANAGEMENT</div><h3>ตัดสินใจจากข้อมูลจริง</h3><p>Dashboard แสดงงานค้าง เวลาตอบสนอง เวลาซ่อม งานซ่อมซ้ำ ผลงานทีม และสุขภาพ Stock</p></div>
+        </div>
+        <h3>ผลลัพธ์ทางธุรกิจเมื่อส่งมอบครบ</h3>
+        <ul>
+          <li>ลดความเสี่ยงที่งานลูกค้าหรืองานภายในแผนกจะถูกลืม</li>
+          <li>ลดเวลาประสานงานระหว่าง SV และ ST เมื่ออะไหล่ตาม SO เข้าครบ</li>
+          <li>มีประวัติเครื่องจักรและงานซ่อมที่ค้นหาและ Export ได้เป็นมาตรฐาน</li>
+          <li>ติดตาม KPI ได้โปร่งใสจากเวลาและสถานะที่ระบบบันทึกจริง</li>
+          <li>ลดภาระ Admin จากผู้พิมพ์ข้อมูลเป็นผู้ตรวจสอบความถูกต้อง</li>
+        </ul>
+      </section>
+
+      <section class="section-card" id="scope">
+        <span class="section-no">SECTION 03</span>
+        <h2>ขอบเขตโครงการ</h2>
+        <p class="intro">Version 1 ครอบคลุมกระบวนการหลังบ้านที่เกี่ยวข้องกับ Service, งานหน้างาน, QC, Installation และ Spare Parts โดยเก็บข้อมูลการเงินในระดับเลขที่อ้างอิงเท่านั้น</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>อยู่ในขอบเขต Version 1</th><th>ยังไม่อยู่ในขอบเขต Version 1</th></tr></thead>
+            <tbody>
+              <tr><td class="yes">Ticket lifecycle สำหรับงานซ่อม, PM, QC และ Installation</td><td class="no">Customer Portal สำหรับลูกค้าเปิดหรือติดตามงานเอง</td></tr>
+              <tr><td class="yes">ข้อมูลลูกค้า, Site, ผู้ติดต่อ, เครื่องจักร และ QR Code</td><td class="no">ระบบคำนวณราคา, ออก Invoice หรือระบบบัญชีเต็มรูปแบบ</td></tr>
+              <tr><td class="yes">บันทึกงาน รูปหลักฐาน ประวัติเครื่อง และ Export</td><td class="no">Payroll, HR และ Leave Management</td></tr>
+              <tr><td class="yes">ตรวจจับงานซ่อมซ้ำ, Dashboard, KPI, Calendar และ Skill Matrix</td><td class="no">Route Optimisation และการจัดตารางเดินทางอัตโนมัติ</td></tr>
+              <tr><td class="yes">Spare Parts, Stock, Min/Max, การเบิก และการแจ้งเตือน SO</td><td class="no">Native Mobile App; แผนปัจจุบันใช้ PWA</td></tr>
+              <tr><td class="yes">PM Checklist, QC Inbound, Hook-up Requisition และ AI Photo-to-Text</td><td class="no">การเชื่อม ERP จนกว่าจะทราบระบบต้นทางและรูปแบบข้อมูล</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="confirm-box">
+          <strong>หลักการควบคุมขอบเขต</strong>
+          <ul class="checklist">
+            <li>รายการใหม่หลังอนุมัติขอบเขต จะประเมินผลกระทบต่อเวลาและงบประมาณก่อนดำเนินการ</li>
+            <li>Quotation, PO และ SO ในระบบนี้เป็น Reference Record จนกว่าจะยืนยันการเชื่อม ERP</li>
+            <li>เนื้อหา PM Template รายรุ่นเป็นข้อมูลที่ลูกค้าต้องจัดเตรียม ส่วนเครื่องมือสร้าง Template อยู่ในขอบเขต</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section-card" id="users">
+        <span class="section-no">SECTION 04</span>
+        <h2>ผู้ใช้งานและโครงสร้างการทำงาน</h2>
+        <p class="intro">ระบบกำหนดสิทธิ์ตาม Role และ Department ผู้ใช้หนึ่งคนสามารถมีมากกว่าหนึ่ง Role ได้ โดยผู้บริหารเป็น Read-only เพื่อป้องกันการเปลี่ยนแปลงข้อมูลโดยไม่ตั้งใจ</p>
+        <div class="diagram" role="img" aria-label="แผนภาพโครงสร้างหน่วยงานและบทบาทผู้ใช้งาน">
+          <p class="diagram-title">Organization &amp; Role Overview</p>
+          <div class="org-exec"><div class="org-node"><strong>Executive</strong><small>ดู Dashboard และ Report แบบ Read-only</small></div></div>
+          <div class="org-line"></div>
+          <div class="org-depts">
+            <div class="org-dept"><strong>SV Department</strong><div class="org-node"><strong>Service Manager</strong><small>ดูภาพรวม, KPI, พิจารณางานซ่อมซ้ำ</small></div><div class="org-node"><strong>Head Technician</strong><small>มอบหมายงานและติดตามทีมช่าง</small></div><div class="org-node"><strong>Service Admin</strong><small>เปิดงาน ตรวจรับงาน และติดตามเอกสาร</small></div><div class="org-node"><strong>Service Technician</strong><small>ตรวจเช็ก ซ่อม และบันทึกงาน</small></div></div>
+            <div class="org-dept"><strong>Installation</strong><div class="org-node"><strong>Installation Technician</strong><small>ติดตั้งและเบิกของตาม Hook-up</small></div></div>
+            <div class="org-dept"><strong>QC</strong><div class="org-node"><strong>QC Officer</strong><small>ตรวจรับเครื่องและเปิดงานแก้ไข</small></div></div>
+            <div class="org-dept"><strong>ST / Store</strong><div class="org-node"><strong>Store Manager</strong><small>ควบคุม Stock และ Min/Max</small></div><div class="org-node"><strong>Store Officer</strong><small>รับเข้า เบิกจ่าย และยืนยัน SO</small></div></div>
+            <div class="org-dept"><strong>IT</strong><div class="org-node"><strong>System Administrator</strong><small>ผู้ใช้ สิทธิ์ และตั้งค่าระบบ</small></div></div>
+          </div>
+        </div>
+        <h3>หน้าจอผู้ใช้ 3 รูปแบบ</h3>
+        <div class="diagram" role="img" aria-label="แผนภาพหน้าจอผู้ใช้สามรูปแบบเชื่อมสู่ระบบกลาง">
+          <div class="surface-flow">
+            <div class="surface"><span class="icon">▣</span><strong>Technician Mobile PWA</strong><span class="small">Thai-first · QR-first · Offline-first<br>สำหรับช่าง, Installation และ QC</span></div>
+            <div class="surface"><span class="icon">▤</span><strong>Back-Office Web Console</strong><span class="small">Desktop · Online<br>สำหรับ Admin, Lead, Manager, ST, QC และ IT</span></div>
+            <div class="surface"><span class="icon">◫</span><strong>Executive Dashboard</strong><span class="small">Read-only · ข้อมูลใกล้เคียง Real time<br>สำหรับผู้บริหารและผู้จัดการ</span></div>
+          </div>
+          <div class="connector"></div>
+          <div class="core-platform">TIL Back-Office Platform · ข้อมูลและสถานะกลางชุดเดียวกัน</div>
+        </div>
+        <div class="confirm-box"><strong>สิ่งที่ขอให้ยืนยัน:</strong> รายชื่อ Role, หน้าที่หลัก, สิทธิ์ Read-only ของ Executive และกรณีพนักงานหนึ่งคนทำงานหลาย Role</div>
+      </section>
+
+      <section class="section-card" id="design">
+        <span class="section-no">SECTION 05</span>
+        <h2>แนวทางการออกแบบที่เสนอ</h2>
+        <div class="grid-3">
+          <div class="tile"><div class="kicker">01 · MOBILE</div><h3>QR-first</h3><p>หน้าแรกของช่างคือ QR Scanner เมื่อสแกนเครื่อง จะเห็นข้อมูลเครื่อง งานที่เปิดอยู่ PM ที่ใกล้ถึง และหมายเหตุลูกค้า</p></div>
+          <div class="tile"><div class="kicker">02 · FIELD</div><h3>Offline-first</h3><p>ช่างกรอกข้อมูลและถ่ายรูปได้เมื่อไม่มีสัญญาณ ระบบแสดงรายการรอ Sync อย่างชัดเจน และส่งเมื่อออนไลน์</p></div>
+          <div class="tile"><div class="kicker">03 · LANGUAGE</div><h3>Thai-first</h3><p>ภาษาไทยเป็นหลัก เก็บ English Technical Term และ Proper Noun เมื่อจำเป็นเพื่อรักษาความหมาย</p></div>
+          <div class="tile"><div class="kicker">04 · EVIDENCE</div><h3>Evidence required</h3><p>งาน Service ต้องมีรูปใบงาน รูปอะไหล่เสีย และรูปอะไหล่ใหม่เมื่อมีการเปลี่ยน จึงจะส่งงานได้</p></div>
+          <div class="tile"><div class="kicker">05 · CONTROL</div><h3>Role-based &amp; Auditable</h3><p>แต่ละ Role เห็นและแก้ไขเฉพาะข้อมูลที่รับผิดชอบ ทุกการเปลี่ยนแปลงมี Audit Trail</p></div>
+          <div class="tile"><div class="kicker">06 · AI</div><h3>Human verification</h3><p>AI ช่วยอ่านใบงาน แต่ไม่บันทึกข้อมูลเข้า Ticket อัตโนมัติ Admin ต้องตรวจและยืนยันก่อนเสมอ</p></div>
+        </div>
+        <h3>ข้อมูลสำคัญที่จะแสดงให้เหมาะกับผู้ใช้</h3>
+        <div class="table-wrap"><table><thead><tr><th>ผู้ใช้</th><th>ข้อมูลที่ต้องเห็นเด่น</th><th>แนวทาง</th></tr></thead><tbody>
+          <tr><td>ช่างหน้างาน</td><td>งานของฉัน, Priority, Deadline, ข้อมูลเครื่อง, รูปและ Stock</td><td>ปุ่มใหญ่ ขั้นตอนสั้น ใช้งานผ่านมือถือ</td></tr>
+          <tr><td>Admin / Lead</td><td>Ticket Pool, งานรอตรวจ, งานค้าง, การมอบหมาย และการค้นหา</td><td>ตารางและ Filter สำหรับทำงานจำนวนมาก</td></tr>
+          <tr><td>ST / Store</td><td>ยอดคงเหลือ, Min/Max, การรับเข้า-เบิกจ่าย และสถานะ SO</td><td>เห็น On-hand, Reserved และ Available แยกชัดเจน</td></tr>
+          <tr><td>ผู้บริหาร</td><td>ภาพรวม, แนวโน้ม, KPI, จุดติดขัด และงานซ่อมซ้ำ</td><td>สรุปแบบ Read-only และเจาะดูรายละเอียดผ่าน Back-Office</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section class="section-card" id="workflow">
+        <span class="section-no">SECTION 06</span>
+        <h2>กระบวนการทำงานหลัก</h2>
+        <p class="intro">ทุกช่องทางรับแจ้งงานจะเข้าสู่ Ticket Pool เดียวกัน งานเร่งด่วนและผู้รับผิดชอบจึงมองเห็นได้ทันที กระบวนการสามารถข้ามขั้น Quote/PO/SO ได้ หากซ่อมจบหน้างานโดยไม่ต้องรออะไหล่</p>
+        <div class="diagram" role="img" aria-label="แผนภาพวงจรงานบริการตั้งแต่รับแจ้งถึงปิดงาน">
+          <p class="diagram-title">Service Ticket Journey</p>
+          <div class="flow-row">
+            <div class="flow-step">รับแจ้งงาน<small>Phone · LINE · Email · QR · QC</small></div>
+            <div class="flow-step">เปิดและมอบหมาย Ticket<small>Priority · Check point · Deadline</small></div>
+            <div class="flow-step">ตรวจเช็ก<small>เลือกหมวดปัญหาและบันทึกผล</small></div>
+            <div class="flow-step">Quote → PO → SO<small>ใช้เมื่อจำเป็นต้องรออนุมัติหรืออะไหล่</small></div>
+            <div class="flow-step">นัดหมายและซ่อม<small>ช่างบันทึกงานและรูปหลักฐาน</small></div>
+            <div class="flow-step">ตรวจรับและปิดงาน<small>Admin / Lead ตรวจสอบก่อน Closed</small></div>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="tile"><div class="kicker">REPEAT REPAIR</div><h3>ตรวจจับงานซ่อมซ้ำ</h3><p>เมื่อเครื่องเดิมและหมวดปัญหาเดิมเกิดซ้ำภายใน 72 ชั่วโมง ระบบสร้างรายการให้ Manager หรือ Lead พิจารณาก่อนนับ KPI</p></div>
+          <div class="tile"><div class="kicker">SO HANDOVER</div><h3>ST ส่งงานกลับ SV</h3><p>เมื่อ ST ยืนยันว่าอะไหล่ตาม SO ครบ ระบบแจ้ง SV และเปลี่ยนสถานะงานเป็นพร้อมนัดหมายโดยอัตโนมัติ</p></div>
+          <div class="tile"><div class="kicker">QUALITY GATE</div><h3>ตรวจงานก่อน Closed</h3><p>ช่างส่ง Work Log และ Evidence จากนั้น Admin หรือ Lead เลือกปิดงานหรือตีกลับพร้อมเหตุผล</p></div>
+        </div>
+        <div class="confirm-box"><strong>สิ่งที่ขอให้ยืนยัน:</strong> ลำดับสถานะหลัก, ผู้มีอำนาจปิด/เปิดงานใหม่, หลักฐานรูป 3 ประเภท และกติกา Repeat Repair</div>
+      </section>
+
+      <section class="section-card" id="modules">
+        <span class="section-no">SECTION 07</span>
+        <h2>ภาพรวมโมดูลระบบ</h2>
+        <p class="intro">13 โมดูลถูกจัดเป็น 5 กลุ่มตามลำดับการใช้งาน เพื่อให้เห็นความสัมพันธ์โดยไม่ลงรายละเอียดเชิงเทคนิค</p>
+        <div class="diagram" role="img" aria-label="แผนภาพโมดูล 13 โมดูล แบ่งตามห้ากลุ่มงาน">
+          <div class="module-groups">
+            <div class="module-group"><h3>1 · Foundation</h3><div class="module"><b>M1</b> ผู้ใช้ Role และสิทธิ์</div><div class="module"><b>M2</b> ลูกค้า Site และเครื่องจักร</div><div class="module"><b>M3</b> QR Code</div><div class="module"><b>M13</b> Audit Trail</div></div>
+            <div class="module-group"><h3>2 · Service Operation</h3><div class="module"><b>M4</b> Ticket Pool และสถานะงาน</div><div class="module"><b>M5</b> Work Log และรูปหลักฐาน</div><div class="module"><b>M7</b> ประวัติเครื่องและ Export</div></div>
+            <div class="module-group"><h3>3 · Parts &amp; Coordination</h3><div class="module"><b>M8</b> Spare Parts และ Stock</div><div class="module"><b>M9</b> Quote / PO / SO Reference</div><div class="module"><b>M10</b> Notification และ Alert</div></div>
+            <div class="module-group"><h3>4 · Quality &amp; Insight</h3><div class="module"><b>M6</b> PM Template และ Execution</div><div class="module"><b>M12</b> Dashboard, KPI, Calendar และ Skill Matrix</div><div class="module"><b>QC</b> Inbound Inspection</div><div class="module"><b>Installation</b> Hook-up Requisition</div></div>
+            <div class="module-group"><h3>5 · Automation</h3><div class="module"><b>M11</b> AI Photo-to-Text</div><div class="module"><b>Report</b> Scheduled Report</div><div class="module"><b>Tuning</b> Performance Improvement</div></div>
+          </div>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>กลุ่ม</th><th>ความสามารถสำคัญ</th><th>คุณค่าต่อธุรกิจ</th></tr></thead><tbody>
+          <tr><td>Foundation</td><td>ข้อมูลกลาง, QR, Role และ Audit</td><td>ข้อมูลน่าเชื่อถือและตรวจสอบได้</td></tr>
+          <tr><td>Service Operation</td><td>เปิดงาน มอบหมาย บันทึก ตรวจรับ ค้นหา และดูประวัติ</td><td>งานไม่ตกหล่นและลดใบงานกระดาษ</td></tr>
+          <tr><td>Parts &amp; Coordination</td><td>Stock หลายคลัง, Min/Max, QR เบิกของ และ SO Alert</td><td>ลดเวลารอและเห็นอะไหล่พร้อมใช้จริง</td></tr>
+          <tr><td>Quality &amp; Insight</td><td>PM, QC, Dashboard, KPI, Skill และอายุอะไหล่</td><td>เปลี่ยนจากแก้ปัญหาเป็นป้องกันและพัฒนา</td></tr>
+          <tr><td>Automation</td><td>AI ช่วยอ่านใบงานและส่งรายงานตามเวลา</td><td>ลดงานพิมพ์ซ้ำและลดภาระ Admin</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section class="section-card" id="success">
+        <span class="section-no">SECTION 08</span>
+        <h2>เกณฑ์ความสำเร็จและข้อกำหนดสำคัญ</h2>
+        <div class="grid-2">
+          <div>
+            <h3>เกณฑ์ด้านการใช้งาน</h3>
+            <ul>
+              <li>Admin เปิดงานและช่างปิดวงจรงานผ่าน QR ได้</li>
+              <li>งาน Service ส่งไม่ได้หากหลักฐานไม่ครบตามกติกา</li>
+              <li>ข้อมูลหน้างานทำ Offline และ Sync ภายหลังได้โดยผู้ใช้เห็นสถานะ</li>
+              <li>ค้นหาได้จากชื่อลูกค้า, Serial number, Part number, เลขใบงาน, PO และ SO</li>
+              <li>ประวัติเครื่อง Export แบบหนึ่งงานต่อหนึ่ง Row</li>
+              <li>Dashboard แสดงข้อมูลช้ากว่าระบบหลักไม่เกินประมาณ 60 วินาที</li>
+            </ul>
+          </div>
+          <div>
+            <h3>เกณฑ์ด้านการควบคุม</h3>
+            <ul>
+              <li>ทุกการแก้ไขสำคัญมี Audit Trail และไม่สามารถแก้ย้อนหลัง</li>
+              <li>ข้อมูลส่วนบุคคลแสดงเฉพาะ Role ที่จำเป็น ตามแนวทาง PDPA</li>
+              <li>Executive ไม่มีสิทธิ์แก้ไขข้อมูล</li>
+              <li>รูปและไฟล์ใช้ Link อายุสั้น ลดความเสี่ยงจากการแชร์ต่อ</li>
+              <li>LINE หรือ Push ขัดข้อง ระบบยังมี In-app Notification เป็นช่องทางสำรอง</li>
+              <li>AI อ่านใบงานไม่สำเร็จ ยังสามารถกรอกเองได้เสมอ</li>
+            </ul>
+          </div>
+        </div>
+        <div class="confirm-box"><strong>การยอมรับงานในแต่ละ Phase:</strong> ตรวจจากผลลัพธ์ใช้งานจริง (Exit Criteria) ของ Phase นั้น ไม่ใช้จำนวนหน้าจอเป็นตัววัดความสำเร็จเพียงอย่างเดียว</div>
+      </section>
+
+      <section class="section-card" id="decisions">
+        <span class="section-no">SECTION 09</span>
+        <h2>ประเด็นสำคัญที่ต้องยืนยันกับลูกค้า</h2>
+        <p class="intro">ทีมสามารถเริ่มออกแบบตามสมมติฐานด้านล่างได้ แต่คำตอบจะต้องได้รับการยืนยันก่อนเริ่ม Phase ที่เกี่ยวข้อง เพื่อหลีกเลี่ยงการแก้ไขงานและผลกระทบต่อกำหนดส่งมอบ</p>
+        <div class="decision-list">
+          <div class="decision"><div><strong>เจ้าของเลข PO และ SO</strong><p>มี ERP หรือระบบบัญชีที่เป็น Source of Record หรือไม่? สมมติฐานปัจจุบัน: Admin กรอกเป็น Reference Record ใน TIL App หากมี ERP ต้องกำหนด Integration เพิ่มก่อน Phase 3</p></div></div>
+          <div class="decision"><div><strong>กติกา Repeat Repair</strong><p>ยืนยันว่า “งานซ่อมซ้ำ” คือเครื่องเดิม + หมวดปัญหาเดิม ภายใน 72 ชั่วโมง และเป้าหมายไม่เกิน 1 เครื่องต่อเดือน หรือจำเป็นต้องมี Fault Code ที่ละเอียดกว่า</p></div></div>
+          <div class="decision"><div><strong>ขอบเขต Warehouse</strong><p>สมมติฐานปัจจุบันมี HQ และ Phuket เท่านั้น ต้องยืนยันว่ารถช่างหรือสถานที่อื่นถือ Consignment Stock และนับเป็น Warehouse เพิ่มหรือไม่</p></div></div>
+          <div class="decision"><div><strong>Mobile Platform</strong><p>เสนอให้ใช้ PWA เพื่อส่งมอบเร็ว รองรับ Offline และไม่ผ่าน App Store โดยจะทบทวนอีกครั้งหาก Camera หรือ QR Scanner บนอุปกรณ์จริงไม่เพียงพอ</p></div></div>
+          <div class="decision"><div><strong>ระยะเวลาเก็บข้อมูล</strong><p>สมมติฐาน Audit Log 7 ปี และรูปหลักฐาน 5 ปี ต้องให้ฝ่ายกฎหมายหรือผู้บริหารยืนยันตามนโยบายองค์กรและ PDPA</p></div></div>
+          <div class="decision"><div><strong>KPI เวลา</strong><p>เอกสารต้นทางใช้คำว่า MTTR แต่ความหมายเขียนว่าเวลาตอบสนอง จึงเสนอเก็บและแสดงทั้ง MTTA (เวลาตอบสนอง) และ MTTR (เวลาซ่อมเสร็จ) แล้วเลือกตัวหลักหลังยืนยัน</p></div></div>
+          <div class="decision"><div><strong>PM Template</strong><p>ลูกค้ามีขั้นตอน PM ราย Machine Model อยู่แล้วหรือไม่? ระบบสร้างและจัดการ Template อยู่ในขอบเขต แต่ข้อมูลขั้นตอนจริงเป็นข้อมูลที่ลูกค้าต้องจัดเตรียมและอนุมัติ</p></div></div>
+          <div class="decision"><div><strong>ข้อมูลมูลค่าในประวัติเครื่อง</strong><p>ต้องแสดงค่าแรงและราคาที่เป็นทางการหรือไม่? สมมติฐานปัจจุบันใช้ค่าอะไหล่และค่าแรงที่ Admin กรอก หากต้องอ้างอิงราคาทางบัญชีจะเชื่อมกับคำตอบเรื่อง ERP</p></div></div>
+          <div class="decision"><div><strong>Customer Portal</strong><p>สมมติฐาน Version 1 ไม่มีหน้าจอให้ลูกค้าเปิดหรือติดตาม Ticket ด้วยตนเอง หากต้องการให้วางเป็นโครงการ Post-v1 แยกต่างหาก</p></div></div>
+        </div>
+      </section>
+
+      <section class="section-card" id="roadmap">
+        <span class="section-no">SECTION 10 · FINAL</span>
+        <h2>Project Roadmap และ Timeframe</h2>
+        <p class="intro">เสนอส่งมอบเป็น 5 Phase รวม 28 สัปดาห์ โดยแต่ละ Phase ให้ผลลัพธ์ที่นำไปทดลองใช้ได้จริง วันเริ่มต้นปฏิทินจะกำหนดหลังอนุมัติขอบเขตและความพร้อมของข้อมูลลูกค้า</p>
+        <div class="roadmap" role="img" aria-label="แผนการส่งมอบโครงการ 5 เฟส รวม 28 สัปดาห์">
+          <div class="phase"><div class="phase-dot">P1</div><div class="phase-card"><span class="phase-time">สัปดาห์ที่ 1–6 · Foundation</span><h3>สร้างรากฐานและวงจร Ticket</h3><p>ผู้ใช้และสิทธิ์, ข้อมูลลูกค้า/เครื่อง, QR Code, Audit Trail และ Ticket ขั้นพื้นฐาน</p><p class="phase-result">ผลลัพธ์: Admin เปิดงาน ช่างทำงานผ่าน QR และปิดงานได้ พร้อมตรวจสอบย้อนหลัง</p></div></div>
+          <div class="phase"><div class="phase-dot">P2</div><div class="phase-card"><span class="phase-time">สัปดาห์ที่ 7–12 · Field Execution</span><h3>เปลี่ยนงานหน้างานเข้าสู่ระบบ</h3><p>Work Log, รูปหลักฐาน, Offline Sync, ค้นหา, ประวัติเครื่อง, Export และตรวจจับ Repeat Repair</p><p class="phase-result">ผลลัพธ์: ใบงานกระดาษไม่ใช่ข้อมูลหลัก และประวัติเครื่อง Export ได้ตามรูปแบบที่ตกลง</p></div></div>
+          <div class="phase"><div class="phase-dot">P3</div><div class="phase-card"><span class="phase-time">สัปดาห์ที่ 13–18 · Inventory &amp; Coordination</span><h3>เชื่อมงานอะไหล่กับงานบริการ</h3><p>Spare Parts, Stock หลายคลัง, QR เบิกของ, Min/Max, Quote/PO/SO Reference และ Notification</p><p class="phase-result">ผลลัพธ์: ช่างเช็ก Stock หน้างานได้ และ ST ยืนยัน SO ครบแล้วส่งงานกลับ SV อัตโนมัติ</p></div></div>
+          <div class="phase"><div class="phase-dot">P4</div><div class="phase-card"><span class="phase-time">สัปดาห์ที่ 19–24 · Quality &amp; Prevention</span><h3>เพิ่มการป้องกันและการบริหารด้วยข้อมูล</h3><p>PM แบบบังคับลำดับ, QC Inbound, Hook-up Requisition, Dashboard, KPI, Calendar, Skill Matrix และ Part Lifespan</p><p class="phase-result">ผลลัพธ์: เห็นผลงานและงานซ่อมซ้ำใกล้เคียง Real time ลดการสรุปข้อมูลด้วยมือปลายเดือน</p></div></div>
+          <div class="phase"><div class="phase-dot">P5</div><div class="phase-card"><span class="phase-time">สัปดาห์ที่ 25–28 · Automation</span><h3>ลดงานกรอกซ้ำและทำ Report อัตโนมัติ</h3><p>AI Photo-to-Text, หน้าตรวจสอบข้อมูล, Scheduled Report และ Performance Tuning</p><p class="phase-result">ผลลัพธ์: Admin เปลี่ยนจากพิมพ์ใบงานเป็นตรวจสอบข้อมูลที่ระบบช่วยอ่าน</p></div></div>
+        </div>
+        <h3>เงื่อนไขของ Timeframe</h3>
+        <ul>
+          <li>ระยะเวลา 28 สัปดาห์เป็นแผน Baseline หลังยืนยัน Requirement และ Design Direction</li>
+          <li>ลูกค้าจัดเตรียม Master Data, รายชื่อผู้ใช้/Role, PM Template, ตัวอย่างใบงาน และผู้ทดสอบตามกำหนด</li>
+          <li>การเชื่อม ERP, การเพิ่ม Native App หรือการเพิ่ม Scope หลังอนุมัติ ต้องประเมิน Timeline ใหม่</li>
+          <li>แต่ละ Phase มี Review, User Acceptance Test และ Sign-off ก่อนเข้าสู่ Phase ถัดไป</li>
+        </ul>
+        <div class="confirm-box">
+          <strong>ข้อเสนอเพื่ออนุมัติ</strong>
+          <ul class="checklist">
+            <li>อนุมัติเป้าหมายและขอบเขต Version 1 ตามเอกสารนี้</li>
+            <li>อนุมัติแนวทาง 3 หน้าจอ: Mobile PWA, Back-Office Web Console และ Executive Dashboard</li>
+            <li>อนุมัติ Roadmap 5 Phase ระยะเวลา Baseline 28 สัปดาห์</li>
+            <li>มอบหมายผู้มีอำนาจตอบประเด็นรอยืนยันและผู้อนุมัติผลในแต่ละ Phase</li>
+          </ul>
+        </div>
+        <div class="approval">
+          <div><div class="signature"></div><div class="signature-label">ผู้อนุมัติฝ่ายลูกค้า / วันที่</div></div>
+          <div><div class="signature"></div><div class="signature-label">Project Owner / วันที่</div></div>
+          <div><div class="signature"></div><div class="signature-label">ผลการพิจารณา: ☐ Approved &nbsp; ☐ Changes requested</div></div>
+        </div>
+      </section>
+
+      <footer>เอกสารสรุปจาก PRD — TIL Service Management Backend v1.0 และ BUILD_PLAN — TIL Back-Office System v1.0 · จัดทำเพื่อยืนยัน Requirement และ Design Direction</footer>
+    </main>
+  </div>
+
+  <script>
+    const menuButton = document.querySelector('.menu-button');
+    const sidebar = document.querySelector('.sidebar');
+    const links = [...document.querySelectorAll('.nav-link')];
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+
+    menuButton?.addEventListener('click', () => {
+      const open = sidebar.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', String(open));
+    });
+
+    links.forEach(link => link.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      menuButton?.setAttribute('aria-expanded', 'false');
+    }));
+
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries.filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${visible.target.id}`));
+    }, { rootMargin: '-20% 0px -65% 0px', threshold: [0, .2, .5] });
+
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>
