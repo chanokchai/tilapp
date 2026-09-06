@@ -1,0 +1,2668 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Build Plan ของโครงการ TIL Back-Office System">
+  <title>Build Plan — TIL Back-Office System</title>
+  <style>
+    :root {
+      --ink: #17324d;
+      --muted: #64748b;
+      --line: #dbe5ec;
+      --paper: #ffffff;
+      --soft: #f5f8fa;
+      --brand: #0b6b75;
+      --brand-dark: #074b52;
+      --accent: #d9f1ef;
+      --gold: #c68b27;
+      --danger: #a33a3a;
+      --shadow: 0 18px 45px rgba(23, 50, 77, .09);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--soft);
+      font-family: "Noto Sans Thai", "Leelawadee UI", Tahoma, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+    }
+    a { color: inherit; }
+    button { font: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 66px;
+      padding: 10px clamp(18px, 4vw, 56px);
+      color: white;
+      background: rgba(7, 75, 82, .97);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, .12);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      color: var(--brand-dark);
+      background: white;
+      border-radius: 11px;
+      letter-spacing: -.04em;
+    }
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .menu-button, .print-button {
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: white;
+      background: transparent;
+      cursor: pointer;
+    }
+    .menu-button { display: inline-block; }
+
+    .layout {
+      display: block;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .sidebar {
+      position: fixed;
+      top: 66px;
+      left: 0;
+      z-index: 19;
+      width: 280px;
+      height: calc(100vh - 66px);
+      padding: 30px 18px 30px 28px;
+      overflow: auto;
+      border-right: 1px solid var(--line);
+      background: #f9fbfc;
+      box-shadow: 12px 0 28px rgba(23,50,77,.13);
+      transform: translateX(-105%);
+      transition: transform .22s ease;
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-title {
+      margin: 0 10px 12px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .document-link {
+      display: block;
+      margin: 0 0 18px;
+      padding: 11px 12px;
+      color: var(--brand-dark);
+      background: var(--accent);
+      border: 1px solid #bddbd8;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .document-link:hover { border-color: var(--brand); }
+    .nav-link {
+      display: block;
+      margin: 3px 0;
+      padding: 9px 11px;
+      border-left: 3px solid transparent;
+      border-radius: 0 9px 9px 0;
+      color: #526577;
+      text-decoration: none;
+      font-size: 14px;
+      transition: .18s ease;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--brand-dark);
+      background: var(--accent);
+      border-left-color: var(--brand);
+    }
+    .nav-link:last-child { margin-top: 14px; font-weight: 800; }
+
+    main {
+      width: min(1540px, 100%);
+      min-width: 0;
+      margin: 0 auto;
+      padding: 0 clamp(22px, 4vw, 64px) 90px;
+    }
+    section { scroll-margin-top: 86px; }
+    .hero {
+      position: relative;
+      margin: 34px 0 26px;
+      padding: clamp(34px, 6vw, 74px);
+      overflow: hidden;
+      color: white;
+      background: linear-gradient(135deg, #074b52 0%, #0b6b75 60%, #157f86 100%);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 310px;
+      height: 310px;
+      right: -105px;
+      top: -125px;
+      border: 44px solid rgba(255,255,255,.08);
+      border-radius: 50%;
+    }
+    .eyebrow {
+      margin: 0 0 14px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1.12;
+      letter-spacing: -.03em;
+    }
+    .hero .lead { max-width: 760px; margin: 20px 0 30px; color: #e5f5f3; font-size: 19px; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; }
+    .hero-meta span {
+      padding: 7px 12px;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      font-size: 13px;
+    }
+
+    .section-card {
+      margin: 26px 0;
+      padding: clamp(26px, 4vw, 46px);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 9px 28px rgba(23, 50, 77, .05);
+    }
+    .section-no { color: var(--brand); font-size: 13px; font-weight: 900; letter-spacing: .08em; }
+    h2 { margin: 3px 0 12px; font-size: clamp(25px, 3vw, 36px); line-height: 1.3; }
+    h3 { margin: 28px 0 10px; font-size: 20px; line-height: 1.45; }
+    p { margin: 8px 0 14px; }
+    .intro { max-width: 900px; color: #40566a; font-size: 17px; }
+    .small { color: var(--muted); font-size: 13px; }
+    .muted { color: var(--muted); }
+
+    .quote {
+      margin: 24px 0;
+      padding: 22px 25px;
+      color: var(--brand-dark);
+      background: var(--accent);
+      border-left: 5px solid var(--brand);
+      border-radius: 0 14px 14px 0;
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 800;
+    }
+    .grid-2, .grid-3, .grid-4 { display: grid; gap: 16px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .tile {
+      min-width: 0;
+      padding: 20px;
+      background: #f9fbfc;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+    .tile .kicker { color: var(--brand); font-size: 12px; font-weight: 900; letter-spacing: .05em; }
+    .tile h3 { margin: 4px 0 7px; font-size: 18px; }
+    .tile p { margin: 0; color: #526577; font-size: 14px; }
+    .number {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 12px;
+      color: white;
+      background: var(--brand);
+      border-radius: 10px;
+      font-weight: 900;
+    }
+
+    .confirm-box {
+      margin-top: 24px;
+      padding: 18px 20px;
+      background: #fffaf0;
+      border: 1px solid #ead29f;
+      border-radius: 14px;
+    }
+    .confirm-box strong { color: #7d5717; }
+    .checklist { display: grid; gap: 9px; margin: 12px 0 0; padding: 0; list-style: none; }
+    .checklist li { position: relative; padding-left: 29px; }
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: -2px;
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .diagram {
+      margin: 22px 0;
+      padding: 24px;
+      overflow-x: auto;
+      background: #f8fbfc;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+    .diagram-title { margin: 0 0 18px; font-weight: 800; }
+    .flow-row { display: flex; align-items: stretch; min-width: 820px; }
+    .flow-step {
+      position: relative;
+      display: flex;
+      flex: 1 0 130px;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 98px;
+      margin-right: 28px;
+      padding: 15px;
+      text-align: center;
+      background: white;
+      border: 1px solid #bed3da;
+      border-radius: 13px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: -23px;
+      top: 50%;
+      color: var(--brand);
+      font-size: 22px;
+      transform: translateY(-50%);
+    }
+    .flow-step:last-child { margin-right: 0; }
+    .flow-step:last-child::after { display: none; }
+    .flow-step small { display: block; margin-top: 4px; color: var(--muted); font-weight: 500; }
+
+    .surface-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
+    .surface {
+      padding: 22px 18px;
+      text-align: center;
+      background: white;
+      border: 1px solid #bed3da;
+      border-radius: 14px;
+    }
+    .surface strong { display: block; margin: 7px 0 5px; }
+    .surface .icon { font-size: 29px; }
+    .core-platform {
+      margin: 16px auto 0;
+      width: min(640px, 100%);
+      padding: 16px;
+      text-align: center;
+      color: white;
+      background: var(--brand);
+      border-radius: 14px;
+      font-weight: 800;
+    }
+    .connector { height: 24px; width: 2px; margin: 0 auto; background: var(--brand); }
+
+    table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14px; }
+    th, td { padding: 12px 13px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { color: var(--brand-dark); background: #edf6f5; font-weight: 800; }
+    tbody tr:hover td { background: #fbfdfd; }
+    .yes { color: var(--brand); font-weight: 800; }
+    .no { color: var(--danger); font-weight: 800; }
+
+    .org-exec { width: min(320px, 100%); margin: 0 auto; }
+    .org-node {
+      padding: 13px 12px;
+      text-align: center;
+      background: white;
+      border: 1px solid #b9ced5;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(23,50,77,.05);
+    }
+    .org-node strong { display: block; }
+    .org-node small { color: var(--muted); }
+    .org-line { height: 26px; width: 2px; margin: 0 auto; background: #9bb9c0; }
+    .org-depts { display: grid; grid-template-columns: 2fr repeat(4, 1fr); gap: 12px; min-width: 860px; }
+    .org-dept { padding: 11px; background: #edf6f5; border-radius: 13px; }
+    .org-dept > strong { display: block; margin-bottom: 8px; color: var(--brand-dark); text-align: center; }
+    .org-dept .org-node + .org-node { margin-top: 7px; }
+
+    .module-groups { display: grid; grid-template-columns: repeat(5, minmax(190px, 1fr)); gap: 12px; min-width: 1020px; }
+    .module-group { padding: 15px; background: white; border-top: 5px solid var(--brand); border-radius: 12px; box-shadow: 0 4px 14px rgba(23,50,77,.07); }
+    .module-group:nth-child(2) { border-color: #2d8f66; }
+    .module-group:nth-child(3) { border-color: #c68b27; }
+    .module-group:nth-child(4) { border-color: #7652a3; }
+    .module-group:nth-child(5) { border-color: #b85d73; }
+    .module-group h3 { margin: 0 0 10px; font-size: 16px; }
+    .module { margin: 7px 0; padding: 9px; background: #f5f8fa; border-radius: 8px; font-size: 12px; line-height: 1.45; }
+    .module b { color: var(--brand-dark); }
+
+    .decision-list { counter-reset: decision; display: grid; gap: 12px; }
+    .decision {
+      counter-increment: decision;
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 14px;
+      padding: 17px;
+      background: #f9fbfc;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+    }
+    .decision::before {
+      content: counter(decision);
+      display: grid;
+      place-items: center;
+      align-self: start;
+      width: 38px;
+      height: 38px;
+      color: white;
+      background: var(--gold);
+      border-radius: 10px;
+      font-weight: 900;
+    }
+    .decision strong { display: block; }
+    .decision p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+
+    .roadmap { position: relative; margin: 28px 0 8px; }
+    .roadmap::before { content: ""; position: absolute; left: 24px; top: 18px; bottom: 30px; width: 3px; background: #bdd8d7; }
+    .phase { position: relative; display: grid; grid-template-columns: 50px minmax(0, 1fr); gap: 15px; margin-bottom: 18px; }
+    .phase-dot {
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      color: white;
+      background: var(--brand);
+      border: 5px solid #e6f2f1;
+      border-radius: 50%;
+      font-weight: 900;
+    }
+    .phase-card { padding: 18px 20px; background: white; border: 1px solid var(--line); border-radius: 14px; }
+    .phase-card h3 { margin: 0 0 3px; font-size: 18px; }
+    .phase-card p { margin: 6px 0 0; color: #526577; }
+    .phase-time { display: inline-block; margin-bottom: 7px; color: var(--brand); font-size: 13px; font-weight: 900; }
+    .phase-result { margin-top: 10px !important; padding-top: 10px; border-top: 1px dashed #cad8de; color: var(--ink) !important; font-weight: 700; }
+
+    .approval {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+      padding: 20px;
+      background: #f8fbfc;
+      border: 1px dashed #9bb9c0;
+      border-radius: 14px;
+    }
+    .signature { min-height: 75px; border-bottom: 1px solid #8ba5af; }
+    .signature-label { margin-top: 6px; color: var(--muted); font-size: 12px; }
+
+    footer { padding: 20px 0 10px; color: var(--muted); text-align: center; font-size: 12px; }
+
+    @media (max-width: 1060px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 780px) {
+      .topbar { min-height: 60px; }
+      .brand span:last-child { display: none; }
+      .sidebar {
+        top: 60px;
+        width: min(82vw, 310px);
+        height: calc(100vh - 60px);
+      }
+      main { padding: 0 16px 60px; }
+      .hero { margin-top: 18px; border-radius: 20px; }
+      .grid-2, .grid-3, .grid-4, .surface-flow, .approval { grid-template-columns: 1fr; }
+      .print-button { display: none; }
+      th, td { min-width: 150px; }
+      .table-wrap { overflow-x: auto; }
+    }
+    @media print {
+      @page { size: A4; margin: 14mm; }
+      body { color: #111; background: white; font-size: 11pt; }
+      .topbar, .sidebar { display: none !important; }
+      .layout { display: block; width: auto; }
+      main { padding: 0; }
+      .hero { margin-top: 0; box-shadow: none; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .section-card { break-inside: avoid; margin: 12px 0; padding: 22px; box-shadow: none; }
+      .diagram, .tile, .confirm-box, .phase-card { break-inside: avoid; }
+      .nav-link { display: none; }
+    }
+  
+    .build-hero h1 { font-size: clamp(33px, 5vw, 60px); }
+    .build-hero h2 { margin: 14px 0 20px; max-width: 980px; color: #dff3f1; font-size: clamp(18px, 2.4vw, 27px); font-weight: 600; }
+    .build-hero .document-meta { max-width: 960px; color: #e5f5f3; }
+    .build-hero .document-meta code { color: white; background: rgba(255,255,255,.13); }
+    .build-hero .document-meta a { color: white; }
+    .markdown-section { overflow: hidden; }
+    .markdown-section > h2:first-child { scroll-margin-top: 88px; }
+    .markdown-section h3 { padding-top: 8px; color: var(--brand-dark); }
+    .markdown-section h4 { margin: 24px 0 8px; font-size: 17px; }
+    .markdown-section hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
+    .markdown-section ul, .markdown-section ol { padding-left: 24px; }
+    .markdown-section li { margin: 5px 0; }
+    .markdown-section code { padding: 2px 5px; color: #174f58; background: #eaf3f3; border-radius: 5px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .88em; }
+    .markdown-section pre { padding: 18px; overflow: auto; color: #e8f4f4; background: #17324d; border-radius: 12px; }
+    .markdown-section pre code { padding: 0; color: inherit; background: transparent; }
+    .markdown-section blockquote { margin: 20px 0; padding: 14px 18px; color: var(--brand-dark); background: var(--accent); border-left: 4px solid var(--brand); }
+    .markdown-section blockquote p { margin: 0; }
+    .markdown-section .table-wrap { margin: 18px 0 30px; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+    .markdown-section table { min-width: 760px; margin: 0; }
+    .markdown-section th { position: sticky; top: 0; }
+    .markdown-section td:last-child:empty { min-width: 74px; background: #fffdf6; }
+    .mermaid-wrap { display: flex; justify-content: center; min-width: 0; background: white; }
+    .mermaid { min-width: 760px; text-align: center; }
+    .mermaid svg { max-width: none !important; height: auto; }
+    .nav-divider { margin: 17px 5px; border: 0; border-top: 1px solid var(--line); }
+    .source-note { margin: 16px 0 0; color: #dff3f1; font-size: 12px; }
+    @media (max-width: 780px) {
+      .build-hero h2 { font-size: 18px; }
+      .markdown-section { padding: 24px 18px; }
+    }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">TIL</span><span>Build Plan · Back-Office System</span></div>
+    <div class="top-actions">
+      <button class="menu-button" type="button" aria-label="เปิดหรือปิดเมนู" aria-expanded="false">☰ เมนู</button>
+      <button class="print-button" type="button" onclick="window.print()">พิมพ์ / Save PDF</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="เมนูเอกสาร">
+      <p class="sidebar-title">เอกสาร</p>
+      <a class="document-link" href="TIL_PROJECT_PROPOSAL_TH.html">← เปิด Project Proposal</a>
+      <hr class="nav-divider">
+      <p class="sidebar-title">สารบัญ Build Plan</p>
+      <nav><a class="nav-link active" href="#purpose">0. Purpose & How to Review This Document</a>
+        <a class="nav-link" href="#client-surfaces">1. Client Surfaces</a>
+        <a class="nav-link" href="#module-phase-map">2. Module → Phase Map</a>
+        <a class="nav-link" href="#roadmap">3. Roadmap</a>
+        <a class="nav-link" href="#phase-1">4. Phase 1 — Foundation</a>
+        <a class="nav-link" href="#phase-2">5. Phase 2 — Field Execution</a>
+        <a class="nav-link" href="#phase-3">6. Phase 3 — Inventory & Coordination</a>
+        <a class="nav-link" href="#phase-4">7. Phase 4 — Quality & Prevention</a>
+        <a class="nav-link" href="#phase-5">8. Phase 5 — Automation</a>
+        <a class="nav-link" href="#cross-cutting">9. Cross-Cutting UI Requirements</a>
+        <a class="nav-link" href="#page-count">10. Page Count Summary</a>
+        <a class="nav-link" href="#open-questions">11. Open Questions That Change Screen Design</a>
+        <a class="nav-link" href="#appendix-a">Appendix A — Requirement → Phase → Page Traceability</a>
+        <a class="nav-link" href="#appendix-b">Appendix B — Sign-Off</a></nav>
+    </aside>
+    <main>
+      <section class="hero build-hero" id="cover">
+        <p class="eyebrow">Phased Build Plan · Scope Confirmation</p>
+        <h1>Build Plan — TIL Back-Office System</h1>
+        <h2>แผนการพัฒนาระบบแบ่งตามเฟส พร้อมรายการหน้าจอ (Phased Build Plan with Frontend Page Inventory)</h2>
+        <div class="document-meta"><strong>Document version:</strong> 1.0 (draft for scope confirmation)
+<strong>Date:</strong> 2026-08-09
+<strong>Derives from:</strong> <a href="PRD.md"><code>spec/PRD.md</code></a> v1.0 — module definitions §4, delivery phases §11, API surface §6
+<strong>Status:</strong> For scope confirmation — mark the <strong>Scope</strong> column on every page row before build starts</div>
+        <p class="source-note">Converted from BUILD_PLAN.md · เนื้อหาหัวข้อ ตาราง และ Diagram คงตามเอกสารต้นฉบับ</p>
+      </section>
+      <section class="section-card markdown-section" aria-labelledby="purpose"><h2 id="purpose">0. Purpose &amp; How to Review This Document</h2>
+<h3>วัตถุประสงค์และวิธีการตรวจสอบเอกสาร</h3>
+<p><code>PRD.md</code> specifies the <strong>backend</strong>: 13 modules, a REST API, a data model, a state machine. It does not say what a user <em>sees</em>. This document translates the PRD into a <strong>sequenced, phase-by-phase build plan</strong> and, for each phase, an inventory of the <strong>high-level frontend pages</strong> that phase delivers — so functional scope can be confirmed with SV, ST, QC and management staff <strong>before implementation begins</strong>.</p>
+<p><strong>How to review.</strong> Every page in this document is one row in a table with a <strong>Scope</strong> column. Mark each row:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Mark</th>
+<th>Meaning</th>
+<th>ความหมาย</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>✅</td>
+<td>Correct — build as described</td>
+<td>ถูกต้อง สร้างตามนี้ได้เลย</td>
+</tr>
+<tr>
+<td>✏️</td>
+<td>Needed, but the description is wrong or incomplete — write the correction in the row</td>
+<td>ต้องมี แต่รายละเอียดยังไม่ถูก ให้แก้ไขในช่อง</td>
+</tr>
+<tr>
+<td>❌</td>
+<td>Not needed in this phase — say which phase it belongs to, or drop it</td>
+<td>ไม่ต้องมีในเฟสนี้ ระบุว่าควรอยู่เฟสไหน หรือตัดออก</td>
+</tr>
+</tbody></table></div>
+<p>A page marked ❌ moves to the phase you name; it is not silently deleted. Anything you expect but cannot find is more important than anything listed here — each phase ends with an <strong>&quot;Out of this phase / ไม่รวมในเฟสนี้&quot;</strong> section naming what is deliberately deferred and to where.</p>
+<p><strong>What this document is not.</strong> It is not a UI design, wireframe, or component spec. Page descriptions state <em>what the page is for and which API it binds to</em>, not how it looks. Visual design follows scope confirmation.</p>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="client-surfaces"><h2 id="client-surfaces">1. Client Surfaces</h2>
+<h3>หน้าจอผู้ใช้ทั้ง 3 ระบบ</h3>
+<p>Per <code>PRD.md</code> §1.4 the backend serves three distinct clients. Every page in this document belongs to exactly one of them.</p>
+<h3>1.1 Technician Mobile PWA — แอปมือถือช่าง</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Specification</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Users</td>
+<td><code>SV_TECH</code>, <code>INSTALL_TECH</code>, <code>QC_STAFF</code></td>
+</tr>
+<tr>
+<td>Platform</td>
+<td>Progressive Web App, Android 10+ / iOS 15+ (PRD §9.12, §12 Q4)</td>
+</tr>
+<tr>
+<td>Entry point</td>
+<td><strong>QR scan first.</strong> The scanner is the home screen, not a menu (PRD §3.5)</td>
+</tr>
+<tr>
+<td>Network</td>
+<td><strong>Offline-first and non-negotiable.</strong> Technicians work in plant basements and machine rooms with no signal (PRD §1.4). Every write queues locally with a client-generated UUID v7 and an <code>Idempotency-Key</code>, replays on reconnect (PRD §5.4, §9.6)</td>
+</tr>
+<tr>
+<td>Camera</td>
+<td>Heavy use — mandatory evidence photos, PM step photos, job-sheet capture. Client-side compression to ≤2 MB, resumable upload (PRD §9.9)</td>
+</tr>
+<tr>
+<td>Language</td>
+<td><strong>Thai primary.</strong> English is secondary and optional on this surface (PRD §9.10)</td>
+</tr>
+</tbody></table></div>
+<h3>1.2 Back-Office Web Console — ระบบหลังบ้าน (เว็บ)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Specification</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Users</td>
+<td><code>SV_ADMIN</code>, <code>SV_LEAD</code>, <code>SERVICE_MANAGER</code>, <code>ST_STAFF</code>, <code>ST_MANAGER</code>, <code>QC_STAFF</code>, <code>SYS_ADMIN</code></td>
+</tr>
+<tr>
+<td>Platform</td>
+<td>Desktop browser, data-dense tables and forms</td>
+</tr>
+<tr>
+<td>Network</td>
+<td>Online-only. No offline requirement — this surface is used at a desk</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>Master data, verification queues, stock operations, adjudication. This is where <strong>decisions</strong> are made; the mobile app is where <strong>work</strong> is recorded</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Thai primary, English secondary, both always available (PRD §9.10)</td>
+</tr>
+</tbody></table></div>
+<h3>1.3 Executive Dashboard — แดชบอร์ดผู้บริหาร</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Specification</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Users</td>
+<td><code>EXECUTIVE</code>, <code>SERVICE_MANAGER</code>, <code>ST_MANAGER</code></td>
+</tr>
+<tr>
+<td>Access</td>
+<td><strong>Read-only, enforced server-side.</strong> Every endpoint rejects writes from an executive-only token regardless of other checks (PRD §2.3, error <code>READ_ONLY_ROLE</code>)</td>
+</tr>
+<tr>
+<td>Data source</td>
+<td>Materialised aggregates refreshed on a short interval, <strong>never</strong> direct OLTP queries — dashboard load must stay off the transactional path (PRD §M12)</td>
+</tr>
+<tr>
+<td>Freshness</td>
+<td>≤60 s behind live (PRD §9.4)</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>Aggregate only. Drill-through to an individual ticket hands off to the back-office console</td>
+</tr>
+</tbody></table></div>
+<h3>1.4 Role → Default Landing Page (Diagram D)</h3>
+<p>Where each of the ten roles in PRD §2.1 lands after login.</p>
+<div class="diagram mermaid-wrap"><div class="mermaid">flowchart LR
+    subgraph MOB[&quot;Mobile PWA — แอปช่าง&quot;]
+        SCAN[&quot;QR Scanner&lt;br/&gt;สแกน QR&quot;]
+        MYTASK[&quot;My Tasks&lt;br/&gt;งานของฉัน&quot;]
+    end
+
+    subgraph BO[&quot;Back-Office Console — ระบบหลังบ้าน&quot;]
+        POOL[&quot;SV Ticket Pool&lt;br/&gt;Pool งานแผนก SV&quot;]
+        VERIFY[&quot;Verification Queue&lt;br/&gt;คิวตรวจรับงาน&quot;]
+        STOCK[&quot;Stock Dashboard&lt;br/&gt;หน้ารวมสต๊อก&quot;]
+        QCLIST[&quot;QC Inspection List&lt;br/&gt;รายการตรวจรับเครื่อง&quot;]
+        ADMIN[&quot;System Admin Home&lt;br/&gt;หน้าผู้ดูแลระบบ&quot;]
+    end
+
+    subgraph EXEC[&quot;Executive Dashboard — แดชบอร์ดผู้บริหาร&quot;]
+        PERF[&quot;SV Performance&lt;br/&gt;ภาพรวมผลงานแผนก SV&quot;]
+    end
+
+    TECH[&quot;SV_TECH&lt;br/&gt;ช่างบริการ&quot;] --&gt; SCAN
+    ITECH[&quot;INSTALL_TECH&lt;br/&gt;ช่างติดตั้ง&quot;] --&gt; MYTASK
+    QCS[&quot;QC_STAFF&lt;br/&gt;เจ้าหน้าที่ QC&quot;] --&gt; QCLIST
+    QCS -.-&gt; SCAN
+    SVADM[&quot;SV_ADMIN&lt;br/&gt;แอดมินแผนก SV&quot;] --&gt; POOL
+    LEAD[&quot;SV_LEAD&lt;br/&gt;หัวหน้าช่าง&quot;] --&gt; POOL
+    LEAD -.-&gt; VERIFY
+    MGR[&quot;SERVICE_MANAGER&lt;br/&gt;ผู้จัดการแผนก SV&quot;] --&gt; PERF
+    MGR -.-&gt; POOL
+    STS[&quot;ST_STAFF&lt;br/&gt;เจ้าหน้าที่คลัง&quot;] --&gt; STOCK
+    STM[&quot;ST_MANAGER&lt;br/&gt;ผู้จัดการคลัง&quot;] --&gt; STOCK
+    SYS[&quot;SYS_ADMIN&lt;br/&gt;ผู้ดูแลระบบ&quot;] --&gt; ADMIN
+    EXECU[&quot;EXECUTIVE&lt;br/&gt;ผู้บริหาร&quot;] --&gt; PERF
+</div></div>
+<p>Solid arrow = default landing page. Dashed arrow = secondary surface the same role also uses daily.</p>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="module-phase-map"><h2 id="module-phase-map">2. Module → Phase Map</h2>
+<h3>แผนที่โมดูลต่อเฟส</h3>
+<p>The five phases are those already agreed in <code>PRD.md</code> §11, with <strong>one documented deviation</strong>: the repeat-repair detector (PRD §3.6) moves from Phase 4 to <strong>Phase 2</strong>, as <code>PRD.md</code> §11 itself recommends. It is a small piece of logic, it only needs tickets carrying machine + category (delivered in Phase 1), and it addresses the problem the source requirements describe most concretely as broken today — the manual month-end export and hand-check, with acknowledged data loss.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Module</th>
+<th>ชื่อโมดูล</th>
+<th align="center">P1</th>
+<th align="center">P2</th>
+<th align="center">P3</th>
+<th align="center">P4</th>
+<th align="center">P5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M1 — Identity, Roles &amp; Access Control</td>
+<td>ผู้ใช้ สิทธิ์ และการเข้าถึง</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>M2 — Customer, Site &amp; Machine Master Data</td>
+<td>ข้อมูลหลักลูกค้า/ไซต์/เครื่องจักร</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>M3 — QR Code Management</td>
+<td>จัดการ QR Code</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>M4 — Ticket Pool &amp; Lifecycle</td>
+<td>Pool งานและวงจรสถานะงาน</td>
+<td align="center">◐</td>
+<td align="center">◐</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>M5 — Work Log &amp; Evidence Capture</td>
+<td>บันทึกงานและรูปหลักฐาน</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>M6 — PM Templates &amp; Execution</td>
+<td>แม่แบบและการทำงาน PM</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>M7 — Machine History &amp; Export</td>
+<td>ประวัติเครื่องจักรและการ Export</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>M8 — Spare Parts &amp; Inventory</td>
+<td>อะไหล่และสต๊อก</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>M9 — Quote / PO / SO Reference</td>
+<td>ใบเสนอราคา / PO / SO</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>M10 — Notifications &amp; Alerts</td>
+<td>การแจ้งเตือน</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>M11 — AI Photo-to-Text</td>
+<td>AI แปลงรูปใบงานเป็นข้อความ</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+</tr>
+<tr>
+<td>M12 — Dashboards, KPI &amp; Skill Matrix</td>
+<td>แดชบอร์ด KPI และ Skill Matrix</td>
+<td align="center"></td>
+<td align="center">◐</td>
+<td align="center"></td>
+<td align="center">◐</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>M13 — Audit Trail</td>
+<td>Log การตรวจสอบย้อนหลัง</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<p>● = fully delivered in that phase ◐ = partially delivered, split across phases</p>
+<p><strong>Split modules explained:</strong></p>
+<ul>
+<li><strong>M4</strong> — Phase 1 delivers create / assign / status / close. Phase 2 adds universal search across the six keys (PRD §M4) and the Office-vs-Technician grouping filter.</li>
+<li><strong>M12</strong> — Phase 2 delivers <strong>only</strong> the repeat-repair detector and its adjudication screens (the pulled-forward item). Phase 4 delivers everything else: dashboards, calendar, skill matrix, part-lifespan analysis.</li>
+</ul>
+<h3>2.1 Module Dependency Graph (Diagram A)</h3>
+<p>Why the sequence is what it is. An arrow means <em>cannot be built until</em>.</p>
+<div class="diagram mermaid-wrap"><div class="mermaid">flowchart LR
+    M1[&quot;M1 Identity &amp;amp; RBAC&lt;br/&gt;ผู้ใช้และสิทธิ์&quot;]
+    M13[&quot;M13 Audit Trail&lt;br/&gt;Log ตรวจสอบย้อนหลัง&quot;]
+    M2[&quot;M2 Master Data&lt;br/&gt;ข้อมูลหลัก&quot;]
+    M3[&quot;M3 QR Code&quot;]
+    M4[&quot;M4 Ticket Pool&lt;br/&gt;Pool งาน&quot;]
+    M5[&quot;M5 Work Log + Photos&lt;br/&gt;บันทึกงาน + รูป&quot;]
+    M7[&quot;M7 History &amp;amp; Export&lt;br/&gt;ประวัติ + Export&quot;]
+    M12a[&quot;M12a Repeat-Repair KPI&lt;br/&gt;ตรวจงานซ่อมซ้ำ&quot;]
+    M8[&quot;M8 Parts &amp;amp; Stock&lt;br/&gt;อะไหล่และสต๊อก&quot;]
+    M9[&quot;M9 Quote/PO/SO&quot;]
+    M10[&quot;M10 Notifications&lt;br/&gt;แจ้งเตือน&quot;]
+    M6[&quot;M6 PM Templates&lt;br/&gt;แม่แบบ PM&quot;]
+    M12b[&quot;M12b Dashboards + Skill Matrix&lt;br/&gt;แดชบอร์ด + Skill Matrix&quot;]
+    QCI[&quot;QC Inbound&lt;br/&gt;ตรวจรับเครื่องเข้าใหม่&quot;]
+    INST[&quot;Installation Hook-up&lt;br/&gt;เบิกของตาม Hook-up&quot;]
+    M11[&quot;M11 AI Photo-to-Text&lt;br/&gt;AI แปลงรูปใบงาน&quot;]
+
+    M1 --&gt; M2
+    M1 --&gt; M13
+    M13 --&gt; M2
+    M2 --&gt; M3
+    M2 --&gt; M4
+    M3 --&gt; M4
+    M4 --&gt; M5
+    M4 --&gt; M12a
+    M5 --&gt; M7
+    M4 --&gt; M8
+    M8 --&gt; M9
+    M9 --&gt; M10
+    M12a --&gt; M10
+    M4 --&gt; M6
+    M5 --&gt; M12b
+    M7 --&gt; M12b
+    M12a --&gt; M12b
+    M8 --&gt; M12b
+    M4 --&gt; QCI
+    M8 --&gt; INST
+    M5 --&gt; M11
+
+    classDef p1 fill:#e3f2fd,stroke:#1565c0,color:#0d47a1
+    classDef p2 fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+    classDef p3 fill:#fff8e1,stroke:#f9a825,color:#e65100
+    classDef p4 fill:#f3e5f5,stroke:#7b1fa2,color:#4a148c
+    classDef p5 fill:#fce4ec,stroke:#c2185b,color:#880e4f
+
+    class M1,M13,M2,M3 p1
+    class M4 p1
+    class M5,M7,M12a p2
+    class M8,M9,M10 p3
+    class M6,M12b,QCI,INST p4
+    class M11 p5
+</div></div>
+<p>Two structural facts drive the whole ordering:</p>
+<ol>
+<li><strong>M13 (audit) precedes all business modules.</strong> PRD §8.5 requires every mutation to write an audit row <em>in the same transaction as the change</em> — an action that is not audited must not commit. Retrofitting that later means touching every write path, so it is built first.</li>
+<li><strong>M12&#39;s dashboards come last among the reporting work</strong> because they aggregate data that only exists once M4, M5, M7 and M8 have been producing it. The one exception is the repeat-repair detector, which needs nothing but tickets — hence its move to Phase 2.</li>
+</ol>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="roadmap"><h2 id="roadmap">3. Roadmap</h2>
+<h3>แผนการส่งมอบ 28 สัปดาห์</h3>
+<div class="diagram mermaid-wrap"><div class="mermaid">gantt
+    title TIL Back-Office — Delivery Roadmap (28 weeks)
+    dateFormat YYYY-MM-DD
+    axisFormat wk %W
+
+    section P1 Foundation
+    M1 Identity and RBAC            :p1a, 2026-09-01, 2w
+    M13 Audit trail                 :p1b, 2026-09-01, 2w
+    M2 Master data                  :p1c, after p1a, 2w
+    M3 QR code                      :p1d, after p1c, 1w
+    M4 Ticket basics                :p1e, after p1c, 2w
+    Exit — ticket opened and closed via QR :milestone, m1, after p1e, 0d
+
+    section P2 Field Execution
+    M5 Work log and photos          :p2a, after p1e, 3w
+    Offline sync                    :p2b, after p1e, 3w
+    M7 History and export           :p2c, after p2a, 2w
+    M4 Universal search             :p2d, after p2a, 1w
+    M12a Repeat-repair detector     :p2e, after p2a, 1w
+    Exit — paper job sheets retired :milestone, m2, after p2c, 0d
+
+    section P3 Inventory
+    M8 Parts and stock              :p3a, after p2c, 3w
+    M9 Quote PO SO                  :p3b, after p3a, 2w
+    M10 Notifications               :p3c, after p3a, 2w
+    Exit — SO complete releases job to SV :milestone, m3, after p3b, 0d
+
+    section P4 Quality and Prevention
+    M6 PM templates and execution   :p4a, after p3b, 2w
+    QC inbound module               :p4b, after p3b, 2w
+    Installation hook-up requisition :p4c, after p4b, 1w
+    M12b Dashboards and skill matrix :p4d, after p4a, 3w
+    Exit — month-end manual export retired :milestone, m4, after p4d, 0d
+
+    section P5 Automation
+    M11 AI photo-to-text            :p5a, after p4d, 3w
+    Report automation and tuning    :p5b, after p4d, 4w
+    Exit — Admin verifies instead of types :milestone, m5, after p5b, 0d
+</div></div>
+<p>Start date is illustrative; only the sequence and durations are being confirmed here.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>เฟส</th>
+<th>Weeks</th>
+<th>Exit criteria (from PRD §11)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P1 Foundation</td>
+<td>รากฐานระบบ</td>
+<td>1–6</td>
+<td>A ticket can be opened by Admin, executed and closed by a technician via QR scan, with a full audit trail</td>
+</tr>
+<tr>
+<td>P2 Field Execution</td>
+<td>งานภาคสนาม</td>
+<td>7–12</td>
+<td>Paper job sheets are no longer the system of record; machine history export matches the one-row-per-job format</td>
+</tr>
+<tr>
+<td>P3 Inventory &amp; Coordination</td>
+<td>สต๊อกและการประสานงาน</td>
+<td>13–18</td>
+<td>Technicians can check stock on site; ST completing an SO automatically releases the job to SV</td>
+</tr>
+<tr>
+<td>P4 Quality &amp; Prevention</td>
+<td>คุณภาพและการป้องกัน</td>
+<td>19–24</td>
+<td>Repeat-repair alerts fire in real time; the month-end manual export process is retired</td>
+</tr>
+<tr>
+<td>P5 Automation</td>
+<td>ระบบอัตโนมัติ</td>
+<td>25–28</td>
+<td>Admin&#39;s role on job-sheet entry is verification rather than transcription</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="phase-1"><h2 id="phase-1">4. Phase 1 — Foundation</h2>
+<h3>เฟสที่ 1 — รากฐานระบบ (สัปดาห์ที่ 1–6)</h3>
+<p><strong>Modules:</strong> M1 Identity &amp; RBAC · M2 Master Data · M3 QR Code · M13 Audit Trail · M4 minimal (create, assign, status, close)</p>
+<p><strong>Goal.</strong> Stand up the skeleton the entire system hangs from: who the users are, what they may do, who the customers and machines are, and an audit record of every change. At the end of this phase a ticket can travel end to end — but with no photos, no parts, no search, and no reporting.</p>
+<p><strong>Exit criteria.</strong> A ticket can be opened by Admin, executed and closed by a technician via QR scan, with a full audit trail.</p>
+<h3>4.1 Back-Office Web Console — 20 pages</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P1-B01</td>
+<td>เข้าสู่ระบบ + MFA / Login + MFA challenge</td>
+<td>all</td>
+<td>Username + password, then TOTP for <code>SYS_ADMIN</code>, <code>SERVICE_MANAGER</code>, <code>ST_MANAGER</code> (PRD §8.1)</td>
+<td><code>POST /auth/login</code>, <code>/auth/mfa/verify</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B02</td>
+<td>เปลี่ยน/รีเซ็ตรหัสผ่าน / Password change &amp; reset</td>
+<td>all</td>
+<td>Self-service change; lockout state after 5 failures in 15 min is shown here</td>
+<td><code>POST /auth/login</code> family</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B03</td>
+<td>รายชื่อผู้ใช้ / User list</td>
+<td>SYS_ADMIN</td>
+<td>Search, filter by role/department, activate/deactivate</td>
+<td><code>GET /users</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B04</td>
+<td>รายละเอียดผู้ใช้และกำหนดสิทธิ์ / User detail &amp; role assignment</td>
+<td>SYS_ADMIN</td>
+<td><strong>Multi-role assignment</strong> — one person may be both <code>SV_ADMIN</code> and <code>ST_STAFF</code>; permissions are the union (PRD §2.1). Role change revokes live sessions immediately</td>
+<td><code>PATCH /users/{id}</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B05</td>
+<td>ตารางสิทธิ์การใช้งาน / Role &amp; permission matrix viewer</td>
+<td>SYS_ADMIN, SERVICE_MANAGER</td>
+<td>Read-only rendering of the §2.2 capability matrix so a permission question is answered without reading the PRD</td>
+<td><code>GET /auth/me</code>, roles catalogue</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B06</td>
+<td>โครงสร้างแผนก / Department &amp; team setup</td>
+<td>SYS_ADMIN</td>
+<td>Department membership — the unit that scopes &quot;dept pool&quot; reads (PRD §2.3)</td>
+<td><code>GET/PATCH /departments</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B07</td>
+<td>รายชื่อลูกค้า/โครงการ / Customer &amp; project list</td>
+<td>SV_ADMIN, SERVICE_MANAGER</td>
+<td><strong>Step 1 of the Admin ticket-creation path</strong> named in the requirements: customer/project list → machine list → category</td>
+<td><code>GET /customers</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B08</td>
+<td>รายละเอียดลูกค้า / Customer detail</td>
+<td>SV_ADMIN, SERVICE_MANAGER</td>
+<td>Contact roster with the exact roles named in the source — House Keeping Manager, Laundry Manager, Laundry Supervisor, Laundry Worker, Chief Engineer, Chief Engineer Assistant, เลขาช่าง — plus the <strong>character/remark block</strong>: tier, ราชการ, VIP, and site rules (PPE, entry hours, sign-in)</td>
+<td><code>GET/PATCH /customers/{id}</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B09</td>
+<td>ไซต์งาน / Site list &amp; detail</td>
+<td>SV_ADMIN</td>
+<td>Site under customer; hosts machines</td>
+<td><code>GET /customers/{id}/sites</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B10</td>
+<td>รายการเครื่องจักรของลูกค้า / Customer machine list</td>
+<td>SV_ADMIN, SV_LEAD</td>
+<td><strong>Step 2 of the ticket-creation path</strong> — every machine TIL sold this customer</td>
+<td><code>GET /customers/{id}/machines</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B11</td>
+<td>รายละเอียดเครื่องจักร / Machine detail &amp; specs</td>
+<td>SV_ADMIN, SV_LEAD</td>
+<td>Serial, model, <code>site_machine_no</code> (หมายเลขเครื่องหน้างาน), installed date, warranty expiry, map/coordinates, and open-ended specs including ขนาดเพลากากบาท and จำนวนโช๊คอัพ (PRD §M2). Technician-submitted spec corrections appear here flagged for review</td>
+<td><code>GET/PATCH /machines/{id}</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B12</td>
+<td>ทะเบียนรุ่นเครื่องจักร / Machine model admin</td>
+<td>SV_ADMIN, SYS_ADMIN</td>
+<td>Model catalogue — later the anchor for PM and hook-up templates</td>
+<td><code>GET/POST /machine-models</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B13</td>
+<td>ข้อมูลตั้งต้นระบบ / Lookup admin</td>
+<td>SYS_ADMIN</td>
+<td>System categories (หมวดที่จะตรวจเช็ก/ซ่อม), contact roles, warehouses, skills. <strong>Deactivate only, never delete</strong> — historical tickets reference them (PRD §5.3)</td>
+<td><code>GET/POST/PATCH /lookups/*</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B14</td>
+<td>สร้างและพิมพ์ป้าย QR / QR label generation &amp; batch print</td>
+<td>SV_ADMIN, SV_LEAD</td>
+<td>Generate opaque non-guessable tokens and print labels in batch. Tokens are <strong>not</strong> serial numbers (PRD §10.5)</td>
+<td><code>POST /machines/{id}/qr</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B15</td>
+<td>ประวัติการเปลี่ยนป้าย QR / QR rotation history</td>
+<td>SV_ADMIN</td>
+<td>Rotate a token after a repaint or panel replacement; old label returns <code>410 QR_TOKEN_REVOKED</code> when scanned</td>
+<td><code>POST /machines/{id}/qr/regenerate</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B16</td>
+<td>Pool งานแผนก SV (พื้นฐาน) / SV ticket pool — basic</td>
+<td>SV_ADMIN, SV_LEAD, SERVICE_MANAGER</td>
+<td>The department pool. Filter by status, assignee, priority. <strong>Grouping งานช่าง (ลูกค้า) vs งาน Office SV is a first-class filter from day one</strong> — office work lives in the same pool so departmental work is not dropped (PRD §3.3)</td>
+<td><code>GET /tickets</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B17</td>
+<td>เปิดงานใหม่ / Ticket create wizard</td>
+<td>SV_ADMIN, SV_LEAD, SERVICE_MANAGER</td>
+<td>The exact requirement path: customer → machine → system category → ticket in the SV pool. <code>OFFICE</code> tickets skip machine and category</td>
+<td><code>POST /tickets</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B18</td>
+<td>รายละเอียดงาน (พื้นฐาน) / Ticket detail — basic</td>
+<td>all SV roles</td>
+<td>Assign, priority, วัน check point, deadline, status transitions, and the <strong>immutable status history</strong> every transition writes (PRD §3.4). The <code>customer_alert</code> briefing block from the API response is displayed prominently here</td>
+<td><code>GET /tickets/{id}</code>, <code>/assign</code>, <code>/status</code>, <code>/history</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B19</td>
+<td>บันทึกการตรวจสอบย้อนหลัง / Audit log browser</td>
+<td>SYS_ADMIN, SERVICE_MANAGER, SV_LEAD</td>
+<td>Who changed what, when, from where — before/after diff per mutation. Append-only; no edit or delete action exists on this page (PRD §M13)</td>
+<td><code>GET /audit-logs</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-B20</td>
+<td>ตั้งค่าระบบ / System settings</td>
+<td>SYS_ADMIN</td>
+<td>Repeat-repair window (default 72 h), ticket number format, retention settings, session policy</td>
+<td><code>GET/PATCH /settings</code></td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>4.2 Technician Mobile PWA — 6 pages</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P1-M01</td>
+<td>เข้าสู่ระบบ / Login + MFA</td>
+<td>all field roles</td>
+<td>Token stored for long-lived offline use; refresh rotates on reconnect</td>
+<td><code>POST /auth/login</code>, <code>/auth/refresh</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-M02</td>
+<td>สแกน QR / QR scanner</td>
+<td>SV_TECH, INSTALL_TECH, QC_STAFF</td>
+<td><strong>The home screen.</strong> Camera-first, works offline against a cached token map</td>
+<td><code>POST /qr/resolve</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-M03</td>
+<td>ข้อมูลเครื่องจักรจากการสแกน / Scan result — machine card</td>
+<td>SV_TECH, QC_STAFF</td>
+<td>The single screen that drives the whole on-site decision: machine + warranty status + <strong>open tickets on that machine</strong> + PM due + <code>customer_alert</code> remark, then the choice — work an existing ticket or open a new one (PRD §3.5, §6.4)</td>
+<td><code>POST /qr/resolve</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-M04</td>
+<td>งานของฉัน (พื้นฐาน) / My tasks — basic</td>
+<td>SV_TECH, INSTALL_TECH</td>
+<td>Personal assigned list with priority and deadline. Department pool is <strong>readable</strong> but only own tickets are mutable (PRD §2.3)</td>
+<td><code>GET /dashboards/my-tasks</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-M05</td>
+<td>รายละเอียดงานและอัปเดตสถานะ / Ticket detail &amp; status advance</td>
+<td>assignee</td>
+<td>Read the job, advance status (<code>INSPECTING</code>, <code>IN_REPAIR</code>), see the customer briefing block before entering site</td>
+<td><code>GET /tickets/{id}</code>, <code>POST /tickets/{id}/status</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P1-M06</td>
+<td>สถานะการเชื่อมต่อ/ซิงก์ / Offline &amp; sync status shell</td>
+<td>all field roles</td>
+<td>Persistent banner: online / offline / N items queued. The full conflict-resolution UI arrives in Phase 2; Phase 1 establishes the queue and the visible flag so a technician never believes a job was filed when it was not (PRD §7.4)</td>
+<td>client-side</td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>4.3 Executive Dashboard — 0 pages</h3>
+<p>None. No aggregate data exists yet. The executive surface opens in Phase 3 with stock health and reaches full scope in Phase 4.</p>
+<h3>4.4 Navigation Map (Diagram C1)</h3>
+<div class="diagram mermaid-wrap"><div class="mermaid">flowchart TD
+    subgraph MOBILE[&quot;Mobile PWA — แอปช่าง&quot;]
+        direction TB
+        ML[&quot;P1-M01 Login&quot;] --&gt; MSCAN[&quot;P1-M02 QR Scanner&lt;br/&gt;สแกน QR&quot;]
+        ML --&gt; MTASK[&quot;P1-M04 My Tasks&lt;br/&gt;งานของฉัน&quot;]
+        MSCAN --&gt; MCARD[&quot;P1-M03 Machine Card&lt;br/&gt;ข้อมูลเครื่อง + งานที่เปิดค้าง&quot;]
+        MCARD --&gt;|&quot;เลือกงานที่เปิดไว้&quot;| MDET[&quot;P1-M05 Ticket Detail&lt;br/&gt;รายละเอียดงาน&quot;]
+        MTASK --&gt; MDET
+        MSYNC[&quot;P1-M06 Sync Status&lt;br/&gt;สถานะซิงก์&quot;] -.-&gt; MDET
+    end
+
+    subgraph BACKOFFICE[&quot;Back-Office Console — ระบบหลังบ้าน&quot;]
+        direction TB
+        BL[&quot;P1-B01 Login + MFA&quot;] --&gt; BPOOL[&quot;P1-B16 SV Ticket Pool&lt;br/&gt;Pool งานแผนก SV&quot;]
+        BPOOL --&gt; BNEW[&quot;P1-B17 Create Ticket&lt;br/&gt;เปิดงานใหม่&quot;]
+        BNEW --&gt; BCUST[&quot;P1-B07 Customer List&lt;br/&gt;รายชื่อลูกค้า&quot;]
+        BCUST --&gt; BMACH[&quot;P1-B10 Machine List&lt;br/&gt;รายการเครื่องจักร&quot;]
+        BMACH --&gt; BCAT[&quot;Select Category&lt;br/&gt;เลือกหมวดที่จะซ่อม&quot;]
+        BCAT --&gt; BDET[&quot;P1-B18 Ticket Detail&lt;br/&gt;รายละเอียดงาน&quot;]
+        BPOOL --&gt; BDET
+        BCUST --&gt; BCDET[&quot;P1-B08 Customer Detail&lt;br/&gt;ผู้ติดต่อ + Remark/VIP&quot;]
+        BMACH --&gt; BMDET[&quot;P1-B11 Machine Detail&lt;br/&gt;ข้อมูลจำเพาะเครื่อง&quot;]
+        BMDET --&gt; BQR[&quot;P1-B14 QR Label Print&lt;br/&gt;พิมพ์ป้าย QR&quot;]
+
+        BL --&gt; BADM[&quot;P1-B03 User List&lt;br/&gt;ผู้ใช้ระบบ&quot;]
+        BADM --&gt; BUSER[&quot;P1-B04 Role Assignment&lt;br/&gt;กำหนดสิทธิ์&quot;]
+        BADM --&gt; BLOOK[&quot;P1-B13 Lookup Admin&lt;br/&gt;ข้อมูลตั้งต้น&quot;]
+        BDET --&gt; BAUD[&quot;P1-B19 Audit Log&lt;br/&gt;ตรวจสอบย้อนหลัง&quot;]
+    end
+
+    MCARD -.-&gt;|&quot;เปิดงานใหม่หน้างาน&quot;| BDET
+</div></div>
+<p>Dotted line from the machine card into ticket detail is the <code>QR_ONSITE</code> intake path — the technician opens a ticket for an extra problem the customer raises during a visit (PRD §3.1 path 3).</p>
+<h3>4.5 Out of This Phase — ไม่รวมในเฟสนี้</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Not yet available</th>
+<th>ยังไม่มีในเฟสนี้</th>
+<th>Arrives in</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Work log, mandatory photo capture, submission</td>
+<td>บันทึกงาน รูปบังคับ 3 ประเภท และส่งงาน</td>
+<td>Phase 2</td>
+</tr>
+<tr>
+<td>Admin verification queue (<code>SUBMITTED → CLOSED</code>)</td>
+<td>คิวตรวจรับงานจากช่าง</td>
+<td>Phase 2</td>
+</tr>
+<tr>
+<td>Universal search across the six keys</td>
+<td>ค้นหาตาม 6 คีย์</td>
+<td>Phase 2</td>
+</tr>
+<tr>
+<td>Machine history view and export</td>
+<td>ประวัติเครื่องและ Export</td>
+<td>Phase 2</td>
+</tr>
+<tr>
+<td>Repeat-repair alerting</td>
+<td>แจ้งเตือนงานซ่อมซ้ำ</td>
+<td>Phase 2</td>
+</tr>
+<tr>
+<td>Any parts, stock, or SO screen</td>
+<td>หน้าจออะไหล่ สต๊อก SO ทั้งหมด</td>
+<td>Phase 3</td>
+</tr>
+<tr>
+<td>Notifications of any kind, including LINE and push</td>
+<td>การแจ้งเตือนทุกช่องทาง</td>
+<td>Phase 3</td>
+</tr>
+<tr>
+<td>PM, QC inbound, installation requisition</td>
+<td>งาน PM, ตรวจรับเครื่อง QC, เบิกของติดตั้ง</td>
+<td>Phase 4</td>
+</tr>
+<tr>
+<td>Dashboards, calendar, skill matrix</td>
+<td>แดชบอร์ด ปฏิทิน Skill Matrix</td>
+<td>Phase 4</td>
+</tr>
+<tr>
+<td>AI job-sheet extraction</td>
+<td>AI แปลงรูปใบงาน</td>
+<td>Phase 5</td>
+</tr>
+</tbody></table></div>
+<blockquote>
+<p><strong>Phase 1 acceptance walkthrough.</strong> Admin opens a ticket from customer → machine → category. Technician scans the machine QR on site, sees the ticket, advances it to <code>IN_REPAIR</code>, and Admin closes it. Every one of those steps appears in the audit log with actor, role, timestamp and before/after values.</p>
+</blockquote>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="phase-2"><h2 id="phase-2">5. Phase 2 — Field Execution</h2>
+<h3>เฟสที่ 2 — งานภาคสนาม (สัปดาห์ที่ 7–12)</h3>
+<p><strong>Modules:</strong> M5 Work Log &amp; Evidence · offline sync · M7 History &amp; Export · M4 universal search · <strong>M12a repeat-repair detector (pulled forward from Phase 4)</strong></p>
+<p><strong>Goal.</strong> Retire the paper job sheet as the system of record. This is the phase that changes the technician&#39;s daily behaviour, so it carries the most mobile pages and the strictest server-side enforcement.</p>
+<p><strong>Exit criteria.</strong> Paper job sheets are no longer the system of record; machine history export matches the one-row-per-job format.</p>
+<h3>5.1 Technician Mobile PWA — 6 pages</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P2-M01</td>
+<td>บันทึกงานซ่อม / Work log form</td>
+<td>assignee</td>
+<td>Structured entry: อาการที่พบ (symptom), สาเหตุ (root cause), การแก้ไข (action taken), อะไหล่ที่เปลี่ยน (parts replaced), ชั่วโมงแรงงาน (labour time). Fully editable offline (PRD §M5)</td>
+<td><code>PATCH /tickets/{id}</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P2-M02</td>
+<td>แนบรูปตามประเภท / Photo capture by category</td>
+<td>assignee</td>
+<td>Camera + gallery, tagged by category. The three mandatory categories render as a <strong>live checklist</strong> so the technician sees what is still missing before leaving site: 1. ใบงาน <code>JOB_SHEET</code> · 2. อะไหล่เสียที่ตรวจพบ <code>DEFECT_PART</code> · 3. อะไหล่ที่เปลี่ยนใหม่ <code>REPLACED_PART</code> (PRD §3.5)</td>
+<td><code>POST /tickets/{id}/attachments</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P2-M03</td>
+<td>ส่งงาน / Submit work</td>
+<td>assignee</td>
+<td>Submission is <strong>blocked server-side</strong> when evidence is incomplete. The page renders <code>422 TICKET_PHOTO_REQUIREMENT_UNMET</code> per category with required-vs-current counts. Category 3 offers the <code>no_parts_replaced_reason</code> waiver; categories 1 and 2 have <strong>no waiver</strong> (PRD §3.5, §6.3)</td>
+<td><code>POST /tickets/{id}/submit</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P2-M04</td>
+<td>งานถูกตีกลับ / Rejection received</td>
+<td>assignee</td>
+<td>Admin/Lead returned the job (<code>SUBMITTED → IN_REPAIR</code>) with a reason. Shows what to fix and reopens the work log</td>
+<td><code>GET /tickets/{id}</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P2-M05</td>
+<td>คิวข้อมูลรอซิงก์ / Sync queue &amp; conflict resolution</td>
+<td>all field roles</td>
+<td>Every queued mutation with its state, and a <strong>per-item conflict resolution UI</strong> for <code>409</code> responses — status transitions and stock movements are validated against server state and are not last-write-wins (PRD §5.4, §7.4)</td>
+<td>replay with original <code>Idempotency-Key</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P2-M06</td>
+<td>ถามตอบในงาน / Ticket comment thread</td>
+<td>dept members</td>
+<td>In-thread Q&amp;A and feedback between technician, Lead and Admin — the &quot;ส่งข้อมูลถามตอบในแผนกและ feedback ผ่าน online&quot; requirement (PRD §M12)</td>
+<td><code>GET/POST /tickets/{id}/comments</code></td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>5.2 Back-Office Web Console — 7 pages</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P2-B01</td>
+<td>คิวตรวจรับงาน / Verification queue</td>
+<td>SV_ADMIN, SV_LEAD, SERVICE_MANAGER</td>
+<td>All tickets in <code>SUBMITTED</code>, aged, prioritised. Admin&#39;s daily work list</td>
+<td><code>GET /tickets?status=SUBMITTED</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P2-B02</td>
+<td>ตรวจรับ/ตีกลับงาน / Verify &amp; reject detail</td>
+<td>SV_ADMIN, SV_LEAD, SERVICE_MANAGER</td>
+<td>Work log beside the evidence photos, full-screen zoom, then จบงาน (<code>CLOSED</code>) or ตีกลับ with a mandatory reason. Photos load through short-lived signed URLs only (PRD §8.3)</td>
+<td><code>POST /tickets/{id}/verify</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P2-B03</td>
+<td>ค้นหาแบบรวม / Universal search results</td>
+<td>all staff</td>
+<td><strong>The six keys named twice in the source requirements</strong>: ชื่อลูกค้า · Serial number เครื่อง · Part number อะไหล่ · เลขที่ใบงาน · เลขที่ PO · เลขที่ SO. Results grouped by entity type with the matched key identified (PRD §M4, §6.9)</td>
+<td><code>GET /search?q=</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P2-B04</td>
+<td>ประวัติการซ่อมของเครื่อง / Machine history timeline</td>
+<td>SV roles, QC, EXECUTIVE</td>
+<td>Full chronological history per machine and per project, reachable from the machine list. Answers the question the requirements pose verbatim: installed when, warranty ends when, what was repaired or claimed, at what value (PRD §M7)</td>
+<td><code>GET /machines/{id}/history</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P2-B05</td>
+<td>สร้างไฟล์ Export ประวัติ / History export builder</td>
+<td>SV roles, EXECUTIVE</td>
+<td>Range and column selection, then async generation. <strong>One job per row is a hard format requirement</strong> — merged cells or multi-line layouts are non-conforming (PRD §M7). XLSX primary, CSV secondary</td>
+<td><code>POST /machines/{id}/history/export</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P2-B06</td>
+<td>รายการไฟล์ Export / Export jobs &amp; download</td>
+<td>requesting user</td>
+<td>Job status and signed download link; <code>EXPORT_TOO_LARGE</code> guidance when a range exceeds the 50k row cap (PRD §9.13)</td>
+<td><code>GET /exports/{id}</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P2-B07</td>
+<td>งานซ่อมซ้ำรอพิจารณา / Repeat-case inbox &amp; adjudication</td>
+<td>SERVICE_MANAGER, SV_LEAD (SV_ADMIN reads)</td>
+<td>Cases raised when the same machine + same system category recur inside the rolling 72-hour window. Reviewer sets <code>CONFIRMED_REPEAT</code> (counts against the ≤1 machine/month KPI) or <code>NOT_REPEAT</code> <strong>with a mandatory reason</strong> (PRD §3.6)</td>
+<td><code>GET /reports/repeat-cases</code>, case review endpoint</td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>5.3 Executive Dashboard — 0 pages</h3>
+<p>Still none. Repeat-repair <em>detection</em> ships this phase; the repeat-repair <em>KPI chart</em> is part of the Phase 4 dashboard set.</p>
+<h3>5.4 Navigation Map (Diagram C2)</h3>
+<div class="diagram mermaid-wrap"><div class="mermaid">flowchart TD
+    subgraph MOBILE[&quot;Mobile PWA — บันทึกและส่งงาน&quot;]
+        direction TB
+        MD[&quot;Ticket Detail (P1-M05)&lt;br/&gt;รายละเอียดงาน&quot;] --&gt; MLOG[&quot;P2-M01 Work Log&lt;br/&gt;บันทึกงานซ่อม&quot;]
+        MLOG --&gt; MPHOTO[&quot;P2-M02 Photo Capture&lt;br/&gt;แนบรูป 3 ประเภท&quot;]
+        MPHOTO --&gt; MSUB[&quot;P2-M03 Submit&lt;br/&gt;ส่งงาน&quot;]
+        MSUB --&gt;|&quot;422 รูปไม่ครบ&quot;| MPHOTO
+        MSUB --&gt;|&quot;OK&quot;| MQ[&quot;P2-M05 Sync Queue&lt;br/&gt;คิวรอซิงก์&quot;]
+        MD --&gt; MCHAT[&quot;P2-M06 Comments&lt;br/&gt;ถามตอบในงาน&quot;]
+        MREJ[&quot;P2-M04 Rejection Received&lt;br/&gt;งานถูกตีกลับ&quot;] --&gt; MLOG
+    end
+
+    subgraph BACKOFFICE[&quot;Back-Office — ตรวจรับและค้นหา&quot;]
+        direction TB
+        BQ[&quot;P2-B01 Verification Queue&lt;br/&gt;คิวตรวจรับงาน&quot;] --&gt; BV[&quot;P2-B02 Verify / Reject&lt;br/&gt;ตรวจรับหรือตีกลับ&quot;]
+        BV --&gt;|&quot;จบงาน CLOSED&quot;| BHIST[&quot;P2-B04 Machine History&lt;br/&gt;ประวัติการซ่อม&quot;]
+        BV --&gt;|&quot;ตีกลับ&quot;| BREJ[&quot;Reason required&lt;br/&gt;ต้องระบุเหตุผล&quot;]
+        BSRCH[&quot;P2-B03 Universal Search&lt;br/&gt;ค้นหา 6 คีย์&quot;] --&gt; BHIST
+        BSRCH --&gt; BV
+        BHIST --&gt; BEXP[&quot;P2-B05 Export Builder&lt;br/&gt;สร้างไฟล์ Export&quot;]
+        BEXP --&gt; BDL[&quot;P2-B06 Export Jobs&lt;br/&gt;ดาวน์โหลดไฟล์&quot;]
+        BRC[&quot;P2-B07 Repeat-Case Inbox&lt;br/&gt;งานซ่อมซ้ำรอพิจารณา&quot;] --&gt; BRCD[&quot;Adjudicate&lt;br/&gt;CONFIRMED_REPEAT / NOT_REPEAT&quot;]
+    end
+
+    MSUB --&gt; BQ
+    BREJ --&gt; MREJ
+    NEWTICKET[&quot;New ticket created&lt;br/&gt;เปิดงานใหม่&quot;] --&gt;|&quot;เครื่องเดิม + หมวดเดิม ภายใน 3 วัน&quot;| BRC
+</div></div>
+<h3>5.5 Out of This Phase — ไม่รวมในเฟสนี้</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Not yet available</th>
+<th>ยังไม่มีในเฟสนี้</th>
+<th>Arrives in</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LINE and push delivery of the repeat-repair alert</td>
+<td>แจ้งเตือนงานซ่อมซ้ำผ่าน LINE และ Push</td>
+<td>Phase 3 — in-app only in Phase 2</td>
+</tr>
+<tr>
+<td>Recording parts consumed against stock</td>
+<td>ตัดสต๊อกอะไหล่จากงานซ่อม</td>
+<td>Phase 3 — parts are free text in the Phase 2 work log</td>
+</tr>
+<tr>
+<td>Quote, PO, SO screens and the SO-complete alert</td>
+<td>ใบเสนอราคา PO SO และแจ้งเตือนอะไหล่ครบ</td>
+<td>Phase 3</td>
+</tr>
+<tr>
+<td>PM step-enforced checklist</td>
+<td>ฟอร์ม PM แบบบังคับลำดับขั้นตอน</td>
+<td>Phase 4</td>
+</tr>
+<tr>
+<td>Repeat-repair KPI chart and dashboards</td>
+<td>กราฟ KPI งานซ่อมซ้ำและแดชบอร์ด</td>
+<td>Phase 4</td>
+</tr>
+<tr>
+<td>AI extraction of the job sheet photo</td>
+<td>AI อ่านใบงานจากรูป</td>
+<td>Phase 5 — the photo is captured in Phase 2, read manually</td>
+</tr>
+</tbody></table></div>
+<blockquote>
+<p><strong>Note on the pulled-forward detector.</strong> Detection runs <strong>synchronously inside the ticket-creation transaction</strong> so the flag is visible to the creating user immediately; notification dispatch is queued (PRD §3.6). In Phase 2 that dispatch reaches the in-app inbox only. LINE and push land with M10 in Phase 3.</p>
+</blockquote>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="phase-3"><h2 id="phase-3">6. Phase 3 — Inventory &amp; Coordination</h2>
+<h3>เฟสที่ 3 — สต๊อกและการประสานงาน (สัปดาห์ที่ 13–18)</h3>
+<p><strong>Modules:</strong> M8 Spare Parts &amp; Inventory · M9 Quote / PO / SO Reference · M10 Notifications &amp; Alerts</p>
+<p><strong>Goal.</strong> Close the loop between the store and the field. A technician on site can answer &quot;do we have this part?&quot; without a phone call, and ST completing an SO automatically releases the job back to SV instead of someone remembering to tell them.</p>
+<p><strong>Exit criteria.</strong> Technicians can check stock on site; ST completing an SO automatically releases the job to SV.</p>
+<h3>6.1 Back-Office Web Console — 14 pages</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P3-B01</td>
+<td>ทะเบียนอะไหล่ / Parts catalogue list</td>
+<td>all staff read, ST writes</td>
+<td>Search by part number or name, filter by model compatibility and active status</td>
+<td><code>GET /parts?q=</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B02</td>
+<td>รายละเอียดอะไหล่ / Part detail</td>
+<td>all staff read, ST writes</td>
+<td>Part number, ชื่อไทย/อังกฤษ, unit, <strong>photo</strong>, specifications, compatible models, supersession links, expected lifespan. The photo is a hard requirement — the technician lookup UX depends on it (PRD §M8)</td>
+<td><code>GET/PATCH /parts/{id}</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B03</td>
+<td>ทะเบียนคลัง / Warehouse admin</td>
+<td>ST_MANAGER, SYS_ADMIN</td>
+<td>HQ Bangkok and <strong>Phuket Office</strong> — the branch the requirements single out as needing to hold customer stock but currently lacking both staff and system support. Schema supports N warehouses (PRD §M8, §12 Q3)</td>
+<td><code>GET/POST /warehouses</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B04</td>
+<td>ยอดคงเหลือรายคลัง / Stock balance by warehouse</td>
+<td>all staff read</td>
+<td>On-hand, reserved, available per part per warehouse. <code>qty_available</code> is derived, never stored</td>
+<td><code>GET /parts/{id}/stock</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B05</td>
+<td>ตั้งค่า Min/Max / Min-max threshold editor</td>
+<td><strong>ST_MANAGER only</strong></td>
+<td>Per part per warehouse thresholds that drive replenishment alerts (PRD §M8)</td>
+<td><code>PUT /parts/{id}/stock/{warehouseId}/thresholds</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B06</td>
+<td>รับอะไหล่เข้าคลัง / Stock receive</td>
+<td>ST_STAFF, ST_MANAGER</td>
+<td>Receipt against an SO or PO, partial receipts supported</td>
+<td><code>POST /stock/receive</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B07</td>
+<td>เบิก/จ่ายอะไหล่ / Stock issue</td>
+<td>ST_STAFF, ST_MANAGER</td>
+<td>Issue against a ticket. Rejects with <code>409 INSUFFICIENT_STOCK</code> showing available vs requested per line. Reserved stock allocated to an open SO cannot be double-issued</td>
+<td><code>POST /stock/issue</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B08</td>
+<td>โอนย้ายระหว่างคลัง / Stock transfer</td>
+<td>ST_STAFF, ST_MANAGER</td>
+<td>HQ ↔ Phuket movement, posts paired <code>TRANSFER_OUT</code> / <code>TRANSFER_IN</code> ledger rows</td>
+<td><code>POST /stock/transfer</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B09</td>
+<td>ปรับปรุงยอดสต๊อก / Stock adjustment &amp; count</td>
+<td>ST_STAFF creates</td>
+<td>Count correction with a <strong>mandatory reason</strong> — the only movement type that requires one</td>
+<td><code>POST /stock/adjust</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B10</td>
+<td>อนุมัติการปรับยอด / Adjustment approval queue</td>
+<td><strong>ST_MANAGER only</strong></td>
+<td>Adjustments require manager approval before they post (PRD §2.2)</td>
+<td><code>POST /stock/adjust/{id}/approve</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B11</td>
+<td>แจ้งเตือนอะไหล่ใกล้หมด / Stock alerts — at or below minimum</td>
+<td>ST_STAFF, ST_MANAGER, SV</td>
+<td>Replenishment worklist per warehouse, with a daily email digest (PRD §M10)</td>
+<td><code>GET /stock/alerts</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B12</td>
+<td>ใบเสนอราคา / Quotation list &amp; detail</td>
+<td>SV_ADMIN, SERVICE_MANAGER</td>
+<td><strong>Reference records only</strong> — number, date, amount, status, linked ticket and parts. This system is not the financial document of record (PRD §1.3, §12 Q1)</td>
+<td><code>POST /quotations</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B13</td>
+<td>PO ลูกค้า / Purchase order list &amp; detail</td>
+<td>SV_ADMIN, SERVICE_MANAGER</td>
+<td>Customer PO reference; receipt of the PO drives <code>AWAITING_PO → PARTS_PREP</code></td>
+<td><code>POST /purchase-orders</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B14</td>
+<td>SO และความคืบหน้าการรับของ / Sales order detail &amp; receipt progress</td>
+<td>SV_ADMIN creates, <strong>ST completes</strong></td>
+<td>Lines with partial-receipt tracking so SV sees what is still outstanding. The <strong>&quot;อะไหล่เข้าครบตาม SO&quot; action is ST-only</strong> and performs three things atomically: sets the SO complete, transitions linked tickets <code>PARTS_PREP → PARTS_READY</code>, and enqueues the SV notification. This is the <strong>only</strong> ticket status change ST may make (PRD §M9, §6.7)</td>
+<td><code>POST /sales-orders/{id}/receive</code>, <code>/complete</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-B15</td>
+<td>ศูนย์การแจ้งเตือนและการตั้งค่า / Notification centre &amp; preferences</td>
+<td>all staff</td>
+<td>In-app inbox plus per-channel opt-in (in-app, push, LINE, email). Delivery is recorded per recipient per channel so a missed critical alert is provable after the fact (PRD §M10)</td>
+<td><code>GET /notifications</code>, <code>PUT /notifications/preferences</code></td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>6.2 Technician Mobile PWA — 4 pages</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P3-M01</td>
+<td>ค้นหาอะไหล่คงเหลือ / Part lookup by part number</td>
+<td>all field roles</td>
+<td>The requirement verbatim: search by Part number, see the <strong>part photo and every necessary detail</strong>, with balance per warehouse. Read-heavy and latency-sensitive (p95 ≤300 ms), cached, and <strong>degrades gracefully offline</strong> — last-known balance shown with an explicit staleness timestamp, never silently stale (PRD §M8, §6.6)</td>
+<td><code>GET /parts/lookup?part_number=</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-M02</td>
+<td>สแกน QR เบิกอะไหล่ / Part QR scan-to-issue</td>
+<td>SV_TECH, INSTALL_TECH, ST</td>
+<td>Scan the part label to issue and decrement stock on mobile — &quot;เบิกของและตัด Stock Online ผ่านแอพโดยใช้มือถือสแกน QR code&quot; (PRD §M8)</td>
+<td><code>POST /stock/issue</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-M03</td>
+<td>รายการเบิกของฉัน / My stock requests</td>
+<td>SV_TECH, INSTALL_TECH</td>
+<td>Requests raised against own tickets and their confirmation state. A technician request posts when ST confirms, or immediately where self-service issue is enabled for that warehouse (PRD §2.2 note 3)</td>
+<td><code>GET /stock/requests?mine=true</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P3-M04</td>
+<td>กล่องแจ้งเตือน / Notification inbox</td>
+<td>all field roles</td>
+<td>In-app inbox — the fallback that is never dependent on LINE or push being up (PRD §10.1, §10.3)</td>
+<td><code>GET /notifications</code></td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>6.3 Executive Dashboard — 1 page</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P3-E01</td>
+<td>ภาพรวมสุขภาพสต๊อก / Stock health tiles</td>
+<td>EXECUTIVE, ST_MANAGER, SERVICE_MANAGER</td>
+<td>Below-minimum counts by warehouse, stock value trend, HQ vs Phuket comparison. Read-only</td>
+<td><code>GET /stock/alerts</code> aggregate</td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>6.4 Navigation Map (Diagram C3)</h3>
+<div class="diagram mermaid-wrap"><div class="mermaid">flowchart TD
+    subgraph MOBILE[&quot;Mobile PWA — อะไหล่หน้างาน&quot;]
+        direction TB
+        MLOOK[&quot;P3-M01 Part Lookup&lt;br/&gt;ค้นหาอะไหล่ตาม Part number&quot;]
+        MLOOK --&gt;|&quot;มีของ&quot;| MISSUE[&quot;P3-M02 QR Scan Issue&lt;br/&gt;สแกนเบิกและตัดสต๊อก&quot;]
+        MISSUE --&gt; MREQ[&quot;P3-M03 My Requests&lt;br/&gt;รายการเบิกของฉัน&quot;]
+        MINBOX[&quot;P3-M04 Notification Inbox&lt;br/&gt;กล่องแจ้งเตือน&quot;]
+    end
+
+    subgraph STORE[&quot;Back-Office — งานคลัง (ST)&quot;]
+        direction TB
+        BCAT[&quot;P3-B01 Parts Catalogue&lt;br/&gt;ทะเบียนอะไหล่&quot;] --&gt; BPART[&quot;P3-B02 Part Detail&lt;br/&gt;รายละเอียด + รูป&quot;]
+        BPART --&gt; BBAL[&quot;P3-B04 Stock Balance&lt;br/&gt;ยอดคงเหลือรายคลัง&quot;]
+        BBAL --&gt; BMIN[&quot;P3-B05 Min/Max&lt;br/&gt;ตั้งค่าจุดสั่งซื้อ&quot;]
+        BBAL --&gt; BRCV[&quot;P3-B06 Receive&lt;br/&gt;รับเข้า&quot;]
+        BBAL --&gt; BISS[&quot;P3-B07 Issue&lt;br/&gt;เบิกจ่าย&quot;]
+        BBAL --&gt; BTRF[&quot;P3-B08 Transfer&lt;br/&gt;โอนย้าย HQ ↔ ภูเก็ต&quot;]
+        BBAL --&gt; BADJ[&quot;P3-B09 Adjustment&lt;br/&gt;ปรับยอด&quot;]
+        BADJ --&gt; BAPP[&quot;P3-B10 Approval&lt;br/&gt;ผู้จัดการคลังอนุมัติ&quot;]
+        BMIN --&gt; BALERT[&quot;P3-B11 Stock Alerts&lt;br/&gt;อะไหล่ใกล้หมด&quot;]
+    end
+
+    subgraph SALES[&quot;Back-Office — เอกสารอ้างอิง (SV)&quot;]
+        direction TB
+        BQUOTE[&quot;P3-B12 Quotation&lt;br/&gt;ใบเสนอราคา&quot;] --&gt; BPO[&quot;P3-B13 Customer PO&lt;br/&gt;PO ลูกค้า&quot;]
+        BPO --&gt; BSO[&quot;P3-B14 Sales Order&lt;br/&gt;SO + ความคืบหน้ารับของ&quot;]
+    end
+
+    BRCV --&gt; BSO
+    BSO --&gt;|&quot;ST กด: อะไหล่เข้าครบตาม SO&quot;| NOTIF[&quot;P3-B15 Notification Centre&lt;br/&gt;ศูนย์แจ้งเตือน&quot;]
+    NOTIF --&gt;|&quot;Push + LINE + in-app&quot;| MINBOX
+    NOTIF --&gt;|&quot;ticket: PARTS_PREP → PARTS_READY&quot;| TICKET[&quot;Ticket returns to SV&lt;br/&gt;จ่ายงานช่างออกไปซ่อมได้&quot;]
+    BALERT --&gt; NOTIF
+    MLOOK -.-&gt;|&quot;ไม่พอ&quot;| BSO
+</div></div>
+<p>The thick path — SO receipt → ST marks complete → notification + automatic ticket transition → job released to SV — is the coordination requirement this phase exists to satisfy.</p>
+<h3>6.5 Out of This Phase — ไม่รวมในเฟสนี้</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Not yet available</th>
+<th>ยังไม่มีในเฟสนี้</th>
+<th>Arrives in</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Installation requisition prefilled from hook-up templates</td>
+<td>เบิกของติดตั้งตามแบบ Hook-up</td>
+<td>Phase 4 — stock issue exists, the prefill does not</td>
+</tr>
+<tr>
+<td>Part lifespan analysis</td>
+<td>วิเคราะห์อายุการใช้งานอะไหล่เฉลี่ย</td>
+<td>Phase 4 — <code>machine_part_install</code> data starts accumulating now</td>
+</tr>
+<tr>
+<td>PM, QC inbound modules</td>
+<td>งาน PM และตรวจรับเครื่อง QC</td>
+<td>Phase 4</td>
+</tr>
+<tr>
+<td>Performance dashboards, calendar, skill matrix</td>
+<td>แดชบอร์ดผลงาน ปฏิทิน Skill Matrix</td>
+<td>Phase 4</td>
+</tr>
+<tr>
+<td>ERP synchronisation of PO/SO numbers</td>
+<td>เชื่อมต่อ ERP สำหรับเลขที่ PO/SO</td>
+<td>Unscheduled — see §11 Q1, the largest open integration question</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="phase-4"><h2 id="phase-4">7. Phase 4 — Quality &amp; Prevention</h2>
+<h3>เฟสที่ 4 — คุณภาพและการป้องกัน (สัปดาห์ที่ 19–24)</h3>
+<p><strong>Modules:</strong> M6 PM Templates &amp; Execution · M12b Dashboards, Skill Matrix, Part Lifespan · QC Inbound · Installation Hook-up Requisition</p>
+<p><strong>Goal.</strong> Move from reacting to failures to preventing them, and make performance visible. This phase retires the month-end manual export process entirely.</p>
+<p><strong>Exit criteria.</strong> Repeat-repair alerts fire in real time; the month-end manual export process is retired.</p>
+<h3>7.1 Back-Office Web Console — 10 pages</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P4-B01</td>
+<td>รายการแม่แบบ PM / PM template list</td>
+<td>SV_LEAD, SERVICE_MANAGER</td>
+<td>Templates by machine model, version and active state</td>
+<td><code>GET /pm-templates?model_id=</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-B02</td>
+<td>สร้าง/แก้ไขแม่แบบ PM / PM template authoring</td>
+<td>SV_LEAD, SERVICE_MANAGER</td>
+<td>Ordered steps 1, 2, 3, 4 … with per-step flags: <code>photo_required</code>, <code>measurement_required</code> with unit and tolerance band. The ordering is deliberate — it exists to prevent jumping between steps (PRD §3.7). Note §11 Q8: template <em>content</em> is a customer-side deliverable</td>
+<td><code>POST/PATCH /pm-templates</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-B03</td>
+<td>ตารางงาน PM ครบกำหนด / PM schedule &amp; due board</td>
+<td>SV_ADMIN, SV_LEAD</td>
+<td>Generated PM schedule with due and overdue states, feeding assignment</td>
+<td><code>GET /pm-schedule</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-B04</td>
+<td>รายการตรวจรับเครื่องเข้าใหม่ / QC inspection list</td>
+<td>QC_STAFF, SERVICE_MANAGER</td>
+<td>Inbound machines awaiting or under inspection</td>
+<td><code>GET /qc-inspections</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-B05</td>
+<td>รายละเอียดการตรวจรับ / QC inspection detail</td>
+<td>QC_STAFF</td>
+<td>Inspection result and photos. Where damage or modification is found, <strong>creates a ticket directly in the SV pool</strong> (<code>ticket_type = QC_INBOUND</code>) carrying the photos and the inspection reference (PRD §3.9)</td>
+<td><code>POST /qc-inspections/{id}/defect</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-B06</td>
+<td>To-do list เครื่องเข้าใหม่จากจีน / QC modification to-do checklist</td>
+<td>QC_STAFF, SERVICE_MANAGER</td>
+<td>The explicitly named safeguard against omissions (ป้องกันการตกหล่น) for machines arriving from China. Each row has an owner and completion state; <strong>an inspection cannot be marked complete with open mandatory to-do items</strong> (PRD §3.9)</td>
+<td><code>GET/POST /qc-inspections/{id}/todos</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-B07</td>
+<td>แบบ Hook-up / Hook-up template list &amp; line editor</td>
+<td>SV_ADMIN, ST_MANAGER</td>
+<td>Registered hook-up parts list per machine model — the list that already exists on paper and should never be retyped</td>
+<td><code>GET /hookup-templates?model_id=</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-B08</td>
+<td>ใบเบิกของติดตั้ง / Requisition list &amp; detail</td>
+<td>ST_STAFF, SV_LEAD, SERVICE_MANAGER</td>
+<td>Submitted installation requisitions for ST to fulfil. Lines added on site are marked <code>ADDED_ONSITE</code> and <strong>reported separately so hook-up templates can be improved over time</strong> (PRD §3.8)</td>
+<td><code>GET /requisitions</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-B09</td>
+<td>Skill Matrix / Skill matrix grid</td>
+<td>SV_LEAD, SERVICE_MANAGER</td>
+<td>Proficiency level per skill per technician, maintained by Lead/Manager, informing assignment suggestions. Exists so individual KPI measurement and evaluation become ชัดเจนและโปร่งใสขึ้น (PRD §M12)</td>
+<td><code>GET /skills/matrix</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-B10</td>
+<td>ปฏิทินงานแผนก / Department calendar</td>
+<td>SV_ADMIN, SV_LEAD, SERVICE_MANAGER</td>
+<td>Departmental overview of assigned work for planning — ใช้วางแผนและจัดการงาน (PRD §M12)</td>
+<td><code>GET /calendar?scope=dept</code></td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>7.2 Technician Mobile PWA — 5 pages</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P4-M01</td>
+<td>ทำงาน PM ตามขั้นตอน / PM execution step runner</td>
+<td>SV_TECH</td>
+<td>Step <em>n+1</em> is <strong>locked until step <em>n</em> is complete — enforced server-side, not only in the UI</strong>. Renders <code>409 PM_STEP_OUT_OF_ORDER</code> with the incomplete prior steps named. Cannot submit with any mandatory step incomplete (PRD §3.7, §6.5)</td>
+<td><code>POST /pm-executions/{id}/steps/{stepId}/complete</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-M02</td>
+<td>ถ่ายรูป/บันทึกค่าตามขั้นตอน / PM step photo &amp; measurement capture</td>
+<td>SV_TECH</td>
+<td>Steps flagged <code>photo_required</code> cannot complete without a photo — the source names ทำความสะอาด Before/After, การวัดกระแสไฟฟ้า, อัดจารบี. Out-of-tolerance readings raise a warning the technician must acknowledge with a note (PRD §3.7)</td>
+<td><code>POST /pm-executions/{id}/steps/{stepId}/complete</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-M03</td>
+<td>ฟอร์มตรวจรับเครื่องเข้าใหม่ / QC inbound inspection form</td>
+<td>QC_STAFF</td>
+<td>On-floor inspection capture with photos, and one-tap defect → SV pool ticket</td>
+<td><code>POST /qc-inspections</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-M04</td>
+<td>เบิกของติดตั้งตาม Hook-up / Installation requisition</td>
+<td>INSTALL_TECH</td>
+<td><strong>Pre-populated from the hook-up template — the technician edits rather than types.</strong> Adjust quantities, remove lines not needed, append items discovered on site. This is the stated goal: eliminate hand-writing the full parts list (PRD §3.8, §6.8)</td>
+<td><code>POST /requisitions</code> with <code>prefill_from_hookup: true</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-M05</td>
+<td>ปฏิทินงานของฉัน / My calendar</td>
+<td>all field roles</td>
+<td>Personal assigned-work calendar (PRD §M12)</td>
+<td><code>GET /calendar?scope=me</code></td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>7.3 Executive Dashboard — 6 pages</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P4-E01</td>
+<td>แดชบอร์ดผลงานแผนก SV / SV performance dashboard</td>
+<td>EXECUTIVE, SERVICE_MANAGER</td>
+<td>The real-time overview the requirements ask for — Real time ให้มากที่สุด. Open tickets by status, workload by technician, on-time closure rate. ≤60 s freshness from materialised aggregates (PRD §M12, §9.4)</td>
+<td><code>GET /dashboards/sv-performance</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-E02</td>
+<td>อายุงานค้างและสถานะ / Ageing &amp; status breakdown</td>
+<td>EXECUTIVE, SERVICE_MANAGER, SV_LEAD</td>
+<td>Ageing buckets per status — where work is stuck</td>
+<td><code>GET /dashboards/sv-performance</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-E03</td>
+<td>เวลาตอบสนอง/เวลาซ่อม / MTTA &amp; MTTR trend</td>
+<td>EXECUTIVE, SERVICE_MANAGER</td>
+<td>Computed <strong>only</strong> from <code>ticket_status_history</code>, never from a ticket&#39;s <code>updated_at</code> (PRD §3.4). Both metrics are shown — response time (<code>NEW → INSPECTING</code>) and repair time (<code>NEW → CLOSED</code>) — pending the §11 Q6 answer on which is contractual</td>
+<td><code>GET /reports/mttr</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-E04</td>
+<td>KPI งานซ่อมซ้ำ / Repeat-repair KPI</td>
+<td>EXECUTIVE, SERVICE_MANAGER, SV_LEAD</td>
+<td>Confirmed repeat cases per month against the target of <strong>≤1 machine/month</strong>, with the pending-review backlog. Only <code>CONFIRMED_REPEAT</code> cases enter the figure (PRD §3.6)</td>
+<td><code>GET /reports/repeat-cases?month=</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-E05</td>
+<td>ผลงานรายบุคคล / Technician performance</td>
+<td>SERVICE_MANAGER, EXECUTIVE, own user</td>
+<td>Individual metrics feeding evaluation, paired with the skill matrix. Employee personal data — PDPA lawful basis applies (PRD §8.4)</td>
+<td><code>GET /reports/technician-performance</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P4-E06</td>
+<td>อายุการใช้งานอะไหล่ / Part lifespan analysis</td>
+<td>EXECUTIVE, SERVICE_MANAGER, ST_MANAGER</td>
+<td>Average service life per part type computed from install → replace intervals, for part quality and pricing decisions <strong>or to answer customer questions</strong> (PRD §M12)</td>
+<td><code>GET /reports/part-lifespan</code></td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>7.4 Navigation Map (Diagram C4)</h3>
+<div class="diagram mermaid-wrap"><div class="mermaid">flowchart TD
+    subgraph MOBILE[&quot;Mobile PWA — PM, QC, ติดตั้ง&quot;]
+        direction TB
+        MSCAN[&quot;QR Scan (P1-M02)&lt;br/&gt;สแกนหน้าเครื่อง&quot;] --&gt;|&quot;เลือกทำ PM&quot;| MPM[&quot;P4-M01 PM Step Runner&lt;br/&gt;ทำ PM ตามลำดับขั้นตอน&quot;]
+        MPM --&gt; MPMC[&quot;P4-M02 Step Photo / Measurement&lt;br/&gt;รูป Before-After, วัดกระแส, อัดจารบี&quot;]
+        MPMC --&gt;|&quot;ขั้นตอนถัดไปปลดล็อก&quot;| MPM
+        MPM --&gt;|&quot;ครบทุกขั้นตอนบังคับ&quot;| MPMS[&quot;Submit PM&lt;br/&gt;ส่งงาน PM&quot;]
+        MQC[&quot;P4-M03 QC Inspection Form&lt;br/&gt;ตรวจรับเครื่องเข้าใหม่&quot;]
+        MREQ[&quot;P4-M04 Hook-up Requisition&lt;br/&gt;เบิกของติดตั้ง (Prefill)&quot;]
+        MCAL[&quot;P4-M05 My Calendar&lt;br/&gt;ปฏิทินของฉัน&quot;]
+    end
+
+    subgraph BACKOFFICE[&quot;Back-Office — แม่แบบและการควบคุม&quot;]
+        direction TB
+        BPMT[&quot;P4-B01 PM Template List&quot;] --&gt; BPMA[&quot;P4-B02 PM Authoring&lt;br/&gt;กำหนดขั้นตอน 1-2-3-4&quot;]
+        BPMA --&gt; BPMS[&quot;P4-B03 PM Due Board&lt;br/&gt;ตาราง PM ครบกำหนด&quot;]
+        BQCL[&quot;P4-B04 QC Inspection List&quot;] --&gt; BQCD[&quot;P4-B05 Inspection Detail&lt;br/&gt;พบชำรุด → เปิดงานเข้า Pool SV&quot;]
+        BQCD --&gt; BTODO[&quot;P4-B06 China To-do List&lt;br/&gt;รายการดัดแปลงเครื่องจีน&quot;]
+        BHK[&quot;P4-B07 Hook-up Template&lt;br/&gt;แบบ Hook-up&quot;] --&gt; BREQ[&quot;P4-B08 Requisition List&lt;br/&gt;ใบเบิกของติดตั้ง&quot;]
+        BSKILL[&quot;P4-B09 Skill Matrix&quot;] --&gt; BCAL[&quot;P4-B10 Dept Calendar&lt;br/&gt;ปฏิทินแผนก&quot;]
+    end
+
+    subgraph EXEC[&quot;Executive Dashboard — แดชบอร์ดผู้บริหาร&quot;]
+        direction TB
+        EPERF[&quot;P4-E01 SV Performance&lt;br/&gt;ผลงานแผนก SV&quot;] --&gt; EAGE[&quot;P4-E02 Ageing&lt;br/&gt;อายุงานค้าง&quot;]
+        EPERF --&gt; EMT[&quot;P4-E03 MTTA / MTTR&quot;]
+        EPERF --&gt; EREP[&quot;P4-E04 Repeat-Repair KPI&lt;br/&gt;≤1 เครื่อง/เดือน&quot;]
+        EPERF --&gt; ETECH[&quot;P4-E05 Technician Performance&quot;]
+        EPERF --&gt; ELIFE[&quot;P4-E06 Part Lifespan&lt;br/&gt;อายุอะไหล่เฉลี่ย&quot;]
+    end
+
+    BPMA --&gt; MPM
+    BPMS --&gt; MCAL
+    BHK --&gt; MREQ
+    MREQ --&gt; BREQ
+    MQC --&gt; BQCD
+    BQCD --&gt;|&quot;QC_INBOUND ticket&quot;| POOL[&quot;SV Ticket Pool&lt;br/&gt;Pool งานแผนก SV&quot;]
+    BSKILL --&gt; ETECH
+    POOL --&gt; EPERF
+</div></div>
+<h3>7.5 Out of This Phase — ไม่รวมในเฟสนี้</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Not yet available</th>
+<th>ยังไม่มีในเฟสนี้</th>
+<th>Arrives in</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AI reading of the job sheet photo</td>
+<td>AI อ่านใบงานช่างจากรูป</td>
+<td>Phase 5</td>
+</tr>
+<tr>
+<td>Scheduled/automated report delivery</td>
+<td>ส่งรายงานอัตโนมัติตามกำหนดเวลา</td>
+<td>Phase 5</td>
+</tr>
+<tr>
+<td>Customer-facing portal or customer self-service</td>
+<td>Portal สำหรับลูกค้าดูสถานะงานเอง</td>
+<td>Out of scope for v1 (PRD §1.3, §11 Q7)</td>
+</tr>
+<tr>
+<td>Route optimisation and dispatch scheduling</td>
+<td>จัดเส้นทางและตารางเดินทางอัตโนมัติ</td>
+<td>Out of scope for v1</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="phase-5"><h2 id="phase-5">8. Phase 5 — Automation</h2>
+<h3>เฟสที่ 5 — ระบบอัตโนมัติ (สัปดาห์ที่ 25–28)</h3>
+<p><strong>Modules:</strong> M11 AI Photo-to-Text · report automation · performance tuning</p>
+<p><strong>Goal.</strong> Shift Admin&#39;s role on job-sheet entry from transcription to verification.</p>
+<p><strong>Exit criteria.</strong> Admin&#39;s role on job-sheet entry is verification rather than transcription.</p>
+<h3>8.1 Back-Office Web Console — 4 pages</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P5-B01</td>
+<td>คิวงานอ่านใบงานด้วย AI / Job-sheet extraction queue</td>
+<td>SV_ADMIN</td>
+<td>Uploaded job-sheet photos and their extraction state: processing, <code>PENDING_VERIFICATION</code>, <code>MANUAL_ENTRY_REQUIRED</code>. Extraction runs asynchronously in a worker (PRD §M11)</td>
+<td><code>POST /job-sheets/extract</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P5-B02</td>
+<td>ตรวจสอบข้อมูลที่ AI อ่านได้ / Extraction verification</td>
+<td>SV_ADMIN</td>
+<td><strong>The core screen of this phase.</strong> Source photo side by side with extracted fields — job sheet no., date, customer, machine serial, symptom, action taken, parts used, labour hours, technician. Every field carries a confidence score; fields below 0.80 are highlighted. Admin accepts or corrects <strong>field by field</strong>, and only accepted values are committed to the ticket. Nothing is written before <code>/verify</code> is called (PRD §M11, §6.10)</td>
+<td><code>GET /job-sheets/extractions/{id}</code>, <code>POST .../verify</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P5-B03</td>
+<td>กรอกข้อมูลเอง (กรณี AI อ่านไม่ได้) / Manual entry fallback</td>
+<td>SV_ADMIN</td>
+<td>Path for <code>EXTRACTION_FAILED</code> and <code>MANUAL_ENTRY_REQUIRED</code> after two retries. Manual entry is <strong>always</strong> available — extraction is never a prerequisite (PRD §7.4, §10.2)</td>
+<td><code>PATCH /tickets/{id}</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>P5-B04</td>
+<td>ตั้งค่ารายงานอัตโนมัติ / Scheduled report subscriptions</td>
+<td>SERVICE_MANAGER, ST_MANAGER, SYS_ADMIN</td>
+<td>Which report, to whom, on what schedule, in what format. Delivered by email with signed links</td>
+<td><code>POST /reports/subscriptions</code></td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>8.2 Technician Mobile PWA — 1 page</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P5-M01</td>
+<td>ถ่ายใบงานส่งให้ AI อ่าน / Job-sheet capture for extraction</td>
+<td>SV_TECH</td>
+<td>The technician photographs the signed paper job sheet as usual (already required since Phase 2 as <code>JOB_SHEET</code> evidence); this page additionally submits it for extraction so Admin receives pre-filled data rather than a blank form</td>
+<td><code>POST /job-sheets/extract</code></td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>8.3 Executive Dashboard — 1 page</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page (TH / EN)</th>
+<th>Primary roles</th>
+<th>What it does</th>
+<th>Key API</th>
+<th align="center">Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P5-E01</td>
+<td>ตั้งค่ารับรายงานสรุป / Report &amp; digest subscription settings</td>
+<td>EXECUTIVE, SERVICE_MANAGER</td>
+<td>Self-service subscription to periodic KPI digests</td>
+<td><code>POST /reports/subscriptions</code></td>
+<td align="center"></td>
+</tr>
+</tbody></table></div>
+<h3>8.4 Navigation Map (Diagram C5)</h3>
+<div class="diagram mermaid-wrap"><div class="mermaid">flowchart LR
+    MPHOTO[&quot;P5-M01 Capture Job Sheet&lt;br/&gt;ถ่ายรูปใบงาน&quot;] --&gt; WORKER[&quot;Async worker&lt;br/&gt;Claude API — claude-opus-5&quot;]
+    WORKER --&gt;|&quot;สำเร็จ&quot;| QUEUE[&quot;P5-B01 Extraction Queue&lt;br/&gt;คิวงานรอตรวจสอบ&quot;]
+    WORKER --&gt;|&quot;retry x2 แล้วไม่สำเร็จ&quot;| MANUAL[&quot;P5-B03 Manual Entry&lt;br/&gt;กรอกเอง&quot;]
+    QUEUE --&gt; VERIFY[&quot;P5-B02 Verification&lt;br/&gt;รูปต้นฉบับเทียบข้อมูลที่อ่านได้&quot;]
+    VERIFY --&gt;|&quot;ค่าความมั่นใจต่ำกว่า 0.80&quot;| HILITE[&quot;Highlighted for review&lt;br/&gt;เน้นให้ตรวจสอบ&quot;]
+    HILITE --&gt; VERIFY
+    VERIFY --&gt;|&quot;Admin ยืนยันทีละช่อง&quot;| COMMIT[&quot;Committed to ticket&lt;br/&gt;บันทึกลงงาน&quot;]
+    MANUAL --&gt; COMMIT
+    SUBS[&quot;P5-B04 Report Subscriptions&lt;br/&gt;ตั้งค่ารายงานอัตโนมัติ&quot;] --&gt; ESUBS[&quot;P5-E01 Executive Digest&lt;br/&gt;รายงานสรุปผู้บริหาร&quot;]
+</div></div>
+<p><strong>Design constraint, restated because it governs this screen.</strong> Handwriting on carbon-copy job sheets is frequently ambiguous. The system must <strong>never</strong> treat extraction as authoritative — output lands in <code>job_sheet_extraction</code> at <code>PENDING_VERIFICATION</code> and never writes directly to the ticket. The verification step is a requirement, not an optimisation (PRD §M11).</p>
+<h3>8.5 Out of This Phase — ไม่รวมในเฟสนี้</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Not built</th>
+<th>ไม่ได้สร้าง</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Auto-commit of high-confidence extractions</td>
+<td>บันทึกอัตโนมัติเมื่อ AI มั่นใจสูง</td>
+<td>Deliberately excluded — contradicts the mandatory verification requirement</td>
+</tr>
+<tr>
+<td>Customer portal</td>
+<td>Portal ลูกค้า</td>
+<td>Out of scope for v1; the data model does not preclude one</td>
+</tr>
+<tr>
+<td>Quoting/pricing engine and invoicing</td>
+<td>ระบบคำนวณราคาและออกใบแจ้งหนี้</td>
+<td>Out of scope for v1 — this system holds references, not financial documents</td>
+</tr>
+<tr>
+<td>Native mobile apps</td>
+<td>แอปเนทีฟ iOS/Android</td>
+<td>PWA only; revisit if camera/scanner performance proves inadequate (§11 Q4)</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="cross-cutting"><h2 id="cross-cutting">9. Cross-Cutting UI Requirements</h2>
+<h3>ข้อกำหนดที่ใช้กับทุกหน้าจอในทุกเฟส</h3>
+<p>These apply to <strong>every</strong> page listed above and are not repeated per row. They are stated once here so they are confirmed once.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Requirement</th>
+<th>ข้อกำหนด</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>9.1</td>
+<td><strong>Thai primary, English secondary.</strong> All user-facing strings externalised; no hard-coded text. Field staff see Thai</td>
+<td>ภาษาไทยเป็นหลัก อังกฤษเป็นรอง</td>
+<td>PRD §9.10</td>
+</tr>
+<tr>
+<td>9.2</td>
+<td><strong>Timestamps stored UTC, displayed Asia/Bangkok (UTC+7).</strong> Never display a raw UTC value</td>
+<td>เก็บเป็น UTC แสดงผลเป็นเวลาไทย</td>
+<td>PRD §9.11</td>
+</tr>
+<tr>
+<td>9.3</td>
+<td><strong>Error messages come from the API envelope.</strong> Show <code>message</code> (Thai) to the user; <code>message_en</code> and <code>request_id</code> go to logs and support</td>
+<td>ข้อความ error ใช้ค่าที่ API ส่งมา</td>
+<td>PRD §7.1</td>
+</tr>
+<tr>
+<td>9.4</td>
+<td><strong>404-over-403.</strong> A record outside the caller&#39;s row scope renders as &quot;ไม่พบข้อมูล&quot;, never &quot;ไม่มีสิทธิ์&quot; — a 403 would confirm the record exists and leak, for example, that a company is a TIL customer</td>
+<td>นอกขอบเขตสิทธิ์ให้แสดงว่าไม่พบข้อมูล</td>
+<td>PRD §7.2</td>
+</tr>
+<tr>
+<td>9.5</td>
+<td><strong>Photos render only through short-lived signed URLs (≤15 min).</strong> No permanent image URL is ever placed in the DOM, and expired URLs re-fetch silently</td>
+<td>รูปใช้ Signed URL อายุสั้นเท่านั้น</td>
+<td>PRD §8.3</td>
+</tr>
+<tr>
+<td>9.6</td>
+<td><strong>Offline banner and unsynced flagging on mobile.</strong> Queued items are visibly flagged so a technician never believes a job was filed when it was not</td>
+<td>แสดงสถานะออฟไลน์และรายการที่ยังไม่ซิงก์</td>
+<td>PRD §7.4</td>
+</tr>
+<tr>
+<td>9.7</td>
+<td><strong>Every mutating action carries an <code>Idempotency-Key</code></strong>, replayed unchanged on retry</td>
+<td>ทุกการบันทึกต้องมี Idempotency-Key</td>
+<td>PRD §5.4</td>
+</tr>
+<tr>
+<td>9.8</td>
+<td><strong>Client-side image compression to ≤2 MB before upload</strong>, resumable</td>
+<td>บีบอัดรูปก่อนอัปโหลดและอัปโหลดต่อได้</td>
+<td>PRD §9.9</td>
+</tr>
+<tr>
+<td>9.9</td>
+<td><strong>Deny-by-default UI.</strong> A control the caller&#39;s role cannot use is hidden, not merely disabled — but the server check is the real one; the UI is never the enforcement point</td>
+<td>ซ่อนปุ่มที่ผู้ใช้ไม่มีสิทธิ์ แต่ตรวจสอบจริงที่ Server</td>
+<td>PRD §8.2</td>
+</tr>
+<tr>
+<td>9.10</td>
+<td><strong>Executive read-only.</strong> Every write control is absent for an executive-only token; the server rejects with <code>READ_ONLY_ROLE</code> regardless</td>
+<td>ผู้บริหารดูได้อย่างเดียว</td>
+<td>PRD §2.3</td>
+</tr>
+<tr>
+<td>9.11</td>
+<td><strong>PII visibility follows the matrix.</strong> Customer contact names and phone numbers are not rendered for <code>ST_STAFF</code> or <code>QC_STAFF</code>; PII is masked in exports unless the role holds explicit PII-export permission</td>
+<td>ข้อมูลส่วนบุคคลแสดงตามสิทธิ์เท่านั้น</td>
+<td>PRD §8.4</td>
+</tr>
+<tr>
+<td>9.12</td>
+<td><strong>Mandatory-reason fields are enforced in the form</strong>, matching the server rule: <code>ON_HOLD</code>, <code>CANCELLED</code>, rejection, stock <code>ADJUSTMENT</code>, and <code>NOT_REPEAT</code> adjudication all require a note</td>
+<td>ช่องเหตุผลบังคับตามที่ระบบกำหนด</td>
+<td>PRD §3.4, §5.2</td>
+</tr>
+<tr>
+<td>9.13</td>
+<td><strong>Status history is visible on every ticket</strong>, since MTTA/MTTR are computed from it and a user disputing a cycle time must be able to see the underlying transitions</td>
+<td>แสดงประวัติการเปลี่ยนสถานะทุกงาน</td>
+<td>PRD §3.4</td>
+</tr>
+<tr>
+<td>9.14</td>
+<td><strong>App shell controls, not pages.</strong> Logout (<code>POST /auth/logout</code>) and the current-user/permissions header (<code>GET /auth/me</code>) live in the shell on all three surfaces and are therefore not listed as pages</td>
+<td>ปุ่มออกจากระบบและข้อมูลผู้ใช้อยู่ในโครงแอป ไม่นับเป็นหน้าจอ</td>
+<td>PRD §6.2</td>
+</tr>
+<tr>
+<td>9.15</td>
+<td><strong>Push token registration is silent</strong> (<code>POST /devices/register</code>) — the mobile app registers on login from Phase 3 onward; there is no page for it, only the channel opt-in on P3-B15</td>
+<td>ลงทะเบียน Push Token อัตโนมัติ ไม่มีหน้าจอแยก</td>
+<td>PRD §6.11</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="page-count"><h2 id="page-count">10. Page Count Summary</h2>
+<h3>สรุปจำนวนหน้าจอ</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>หน้าจอ</th>
+<th align="center">P1</th>
+<th align="center">P2</th>
+<th align="center">P3</th>
+<th align="center">P4</th>
+<th align="center">P5</th>
+<th align="center"><strong>Total</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Back-office web console</td>
+<td>ระบบหลังบ้าน (เว็บ)</td>
+<td align="center">20</td>
+<td align="center">7</td>
+<td align="center">15</td>
+<td align="center">10</td>
+<td align="center">4</td>
+<td align="center"><strong>56</strong></td>
+</tr>
+<tr>
+<td>Technician mobile PWA</td>
+<td>แอปมือถือช่าง</td>
+<td align="center">6</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center"><strong>22</strong></td>
+</tr>
+<tr>
+<td>Executive dashboard</td>
+<td>แดชบอร์ดผู้บริหาร</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center"><strong>8</strong></td>
+</tr>
+<tr>
+<td><strong>Phase total</strong></td>
+<td></td>
+<td align="center"><strong>26</strong></td>
+<td align="center"><strong>13</strong></td>
+<td align="center"><strong>20</strong></td>
+<td align="center"><strong>21</strong></td>
+<td align="center"><strong>6</strong></td>
+<td align="center"><strong>86</strong></td>
+</tr>
+</tbody></table></div>
+<div class="diagram mermaid-wrap"><div class="mermaid">flowchart LR
+    P1[&quot;Phase 1&lt;br/&gt;เฟส 1 · 26 pages&lt;br/&gt;Foundation&quot;] --&gt; P2[&quot;Phase 2&lt;br/&gt;เฟส 2 · 13 pages&lt;br/&gt;Field Execution&quot;]
+    P2 --&gt; P3[&quot;Phase 3&lt;br/&gt;เฟส 3 · 20 pages&lt;br/&gt;Inventory&quot;]
+    P3 --&gt; P4[&quot;Phase 4&lt;br/&gt;เฟส 4 · 21 pages&lt;br/&gt;Quality &amp;amp; Prevention&quot;]
+    P4 --&gt; P5[&quot;Phase 5&lt;br/&gt;เฟส 5 · 6 pages&lt;br/&gt;Automation&quot;]
+
+    P1 -.-&gt; R1[&quot;ticket opened and closed&lt;br/&gt;via QR + full audit&lt;br/&gt;เปิด-ปิดงานผ่าน QR ได้&quot;]
+    P2 -.-&gt; R2[&quot;paper job sheet retired&lt;br/&gt;เลิกใช้ใบงานกระดาษเป็นหลัก&quot;]
+    P3 -.-&gt; R3[&quot;SO complete releases job&lt;br/&gt;อะไหล่ครบ จ่ายงานอัตโนมัติ&quot;]
+    P4 -.-&gt; R4[&quot;month-end manual export retired&lt;br/&gt;เลิก Export มือทุกสิ้นเดือน&quot;]
+    P5 -.-&gt; R5[&quot;Admin verifies, not types&lt;br/&gt;Admin ตรวจสอบแทนการพิมพ์&quot;]
+</div></div>
+<p>Phase 2 is the smallest by page count and the largest by behaviour change — it is where paper stops being the record. Do not read the count as effort.</p>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="open-questions"><h2 id="open-questions">11. Open Questions That Change Screen Design</h2>
+<h3>คำถามที่ต้องได้คำตอบ เพราะมีผลต่อการออกแบบหน้าจอ</h3>
+<p>These are the subset of <code>PRD.md</code> §12 whose answer changes what gets built, not merely how it behaves internally. Each states the assumption currently baked into the page list above, so nothing is blocked while they are resolved.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Question</th>
+<th>คำถาม</th>
+<th>Current assumption in this plan</th>
+<th>Affects</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Q1</strong></td>
+<td>Is there an existing ERP/accounting system that owns PO and SO numbers?</td>
+<td>มีระบบ ERP/บัญชีที่เป็นเจ้าของเลขที่ PO/SO อยู่แล้วหรือไม่</td>
+<td>P3-B12/B13/B14 are <strong>entry forms</strong> for reference records typed by Admin. If an ERP owns them, these three become <strong>read-only mirrors</strong> plus a sync status panel, and a new integration page is needed</td>
+<td>Phase 3, 3 pages</td>
+</tr>
+<tr>
+<td><strong>Q2</strong></td>
+<td>Is the repeat-repair window exactly 72 hours, and is &quot;same problem&quot; exactly &quot;same system category&quot;?</td>
+<td>ช่วงเวลาซ่อมซ้ำคือ 3 วันพอดีหรือไม่ และ &quot;ปัญหาเดียวกัน&quot; คือ &quot;หมวดเดียวกัน&quot; หรือไม่</td>
+<td>72 h configurable via P1-B20, same category. A finer fault-code taxonomy would add a lookup page and a field on the create wizard</td>
+<td>Phase 2</td>
+</tr>
+<tr>
+<td><strong>Q4</strong></td>
+<td>PWA or native mobile apps?</td>
+<td>ใช้ PWA หรือแอปเนทีฟ</td>
+<td>PWA. All 22 mobile pages assume browser APIs for camera, scanner and offline storage. Native would not change the page list, only the build</td>
+<td>All phases</td>
+</tr>
+<tr>
+<td><strong>Q6</strong></td>
+<td>Is the contractual KPI mean time to <strong>respond</strong> (MTTA) or to <strong>repair</strong> (MTTR)?</td>
+<td>KPI คือเวลาตอบสนอง หรือเวลาซ่อมเสร็จ</td>
+<td>P4-E03 shows <strong>both</strong>, neither marked primary. Confirming lets one become the headline metric on P4-E01</td>
+<td>Phase 4</td>
+</tr>
+<tr>
+<td><strong>Q8</strong></td>
+<td>Do PM templates exist in documented form per machine model?</td>
+<td>มีเอกสารขั้นตอน PM แยกตามรุ่นเครื่องอยู่แล้วหรือไม่</td>
+<td>Assumed to exist on paper and need digitising. The <strong>authoring UI (P4-B02) is in scope; template content is a customer-side deliverable</strong></td>
+<td>Phase 4</td>
+</tr>
+<tr>
+<td><strong>Q9</strong></td>
+<td>Must labour cost and pricing appear in the machine history export?</td>
+<td>รายงานประวัติเครื่องต้องมีมูลค่าค่าแรงและราคาด้วยหรือไม่</td>
+<td>Parts cost plus a labour figure entered by Admin, selectable as columns in P2-B05. Authoritative pricing would make Q1&#39;s ERP integration a prerequisite</td>
+<td>Phase 2</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="appendix-a"><h2 id="appendix-a">Appendix A — Requirement → Phase → Page Traceability</h2>
+<h3>ตารางสอบทาน: ความต้องการ → เฟส → หน้าจอ</h3>
+<p>Every requirement in the source document (<code>spec/usestoryTIL_TH.md</code>) maps to a phase and at least one page.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Source requirement (Thai)</th>
+<th>Phase</th>
+<th>Pages</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>การรับงานจากลูกค้าของแผนก SV (โทร/ไลน์ → Pool งาน SV)</td>
+<td>P1</td>
+<td>P1-B16, P1-B17</td>
+</tr>
+<tr>
+<td>การเปิด Task งานของทีม SV — customer list → machine list → หมวด</td>
+<td>P1</td>
+<td>P1-B07, P1-B10, P1-B17</td>
+</tr>
+<tr>
+<td>ช่างเปิดงานเอง โดยสแกน QR หน้าเครื่อง</td>
+<td>P1</td>
+<td>P1-M02, P1-M03</td>
+</tr>
+<tr>
+<td>การเข้าทำงานและส่งงานของช่าง + บังคับลงรูป 3 ประเภท</td>
+<td>P2</td>
+<td>P2-M01, P2-M02, P2-M03</td>
+</tr>
+<tr>
+<td>หน้ารวม Task งานแผนก SV (แยกงาน Office กับงานช่าง, priority, deadline, progress)</td>
+<td>P1</td>
+<td>P1-B16, P1-B18</td>
+</tr>
+<tr>
+<td>ทุก Progress ต้องมีวันที่ระบุ เพื่อวัด KPI Mean time to respond</td>
+<td>P1 → P4</td>
+<td>P1-B18 (history), P4-E03 (report)</td>
+</tr>
+<tr>
+<td>ค้นหาตาม 6 คีย์ — ลูกค้า / Serial / Part number / ใบงาน / PO / SO</td>
+<td>P2</td>
+<td>P2-B03</td>
+</tr>
+<tr>
+<td>Pool Task งานเฉพาะบุคคล + ถามตอบและ feedback ออนไลน์</td>
+<td>P1 → P2</td>
+<td>P1-M04, P2-M06</td>
+</tr>
+<tr>
+<td>Skill Matrix และวิเคราะห์ Performance รายบุคคล</td>
+<td>P4</td>
+<td>P4-B09, P4-E05</td>
+</tr>
+<tr>
+<td>ปฏิทินแสดง Task งาน — ภาพรวมแผนกและรายบุคคล</td>
+<td>P4</td>
+<td>P4-B10, P4-M05</td>
+</tr>
+<tr>
+<td>ประวัติเครื่องลูกค้า + Export (ข้อมูลแต่ละงานอยู่ใน Row เดียวกัน)</td>
+<td>P2</td>
+<td>P2-B04, P2-B05, P2-B06</td>
+</tr>
+<tr>
+<td>ประวัติข้อมูลจำเพาะเครื่องจักร — เพลากากบาท, โช๊คอัพ, แผนที่</td>
+<td>P1</td>
+<td>P1-B11</td>
+</tr>
+<tr>
+<td>ผู้ติดต่อและเบอร์โทร + Remark / Customer Tier / ราชการ / VIP</td>
+<td>P1</td>
+<td>P1-B08 (surfaced on P1-B18, P1-M03)</td>
+</tr>
+<tr>
+<td>การตรวจสอบงานซ่อมซ้ำตาม KPI — ภายใน 3 วัน ≤1 เครื่อง/เดือน</td>
+<td>P2 → P4</td>
+<td>P2-B07 (detect + adjudicate), P4-E04 (KPI chart)</td>
+</tr>
+<tr>
+<td>การค้นหาจำนวนคงเหลืออะไหล่ตาม Part number พร้อมรูป</td>
+<td>P3</td>
+<td>P3-M01, P3-B02</td>
+</tr>
+<tr>
+<td>การดำเนินงานและบันทึกงาน PM — บังคับลำดับขั้นตอน + รูป Before/After</td>
+<td>P4</td>
+<td>P4-B02, P4-M01, P4-M02</td>
+</tr>
+<tr>
+<td>การบันทึกงานลงระบบจากใบงานช่าง — AI Photo to text</td>
+<td>P5</td>
+<td>P5-M01, P5-B01, P5-B02</td>
+</tr>
+<tr>
+<td>Performance Dashboard แผนก SV แบบ Real time</td>
+<td>P4</td>
+<td>P4-E01, P4-E02</td>
+</tr>
+<tr>
+<td>การสรุปข้อมูล Part lifespan เฉลี่ย</td>
+<td>P4</td>
+<td>P4-E06</td>
+</tr>
+<tr>
+<td>ทีมติดตั้ง — เบิกอุปกรณ์ตามแบบ Hook-up</td>
+<td>P4</td>
+<td>P4-B07, P4-M04, P4-B08</td>
+</tr>
+<tr>
+<td>แผนก QC — งานตรวจรับเครื่องเข้าใหม่ + ลงงานเข้า Pool SV</td>
+<td>P4</td>
+<td>P4-B04, P4-B05, P4-M03</td>
+</tr>
+<tr>
+<td>แผนก QC — To do list เครื่องเข้าใหม่จากจีน (ป้องกันการตกหล่น)</td>
+<td>P4</td>
+<td>P4-B06</td>
+</tr>
+<tr>
+<td>แผนก ST — แจ้งเตือนอะไหล่เข้าครบตาม SO</td>
+<td>P3</td>
+<td>P3-B14, P3-B15, P3-M04</td>
+</tr>
+<tr>
+<td>แผนก ST — จัดการ Stock ภูเก็ต, สแกน QR เบิก, กำหนด Max-Min</td>
+<td>P3</td>
+<td>P3-B03, P3-B05, P3-B11, P3-M02</td>
+</tr>
+<tr>
+<td>ทุกการอัพเดทต้องมี Transaction ตรวจสอบย้อนหลังได้</td>
+<td>P1</td>
+<td>P1-B19 (and §9 cross-cutting)</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="section-card markdown-section" aria-labelledby="appendix-b"><h2 id="appendix-b">Appendix B — Sign-Off</h2>
+<h3>การยืนยันขอบเขตงาน</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>เฟส</th>
+<th>Reviewed by</th>
+<th>Date</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P1 Foundation</td>
+<td>รากฐานระบบ</td>
+<td></td>
+<td></td>
+<td>☐ Approved ☐ Changes requested</td>
+</tr>
+<tr>
+<td>P2 Field Execution</td>
+<td>งานภาคสนาม</td>
+<td></td>
+<td></td>
+<td>☐ Approved ☐ Changes requested</td>
+</tr>
+<tr>
+<td>P3 Inventory &amp; Coordination</td>
+<td>สต๊อกและการประสานงาน</td>
+<td></td>
+<td></td>
+<td>☐ Approved ☐ Changes requested</td>
+</tr>
+<tr>
+<td>P4 Quality &amp; Prevention</td>
+<td>คุณภาพและการป้องกัน</td>
+<td></td>
+<td></td>
+<td>☐ Approved ☐ Changes requested</td>
+</tr>
+<tr>
+<td>P5 Automation</td>
+<td>ระบบอัตโนมัติ</td>
+<td></td>
+<td></td>
+<td>☐ Approved ☐ Changes requested</td>
+</tr>
+</tbody></table></div>
+<p>Approval of a phase means the page list for that phase is the agreed functional scope. Pages added after approval are change requests against the phase schedule in §3.</p>
+</section>
+      <footer>BUILD_PLAN — TIL Back-Office System · Document version 1.0</footer>
+    </main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'base', securityLevel: 'loose', themeVariables: {
+      primaryColor: '#d9f1ef', primaryTextColor: '#17324d', primaryBorderColor: '#0b6b75',
+      lineColor: '#64748b', secondaryColor: '#edf6f5', tertiaryColor: '#fffaf0', fontFamily: 'Tahoma, Arial, sans-serif'
+    }});
+  </script>
+  <script>
+    const menuButton = document.querySelector('.menu-button');
+    const sidebar = document.querySelector('.sidebar');
+    const links = [...document.querySelectorAll('.nav-link[href^="#"]')];
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    menuButton?.addEventListener('click', () => {
+      const open = sidebar.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', String(open));
+    });
+    links.forEach(link => link.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      menuButton?.setAttribute('aria-expanded', 'false');
+    }));
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + visible.target.id));
+    }, { rootMargin: '-20% 0px -65% 0px', threshold: [0, .2, .5] });
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>

@@ -99,6 +99,19 @@
       letter-spacing: .08em;
       text-transform: uppercase;
     }
+    .document-link {
+      display: block;
+      margin: 0 0 18px;
+      padding: 11px 12px;
+      color: var(--brand-dark);
+      background: var(--accent);
+      border: 1px solid #bddbd8;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .document-link:hover { border-color: var(--brand); }
     .nav-link {
       display: block;
       margin: 3px 0;
@@ -440,6 +453,7 @@
   <div class="layout">
     <aside class="sidebar" aria-label="เมนูเอกสาร">
       <p class="sidebar-title">สารบัญ</p>
+      <a class="document-link" href="BUILD_PLAN.html">เปิด BUILD_PLAN ฉบับเต็ม →</a>
       <nav>
         <a class="nav-link active" href="#cover">หน้าแรก</a>
         <a class="nav-link" href="#summary">1. บทสรุปผู้บริหาร</a>
