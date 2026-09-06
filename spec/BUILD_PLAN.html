@@ -464,6 +464,8 @@
     .mermaid-wrap { display: flex; justify-content: center; min-width: 0; background: white; }
     .mermaid { min-width: 760px; text-align: center; }
     .mermaid svg { max-width: none !important; height: auto; }
+    .diagram-a .mermaid { min-width: 1280px; }
+    .diagram-a .mermaid svg { width: 1280px !important; }
     .nav-divider { margin: 17px 5px; border: 0; border-top: 1px solid var(--line); }
     .source-note { margin: 16px 0 0; color: #dff3f1; font-size: 12px; }
     @media (max-width: 780px) {
@@ -640,7 +642,7 @@
 </tbody></table></div>
 <h3>1.4 Role → Default Landing Page (Diagram D)</h3>
 <p>Where each of the ten roles in PRD §2.1 lands after login.</p>
-<div class="diagram mermaid-wrap"><div class="mermaid">flowchart LR
+<div class="diagram mermaid-wrap diagram-a"><div class="mermaid">flowchart LR
     subgraph MOB[&quot;Mobile PWA — แอปช่าง&quot;]
         SCAN[&quot;QR Scanner&lt;br/&gt;สแกน QR&quot;]
         MYTASK[&quot;My Tasks&lt;br/&gt;งานของฉัน&quot;]
